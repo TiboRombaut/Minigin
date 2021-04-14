@@ -137,18 +137,18 @@ void dae::Minigin::LoadGame() const
 	RemainingDisks* remainingDisks2 = new RemainingDisks(qBert2);
 	auto& input = InputManager::GetInstance();
 	
-	input.AddCommand(ControllerButton::RightBump,  playSound );
-	input.AddCommand(ControllerButton::LeftBump, muteSound);
-	input.AddCommand(ControllerButton::ButtonA, kill);
-	input.AddCommand(ControllerButton::ButtonB, colorChange);
-	input.AddCommand(ControllerButton::ButtonX, defeatedCoily);
-	input.AddCommand(ControllerButton::ButtonY, caughtSlickOrSam);
-	input.AddCommand(ControllerButton::Start,  remainingDisks);
-	input.AddCommand(ControllerButton::DownDpad, kill2);
-	input.AddCommand(ControllerButton::LeftDpad, colorChange2);
-	input.AddCommand(ControllerButton::RightDpad, defeatedCoily2);
-	input.AddCommand(ControllerButton::UpDpad,caughtSlickOrSam2);
-	input.AddCommand(ControllerButton::Back, remainingDisks2);
+	input.AddCommand(ControllerButton::RightBump, KeyBoardAndMouseButton::MouseButtonRight, WayKeyBoardButton::MouseButtonUp, playSound);
+	input.AddCommand(ControllerButton::LeftBump, KeyBoardAndMouseButton::MouseButtonMiddle, WayKeyBoardButton::MouseButtonDown, muteSound);
+	input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonS, WayKeyBoardButton::buttonUp, kill);
+	input.AddCommand(ControllerButton::ButtonB, KeyBoardAndMouseButton::ButtonD, WayKeyBoardButton::buttonUp, colorChange);
+	input.AddCommand(ControllerButton::ButtonX, KeyBoardAndMouseButton::ButtonA, WayKeyBoardButton::buttonUp, defeatedCoily);
+	input.AddCommand(ControllerButton::ButtonY, KeyBoardAndMouseButton::ButtonW, WayKeyBoardButton::buttonUp, caughtSlickOrSam);
+	input.AddCommand(ControllerButton::Start, KeyBoardAndMouseButton::ButtonE, WayKeyBoardButton::buttonUp, remainingDisks);
+	input.AddCommand(ControllerButton::DownDpad, KeyBoardAndMouseButton::ButtonArrowDown, WayKeyBoardButton::buttonDown, kill2);
+	input.AddCommand(ControllerButton::LeftDpad, KeyBoardAndMouseButton::ButtonArrowLeft, WayKeyBoardButton::buttonDown, colorChange2);
+	input.AddCommand(ControllerButton::RightDpad, KeyBoardAndMouseButton::ButtonArrowRight, WayKeyBoardButton::buttonDown, defeatedCoily2);
+	input.AddCommand(ControllerButton::UpDpad, KeyBoardAndMouseButton::ButtonArrowUp, WayKeyBoardButton::buttonDown, caughtSlickOrSam2);
+	input.AddCommand(ControllerButton::Back, KeyBoardAndMouseButton::ButtonSpace, WayKeyBoardButton::buttonDown, remainingDisks2);
 
 	//printing controls:
 	std::cout << "Controls: \n\n";

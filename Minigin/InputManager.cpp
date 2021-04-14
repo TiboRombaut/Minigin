@@ -1,6 +1,5 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
-#include <SDL.h>
 
 bool dae::InputManager::ProcessInput()
 {
@@ -10,28 +9,13 @@ bool dae::InputManager::ProcessInput()
 
 	for (size_t i = 0; i < m_CommandButton.size(); ++i)
 	{
-		if (IsPressed(m_CommandButton[i].whichButton))
+		if (IsPressed(m_CommandButton[i].whichControllerButton))
 		{
-			ExecuteCommand(m_CommandButton[i].whichButton);
+			ExecuteCommand(i);
 		}
 	}
 
-	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
-			return false;
-		}
-		if (e.type == SDL_KEYDOWN) {
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-		}
-		if (e.type == SDLK_a)
-		{
-			//ExecuteCommand(ControllerButton::ButtonA);
-		}
-	}
-
-	return true;
+	return  HandleKeyBoard();
 }
 
 dae::InputManager::~InputManager()
@@ -47,31 +31,78 @@ dae::InputManager::~InputManager()
 }
 
 
-void dae::InputManager::AddCommand(const ControllerButton button, Command* pCommand)
+void dae::InputManager::AddCommand(const ControllerButton button, const KeyBoardAndMouseButton& whichKeyBoardButton, const WayKeyBoardButton& whichKeyBoardButtonWay, Command* pCommand)
 {
-	m_CommandButton.push_back(ButtonCommand{ pCommand,button });
+	m_CommandButton.push_back(ButtonCommand{ pCommand,button,whichKeyBoardButton,whichKeyBoardButtonWay });
 }
 
-void dae::InputManager::ExecuteCommand(const dae::ControllerButton& button)
+void dae::InputManager::ExecuteCommand(const size_t index)
 {
-	for (size_t i = 0; i < m_CommandButton.size(); i++)
+	if (index >= 0 && index < m_CommandButton.size())
 	{
-		if (m_CommandButton[i].whichButton == button)
-		{
-			m_CommandButton[i].pCommand->Execute();
-			return;
-		}
+		m_CommandButton[index].pCommand->Execute();
+		return;
 	}
 
 	std::cout << "nothing assigned\n";
 }
 
+bool dae::InputManager::HandleKeyBoard()
+{
+	while (SDL_PollEvent(&m_SDLEvent)) {
+		if (m_SDLEvent.type == SDL_QUIT)
+		{
+			return false;
+		}
+		for (size_t i = 0; i < m_CommandButton.size(); ++i)
+		{
+			if (static_cast<WORD>(m_CommandButton[i].whichKeyBoardButton) == SDLK_UP)
+			{
+				std::cout << "up";
+			}
+			switch (m_CommandButton[i].whichKeyBoardButtonWay)
+			{
+			case WayKeyBoardButton::buttonUp:
+			case WayKeyBoardButton::buttonDown:
+				//this check is necessary or he wont know the difference between key up and down
+				if (m_SDLEvent.type == static_cast<WORD>(m_CommandButton[i].whichKeyBoardButtonWay))
+				{
+					if (m_SDLEvent.key.keysym.sym == static_cast<WORD>(m_CommandButton[i].whichKeyBoardButton))
+					{
+						//this is normal SDLK
+						ExecuteCommand(i);
+					}
+					else if (m_SDLEvent.key.keysym.scancode == static_cast<WORD>(m_CommandButton[i].whichKeyBoardButton))
+					{
+						//this is scancode
+						ExecuteCommand(i);
+					}
+				}
+				break;
+			case WayKeyBoardButton::MouseButtonDown:
+			case WayKeyBoardButton::MouseButtonUp:
+				if (m_SDLEvent.type == static_cast<WORD>(m_CommandButton[i].whichKeyBoardButtonWay))
+				{
 
-bool dae::InputManager::IsPressed(const ControllerButton& button) const
+					if (m_SDLEvent.button.button == static_cast<WORD>(m_CommandButton[i].whichKeyBoardButton))
+					{
+						ExecuteCommand(i);
+					}
+				}
+				break;
+			default:
+				std::cout << "nothing assigned" << std::endl;
+				break;
+			}
+		}
+	}
+	return true;
+}
+
+bool dae::InputManager::IsPressed(const ControllerButton& button)
 {
 	if (m_CurrentKeyStroke.Flags == XINPUT_KEYSTROKE_KEYDOWN && m_CurrentKeyStroke.VirtualKey == static_cast<WORD>(button))
 	{
-		//ExecuteCommand(button);
 		return true;
 	}
 	return false;
