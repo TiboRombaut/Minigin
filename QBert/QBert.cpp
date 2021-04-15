@@ -79,33 +79,33 @@ void LoadGame()
 
 
 	PlaySoundCommand* playSound = new PlaySoundCommand(qBert, "../Data/road.wav");
-	//MuteCommand* muteSound = new MuteCommand(qBert);
-	//Kill* kill = new Kill(qBert);
-	//ColorChange* colorChange = new ColorChange(qBert);
-	//CoilyDefeated* defeatedCoily = new CoilyDefeated(qBert);
-	//CatchingSlickOrSam* caughtSlickOrSam = new CatchingSlickOrSam(qBert);
-	//RemainingDisks* remainingDisks = new RemainingDisks(qBert);
+	MuteCommand* muteSound = new MuteCommand(qBert);
+	Kill* kill = new Kill(qBert);
+	ColorChange* colorChange = new ColorChange(qBert);
+	CoilyDefeated* defeatedCoily = new CoilyDefeated(qBert);
+	CatchingSlickOrSam* caughtSlickOrSam = new CatchingSlickOrSam(qBert);
+	RemainingDisks* remainingDisks = new RemainingDisks(qBert);
 
-	//Kill* kill2 = new Kill(qBert2);
-	//ColorChange* colorChange2 = new ColorChange(qBert2);
-	//CoilyDefeated* defeatedCoily2 = new CoilyDefeated(qBert2);
-	//CatchingSlickOrSam* caughtSlickOrSam2 = new CatchingSlickOrSam(qBert2);
-	//RemainingDisks* remainingDisks2 = new RemainingDisks(qBert2);
-	//ChangeTextureCommand* changeTexture = new ChangeTextureCommand(go, component, "../Data/logo.png");
+	Kill* kill2 = new Kill(qBert2);
+	ColorChange* colorChange2 = new ColorChange(qBert2);
+	CoilyDefeated* defeatedCoily2 = new CoilyDefeated(qBert2);
+	CatchingSlickOrSam* caughtSlickOrSam2 = new CatchingSlickOrSam(qBert2);
+	RemainingDisks* remainingDisks2 = new RemainingDisks(qBert2);
+	ChangeTextureCommand* changeTexture = new ChangeTextureCommand(go, component, "../Data/logo.png");
 
 	input.AddCommand(ControllerButton::RightBump,KeyBoardAndMouseButton::MouseButtonRight, WayKeyBoardButton::MouseButtonUp,playSound);
-	//input.AddCommand(ControllerButton::LeftBump, KeyBoardAndMouseButton::MouseButtonMiddle, WayKeyBoardButton::MouseButtonDown, muteSound);
-	//input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonS, WayKeyBoardButton::buttonUp, kill);
-	//input.AddCommand(ControllerButton::ButtonB, KeyBoardAndMouseButton::ButtonD, WayKeyBoardButton::buttonUp, colorChange);
-	//input.AddCommand(ControllerButton::ButtonX, KeyBoardAndMouseButton::ButtonA, WayKeyBoardButton::buttonUp, defeatedCoily);
-	//input.AddCommand(ControllerButton::ButtonY, KeyBoardAndMouseButton::ButtonW, WayKeyBoardButton::buttonUp, caughtSlickOrSam);
-	//input.AddCommand(ControllerButton::Start, KeyBoardAndMouseButton::ButtonE, WayKeyBoardButton::buttonUp, remainingDisks);
-	//input.AddCommand(ControllerButton::DownDpad, KeyBoardAndMouseButton::ButtonArrowDown, WayKeyBoardButton::buttonDown, kill2);
-	//input.AddCommand(ControllerButton::LeftDpad, KeyBoardAndMouseButton::ButtonArrowLeft, WayKeyBoardButton::buttonDown, colorChange2);
-	//input.AddCommand(ControllerButton::RightDpad, KeyBoardAndMouseButton::ButtonArrowRight, WayKeyBoardButton::buttonDown, defeatedCoily2);
-	//input.AddCommand(ControllerButton::UpDpad, KeyBoardAndMouseButton::ButtonArrowUp, WayKeyBoardButton::buttonDown, caughtSlickOrSam2);
-	//input.AddCommand(ControllerButton::Back, KeyBoardAndMouseButton::ButtonSpace, WayKeyBoardButton::buttonDown, remainingDisks2);
-	//input.AddCommand(ControllerButton::None, KeyBoardAndMouseButton::ButtonC, WayKeyBoardButton::buttonDown, changeTexture);
+	input.AddCommand(ControllerButton::LeftBump, KeyBoardAndMouseButton::MouseButtonMiddle, WayKeyBoardButton::MouseButtonDown, muteSound);
+	input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonS, WayKeyBoardButton::buttonUp, kill);
+	input.AddCommand(ControllerButton::ButtonB, KeyBoardAndMouseButton::ButtonD, WayKeyBoardButton::buttonUp, colorChange);
+	input.AddCommand(ControllerButton::ButtonX, KeyBoardAndMouseButton::ButtonA, WayKeyBoardButton::buttonUp, defeatedCoily);
+	input.AddCommand(ControllerButton::ButtonY, KeyBoardAndMouseButton::ButtonW, WayKeyBoardButton::buttonUp, caughtSlickOrSam);
+	input.AddCommand(ControllerButton::Start, KeyBoardAndMouseButton::ButtonE, WayKeyBoardButton::buttonUp, remainingDisks);
+	input.AddCommand(ControllerButton::DownDpad, KeyBoardAndMouseButton::ButtonArrowDown, WayKeyBoardButton::buttonDown, kill2);
+	input.AddCommand(ControllerButton::LeftDpad, KeyBoardAndMouseButton::ButtonArrowLeft, WayKeyBoardButton::buttonDown, colorChange2);
+	input.AddCommand(ControllerButton::RightDpad, KeyBoardAndMouseButton::ButtonArrowRight, WayKeyBoardButton::buttonDown, defeatedCoily2);
+	input.AddCommand(ControllerButton::UpDpad, KeyBoardAndMouseButton::ButtonArrowUp, WayKeyBoardButton::buttonDown, caughtSlickOrSam2);
+	input.AddCommand(ControllerButton::Back, KeyBoardAndMouseButton::ButtonSpace, WayKeyBoardButton::buttonDown, remainingDisks2);
+	input.AddCommand(ControllerButton::None, KeyBoardAndMouseButton::ButtonC, WayKeyBoardButton::buttonDown, changeTexture);
 
 	//printing controls:
 	std::cout << "Controls: \n\n";
