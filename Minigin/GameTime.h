@@ -2,11 +2,11 @@
 #include "Singleton.h"
 #include <chrono>
 
-class Time  final : public dae::Singleton<Time>
+class GameTime final : public dae::Singleton<GameTime>
 {
 public:
-	Time() = default;
-	~Time() = default;
+	GameTime() = default;
+	~GameTime() = default;
 
 	void Update();
 
@@ -21,3 +21,4 @@ private:
 	float m_DeltaTime{};
 	int m_MsPerFrame = 16; //16 = 60fps, 33 = 30 fps
 };
+

@@ -107,6 +107,7 @@ namespace dae
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
+		InputManager() = default;
 		~InputManager();
 		bool ProcessInput();
 		bool IsPressed(const ControllerButton& button);
@@ -114,6 +115,7 @@ namespace dae
 		void AddCommand(const ControllerButton button, const KeyBoardAndMouseButton& whichKeyBoardButton, const WayKeyBoardButton& whichKeyBoardButtonWay, Command* pCommand);
 		void ExecuteCommand(const size_t index);
 	private:
+
 		XINPUT_STATE m_CurrentState{};
 		XINPUT_KEYSTROKE m_CurrentKeyStroke{};
 		SDL_Event m_SDLEvent{};

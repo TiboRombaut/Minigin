@@ -15,7 +15,7 @@
 #include "PlayerIndexComponent.h"
 #include "ScoreComponent.h"
 #include "SubjectComponent.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "ServiceLocator.h"
 #include "SDL_Sound_System.h"
 #include "ConsoleSoundSystem.h"
@@ -80,6 +80,7 @@ void dae::Minigin::LoadGame() const
 	scene.Add(go);
 
 
+	std::cout << "Controls: \n\n";
 
 
 	//init player
@@ -118,35 +119,35 @@ void dae::Minigin::LoadGame() const
 	renderer.InitPlayer(playerIndexComponent2->GetIndexPlayer(), healtComponent2->GetRemainingLives(), scoreComponent2->GetScore());
 
 	
-	PlaySoundCommand* playSound = new PlaySoundCommand(qBert, "../Data/road.wav");
-	MuteCommand* muteSound = new MuteCommand(qBert);
-	Kill* kill = new Kill(qBert);
-	ColorChange* colorChange = new ColorChange(qBert);
-	CoilyDefeated* defeatedCoily = new CoilyDefeated(qBert);
-	CatchingSlickOrSam* caughtSlickOrSam = new CatchingSlickOrSam(qBert);
-	RemainingDisks* remainingDisks = new RemainingDisks(qBert);
+	//PlaySoundCommand* playSound = new PlaySoundCommand(qBert, "../Data/road.wav");
+	//MuteCommand* muteSound = new MuteCommand(qBert);
+	//Kill* kill = new Kill(qBert);
+	//ColorChange* colorChange = new ColorChange(qBert);
+	//CoilyDefeated* defeatedCoily = new CoilyDefeated(qBert);
+	//CatchingSlickOrSam* caughtSlickOrSam = new CatchingSlickOrSam(qBert);
+	//RemainingDisks* remainingDisks = new RemainingDisks(qBert);
 
-	Kill* kill2 = new Kill(qBert2);
-	ColorChange* colorChange2 = new ColorChange(qBert2);
-	CoilyDefeated* defeatedCoily2 = new CoilyDefeated(qBert2);
-	CatchingSlickOrSam* caughtSlickOrSam2 = new CatchingSlickOrSam(qBert2);
-	RemainingDisks* remainingDisks2 = new RemainingDisks(qBert2);
-	auto& input = InputManager::GetInstance();
-	ChangeTextureCommand* changeTexture = new ChangeTextureCommand(go, component, "../Data/logo.png");
+	//Kill* kill2 = new Kill(qBert2);
+	//ColorChange* colorChange2 = new ColorChange(qBert2);
+	//CoilyDefeated* defeatedCoily2 = new CoilyDefeated(qBert2);
+	//CatchingSlickOrSam* caughtSlickOrSam2 = new CatchingSlickOrSam(qBert2);
+	//RemainingDisks* remainingDisks2 = new RemainingDisks(qBert2);
+	//auto& input = InputManager::GetInstance();
+	//ChangeTextureCommand* changeTexture = new ChangeTextureCommand(go, component, "../Data/logo.png");
 
-	input.AddCommand(ControllerButton::RightBump, KeyBoardAndMouseButton::MouseButtonRight, WayKeyBoardButton::MouseButtonUp, playSound);
-	input.AddCommand(ControllerButton::LeftBump, KeyBoardAndMouseButton::MouseButtonMiddle, WayKeyBoardButton::MouseButtonDown, muteSound);
-	input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonS, WayKeyBoardButton::buttonUp, kill);
-	input.AddCommand(ControllerButton::ButtonB, KeyBoardAndMouseButton::ButtonD, WayKeyBoardButton::buttonUp, colorChange);
-	input.AddCommand(ControllerButton::ButtonX, KeyBoardAndMouseButton::ButtonA, WayKeyBoardButton::buttonUp, defeatedCoily);
-	input.AddCommand(ControllerButton::ButtonY, KeyBoardAndMouseButton::ButtonW, WayKeyBoardButton::buttonUp, caughtSlickOrSam);
-	input.AddCommand(ControllerButton::Start, KeyBoardAndMouseButton::ButtonE, WayKeyBoardButton::buttonUp, remainingDisks);
-	input.AddCommand(ControllerButton::DownDpad, KeyBoardAndMouseButton::ButtonArrowDown, WayKeyBoardButton::buttonDown, kill2);
-	input.AddCommand(ControllerButton::LeftDpad, KeyBoardAndMouseButton::ButtonArrowLeft, WayKeyBoardButton::buttonDown, colorChange2);
-	input.AddCommand(ControllerButton::RightDpad, KeyBoardAndMouseButton::ButtonArrowRight, WayKeyBoardButton::buttonDown, defeatedCoily2);
-	input.AddCommand(ControllerButton::UpDpad, KeyBoardAndMouseButton::ButtonArrowUp, WayKeyBoardButton::buttonDown, caughtSlickOrSam2);
-	input.AddCommand(ControllerButton::Back, KeyBoardAndMouseButton::ButtonSpace, WayKeyBoardButton::buttonDown, remainingDisks2);
-	input.AddCommand(ControllerButton::None, KeyBoardAndMouseButton::ButtonC, WayKeyBoardButton::buttonDown, changeTexture);
+	//input.AddCommand(ControllerButton::RightBump, KeyBoardAndMouseButton::MouseButtonRight, WayKeyBoardButton::MouseButtonUp, playSound);
+	//input.AddCommand(ControllerButton::LeftBump, KeyBoardAndMouseButton::MouseButtonMiddle, WayKeyBoardButton::MouseButtonDown, muteSound);
+	//input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonS, WayKeyBoardButton::buttonUp, kill);
+	//input.AddCommand(ControllerButton::ButtonB, KeyBoardAndMouseButton::ButtonD, WayKeyBoardButton::buttonUp, colorChange);
+	//input.AddCommand(ControllerButton::ButtonX, KeyBoardAndMouseButton::ButtonA, WayKeyBoardButton::buttonUp, defeatedCoily);
+	//input.AddCommand(ControllerButton::ButtonY, KeyBoardAndMouseButton::ButtonW, WayKeyBoardButton::buttonUp, caughtSlickOrSam);
+	//input.AddCommand(ControllerButton::Start, KeyBoardAndMouseButton::ButtonE, WayKeyBoardButton::buttonUp, remainingDisks);
+	//input.AddCommand(ControllerButton::DownDpad, KeyBoardAndMouseButton::ButtonArrowDown, WayKeyBoardButton::buttonDown, kill2);
+	//input.AddCommand(ControllerButton::LeftDpad, KeyBoardAndMouseButton::ButtonArrowLeft, WayKeyBoardButton::buttonDown, colorChange2);
+	//input.AddCommand(ControllerButton::RightDpad, KeyBoardAndMouseButton::ButtonArrowRight, WayKeyBoardButton::buttonDown, defeatedCoily2);
+	//input.AddCommand(ControllerButton::UpDpad, KeyBoardAndMouseButton::ButtonArrowUp, WayKeyBoardButton::buttonDown, caughtSlickOrSam2);
+	//input.AddCommand(ControllerButton::Back, KeyBoardAndMouseButton::ButtonSpace, WayKeyBoardButton::buttonDown, remainingDisks2);
+	//input.AddCommand(ControllerButton::None, KeyBoardAndMouseButton::ButtonC, WayKeyBoardButton::buttonDown, changeTexture);
 
 	//printing controls:
 	std::cout << "Controls: \n\n";
@@ -174,7 +175,7 @@ void dae::Minigin::Cleanup()
 	SDL_Quit();
 }
 
-void dae::Minigin::Run()
+void dae::Minigin::Run(std::function<void()> loadGame)
 {
 	Initialize();
 	SDL_Sound_System* pSoundSystem = new SDL_Sound_System();
@@ -184,13 +185,13 @@ void dae::Minigin::Run()
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 
-	LoadGame();
+	loadGame();
 
 	{
-		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-		auto& time = Time::GetInstance();
+		auto& time = GameTime::GetInstance();
+		auto& renderer = Renderer::GetInstance();
 		bool doContinue = true;
 
 		while (doContinue)
@@ -198,7 +199,6 @@ void dae::Minigin::Run()
 			time.Update();
 			doContinue = input.ProcessInput();
 			sceneManager.Update();
-			//pSoundSystem->Update();
 			renderer.Render();
 
 			auto sleepTime = duration_cast<duration<float>>(time.GetPreviousTime() + milliseconds(int(time.GetMsPerFrame())) - high_resolution_clock::now());

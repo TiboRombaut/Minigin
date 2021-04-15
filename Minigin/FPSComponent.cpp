@@ -2,7 +2,7 @@
 #include "FPSComponent.h"
 
 #include "ResourceManager.h"
-#include "Time.h"
+#include "GameTime.h"
 
 FPSComponent::FPSComponent()
 {
@@ -18,10 +18,10 @@ FPSComponent::~FPSComponent()
 
 void FPSComponent::Update()
 {
-	m_UpdateTime += Time::GetInstance().GetDeltaTime();
+	m_UpdateTime += GameTime::GetInstance().GetDeltaTime();
 	if (m_UpdateTime >= 1.0f)
 	{
-		m_pTextComponent->SetText(std::to_string(Time::GetInstance().GetFPS()) + " FPS");
+		m_pTextComponent->SetText(std::to_string(GameTime::GetInstance().GetFPS()) + " FPS");
 		m_pTextComponent->Update();
 		m_UpdateTime -= 1.0f;
 	}
