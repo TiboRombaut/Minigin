@@ -141,3 +141,20 @@ void MuteCommand::Execute()
 	dae::ServiceLocator::get_sound_system().ToggleMute();
 	std::cout << "mute";
 };
+
+ChangeTextureCommand::ChangeTextureCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<dae::TextureComponent> textureComponent
+	, std::string fileName)
+	:Command(pObject)
+	, m_TextureComponent(textureComponent)
+	, m_FileName(fileName)
+{
+
+}
+
+void ChangeTextureCommand::Execute()
+{
+	if (m_TextureComponent != nullptr)
+	{
+		m_TextureComponent->SetTexture(m_FileName);
+	}
+};

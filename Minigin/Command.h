@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "HealthComponent.h"
+#include "TextureComponent.h"
 
 
 //class Command
@@ -121,4 +122,15 @@ class MuteCommand : public Command
 public:
     MuteCommand(std::shared_ptr<dae::GameObject> pObject);
     void Execute() override;
+};
+
+class ChangeTextureCommand : public Command
+{
+public:
+    ChangeTextureCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<dae::TextureComponent> textureComponent
+        , std::string fileName);
+    void Execute() override;
+private:
+    std::shared_ptr<dae::TextureComponent> m_TextureComponent;
+    std::string m_FileName;
 };

@@ -16,9 +16,9 @@ void dae::TextureComponent::Render() const
 	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
 
-void dae::TextureComponent::SetTexture(const std::string& filename)
+void dae::TextureComponent::SetTexture(const std::string& fileName)
 {
-	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+	m_Texture = ResourceManager::GetInstance().LoadTexture(fileName);
 }
 
 void dae::TextureComponent::SetPosition(float x, float y)

@@ -64,25 +64,21 @@ void dae::Minigin::LoadGame() const
 	std::shared_ptr<TextureComponent> component{ std::make_shared<TextureComponent>() };
 	component->SetTexture("background.jpg");
 	go->addComponent(component);
-	scene.Add(go);
 
-	go = std::make_shared<GameObject>();
-	component = std::make_shared<TextureComponent>();
-	component->SetTexture("logo.png");
-	component->SetPosition(216, 180);
-	go->addComponent(component);
-	scene.Add(go);
+	std::shared_ptr<TextureComponent> componentTexture{ std::make_shared<TextureComponent>() };
+	componentTexture->SetTexture("logo.png");
+	componentTexture->SetPosition(216, 180);
+	go->addComponent(componentTexture);
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	go = std::make_shared<GameObject>();
 	auto component2 = std::make_shared<TextComponent>("Programming 4 Assignment", font);
 	component2->SetPosition(80, 20);
 	go->addComponent(component2);
-	scene.Add(go);
 
 	auto component3 = std::make_shared<FPSComponent>();
 	go->addComponent(component3);
 	scene.Add(go);
+
 
 
 
@@ -136,7 +132,8 @@ void dae::Minigin::LoadGame() const
 	CatchingSlickOrSam* caughtSlickOrSam2 = new CatchingSlickOrSam(qBert2);
 	RemainingDisks* remainingDisks2 = new RemainingDisks(qBert2);
 	auto& input = InputManager::GetInstance();
-	
+	ChangeTextureCommand* changeTexture = new ChangeTextureCommand(go, component, "../Data/logo.png");
+
 	input.AddCommand(ControllerButton::RightBump, KeyBoardAndMouseButton::MouseButtonRight, WayKeyBoardButton::MouseButtonUp, playSound);
 	input.AddCommand(ControllerButton::LeftBump, KeyBoardAndMouseButton::MouseButtonMiddle, WayKeyBoardButton::MouseButtonDown, muteSound);
 	input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonS, WayKeyBoardButton::buttonUp, kill);
@@ -149,6 +146,7 @@ void dae::Minigin::LoadGame() const
 	input.AddCommand(ControllerButton::RightDpad, KeyBoardAndMouseButton::ButtonArrowRight, WayKeyBoardButton::buttonDown, defeatedCoily2);
 	input.AddCommand(ControllerButton::UpDpad, KeyBoardAndMouseButton::ButtonArrowUp, WayKeyBoardButton::buttonDown, caughtSlickOrSam2);
 	input.AddCommand(ControllerButton::Back, KeyBoardAndMouseButton::ButtonSpace, WayKeyBoardButton::buttonDown, remainingDisks2);
+	input.AddCommand(ControllerButton::None, KeyBoardAndMouseButton::ButtonC, WayKeyBoardButton::buttonDown, changeTexture);
 
 	//printing controls:
 	std::cout << "Controls: \n\n";
