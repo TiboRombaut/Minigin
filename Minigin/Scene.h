@@ -1,7 +1,7 @@
 #pragma once
 #include "SceneManager.h"
 #include "GameObject.h"
-
+#include <string>
 namespace dae
 {
 	//class SceneObject;

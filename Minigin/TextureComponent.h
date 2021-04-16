@@ -2,7 +2,8 @@
 #include "BaseComponent.h"
 #include "Texture2D.h"
 #include "Transform.h"
-
+#include <string>
+#include <memory>
 namespace dae {
 	class TextureComponent : public BaseComponent
 	{

@@ -1,26 +1,28 @@
-//#include <iostream>
-#include <MiniginPCH.h>
-#include <Minigin.h>
+#include <SDL.h>
+#undef main
 
-#include "TextureComponent.h"
-#include "SceneManager.h"
-#include "ResourceManager.h"
-#include "ScoreComponent.h"
-#include "InputManager.h"
-#include "Renderer.h"
-#include "Scene.h"
-#include "TextComponent.h"
-#include "FPSComponent.h"
-#include "PlayerIndexComponent.h"
-#include "SubjectComponent.h"
-#include "ObserverPlayer.h"
+#include <Minigin.h>
+#include <TextureComponent.h>
+#include <SceneManager.h>
+#include <ResourceManager.h>
+#include <ScoreComponent.h>
+#include <InputManager.h>
+#include <Renderer.h>
+#include <Scene.h>
+#include <TextComponent.h>
+#include <FPSComponent.h>
+#include <PlayerIndexComponent.h>
+#include <SubjectComponent.h>
+#include <ObserverPlayer.h>
+#include <memory>
+#include <iostream>
 using namespace dae;
 void LoadGame()
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	std::shared_ptr<TextureComponent> component{ std::make_shared<TextureComponent>() };
+	auto go = std::make_shared<dae::GameObject>();
+	std::shared_ptr<dae::TextureComponent> component{ std::make_shared<dae::TextureComponent>() };
 	component->SetTexture("background.jpg");
 	go->addComponent(component);
 
@@ -29,17 +31,14 @@ void LoadGame()
 	componentTexture->SetPosition(216, 180);
 	go->addComponent(componentTexture);
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto component2 = std::make_shared<TextComponent>("Programming 4 Assignment", font);
-	component2->SetPosition(80, 20);
-	go->addComponent(component2);
+	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	//auto component2 = std::make_shared<TextComponent>("Programming 4 Assignment", font);
+	//component2->SetPosition(80, 20);
+	//go->addComponent(component2);
 
 	auto component3 = std::make_shared<FPSComponent>();
 	go->addComponent(component3);
 	scene.Add(go);
-
-
-
 
 	//init player
 	int playerIndex{ 0 };
@@ -104,7 +103,7 @@ void LoadGame()
 	input.AddCommand(ControllerButton::LeftDpad, KeyBoardAndMouseButton::ButtonArrowLeft, WayKeyBoardButton::buttonDown, colorChange2);
 	input.AddCommand(ControllerButton::RightDpad, KeyBoardAndMouseButton::ButtonArrowRight, WayKeyBoardButton::buttonDown, defeatedCoily2);
 	input.AddCommand(ControllerButton::UpDpad, KeyBoardAndMouseButton::ButtonArrowUp, WayKeyBoardButton::buttonDown, caughtSlickOrSam2);
-	input.AddCommand(ControllerButton::Back, KeyBoardAndMouseButton::ButtonSpace, WayKeyBoardButton::buttonDown, remainingDisks2);
+	input.AddCommand(ControllerButton::Back, KeyBoardAndMouseButton::Button0, WayKeyBoardButton::buttonDown, remainingDisks2);
 	input.AddCommand(ControllerButton::None, KeyBoardAndMouseButton::ButtonC, WayKeyBoardButton::buttonDown, changeTexture);
 
 	//printing controls:

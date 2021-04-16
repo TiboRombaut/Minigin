@@ -1,4 +1,5 @@
 #pragma once
+#include <Windows.h>
 #include <XInput.h>
 #include <SDL.h>
 
@@ -67,17 +68,17 @@ namespace dae
 		ButtonB = SDLK_b,
 		ButtonN = SDLK_n,
 		ButtonM = SDLK_m,
-		ButtonTab = VK_TAB,
-		ButtonShift = VK_SHIFT,
-		ButtonCrtl = VK_CONTROL,
+		//ButtonTab = VK_TAB,
+		//ButtonShift = VK_SHIFT,
+		//ButtonCrtl = VK_CONTROL,
 		ButtonAltLeft = SDLK_LALT,
 		ButtonAltRight = SDLK_RALT,
 		ButtonArrowUp = SDLK_UP,			//this also uses scancode
 		ButtonArrowDown = SDL_SCANCODE_DOWN,//uses scancode
 		ButtonArrowRight = SDL_SCANCODE_RIGHT,
 		ButtonArrowLeft = SDL_SCANCODE_LEFT,
-		ButtonSpace = VK_SPACE,
-		ButtonEscape = VK_ESCAPE,
+		//ButtonSpace = VK_SPACE,
+		//ButtonEscape = VK_ESCAPE,
 		Button0 = SDLK_0,
 		Button1 = SDLK_1,
 		Button2 = SDLK_2,
