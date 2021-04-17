@@ -2,7 +2,8 @@
 #include "Transform.h"
 #include "BaseComponent.h"
 #include "Command.h"
-
+#include <memory>
+#include <vector>
 namespace dae
 {
 	class Texture2D;
@@ -18,6 +19,9 @@ namespace dae
 		void addComponent(std::shared_ptr<BaseComponent > component);
 		//void AddCommand(std::shared_ptr < Command> pCommand);
 
+		void RemoveComponent(std::shared_ptr<BaseComponent> component);
+
+
 		template <typename T>
 		T* GetComponent() const
 		{
@@ -32,6 +36,19 @@ namespace dae
 			return nullptr;
 		}
 
+		template <typename T>
+		bool HasComponent() const
+		{
+			for (const std::shared_ptr<BaseComponent>& component : m_Components)
+			{
+				T* temp = dynamic_cast<T*>(component.get());
+				if (temp != nullptr)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 		//template <typename T>
 		//T* GetComponent() const
 		//{

@@ -26,6 +26,16 @@ void dae::GameObject::Update()
 //	m_pCommands.push_back(pCommand);
 //}
 
+void dae::GameObject::RemoveComponent(std::shared_ptr<BaseComponent> component)
+{
+	for (size_t i = 0; i < m_Components.size(); ++i)
+	{
+		if (m_Components[i] == component)
+		{
+			m_Components.erase(m_Components.begin() + i);
+		}
+	}
+}
 
 void dae::GameObject::Render() const
 {

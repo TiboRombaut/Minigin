@@ -22,8 +22,13 @@ namespace dae {
 		TextureComponent(TextureComponent&& other) = delete;
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
+
+		int GetWidth()const;
+		int GetHeight()const;
+		std::string GetFileName()const;
 	private:
 		dae::Transform m_Transform;
 		std::shared_ptr<dae::Texture2D> m_Texture{};
+		std::string m_FileName;
 	};
 }

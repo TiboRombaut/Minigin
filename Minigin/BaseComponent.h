@@ -16,6 +16,11 @@ namespace dae
 			m_pObject = pGameObject;
 		}
 
+		GameObject* GetGameObject()const
+		{
+			return m_pObject;
+		}
+
 		virtual ~BaseComponent() = default;
 		BaseComponent(const BaseComponent& other) = delete;
 		BaseComponent(BaseComponent&& other) = delete;
