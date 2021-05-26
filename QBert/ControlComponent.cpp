@@ -6,7 +6,7 @@ void ControlComponent::SetFieldData(FieldDataPlayer data)
 	m_QBertFieldData = data;
 }
 
-FieldDataPlayer ControlComponent::GetFieldData()const
+FieldDataPlayer ControlComponent::GetFieldDataPlayer()const
 {
 	return m_QBertFieldData;
 }

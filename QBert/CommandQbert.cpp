@@ -2,8 +2,10 @@
 #include "QBertComponent.h"
 #include "AIComponent.h"
 //#include <TextureComponent.h>
+#include "ScoreComponent.h"
 #include <iostream>
-MoveLeftDownCommand::MoveLeftDownCommand(std::shared_ptr<dae::GameObject> pObject, std::vector<FieldData>& field, std::string fileNamePath)
+#include "SlickAndSam.h"
+MoveLeftDownCommand::MoveLeftDownCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath)
 	:Command(pObject)
 	, m_Field(field)
 	,m_FileNameBackgroundTile(fileNamePath)
@@ -13,35 +15,65 @@ MoveLeftDownCommand::MoveLeftDownCommand(std::shared_ptr<dae::GameObject> pObjec
 
 void MoveLeftDownCommand::Execute()
 {
-	auto comp = getActor()->GetComponent<QBertComponent>();
-	auto fieldData = comp->GetFieldData();
-
-	for (size_t i = 0; i < m_Field.size(); i++)
+	bool hasQbertComp = false;
+	ControlComponent* comp = nullptr;
+	if (getActor()->HasComponent<QBertComponent>())
 	{
-		if (m_Field[i].Row == fieldData.Row + 1 && m_Field[i].Column == fieldData.Column)
+		comp = getActor()->GetComponent<QBertComponent>();
+		hasQbertComp = true;
+	}
+	else if (getActor()->HasComponent<AIComponent>())
+	{
+		comp = getActor()->GetComponent<AIComponent>();
+	}
+	else
+	{
+		return;
+	}	
+	auto fieldData = comp->GetFieldDataPlayer();
+
+	for (size_t i = 0; i < m_Field->GetField().size(); i++)
+	{
+		if (m_Field->GetField()[i].Row == fieldData.Row + 1 && m_Field->GetField()[i].Column == fieldData.Column)
 		{
-			if (getActor()->GetComponent<QBertComponent>()->GetCanMove())
+			if (comp->GetCanMove())
 			{
-				if (m_Field[i].TextureComponent->GetFileName() == "ColorWheel.png")
+				if (m_Field->GetField()[i].TextureComponent->GetFileName() == "ColorWheel.png")
 				{
-					getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field[0].MiddlePosX, m_Field[0].MiddlePosY);
-					fieldData.Column = m_Field[0].Column;
-					fieldData.Row = m_Field[0].Row;
-					comp->SetFieldData(fieldData);
-					m_Field[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field[i].TextureComponent);
-					m_Field.erase(m_Field.begin() + i);
+					if (hasQbertComp)
+					{
+						getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY);
+						fieldData.Column = m_Field->GetField()[0].Column;
+						fieldData.Row = m_Field->GetField()[0].Row;
+						comp->SetFieldData(fieldData);
+						m_Field->GetField()[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field->GetField()[i].TextureComponent);
+						m_Field->GetField().erase(m_Field->GetField().begin() + i);
+					}
 					return;
 				}
-				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field[i].MiddlePosX, m_Field[i].MiddlePosY);
-				fieldData.Column = m_Field[i].Column;
-				fieldData.Row = m_Field[i].Row;
+				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+				fieldData.Column = m_Field->GetField()[i].Column;
+				fieldData.Row = m_Field->GetField()[i].Row;
 				comp->SetFieldData(fieldData);
-				if (m_Field[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile)
-				{
-					m_Field[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
-					//also give points
-					std::cout << "change tile";
+				comp->ResetCurrentTime();
 
+				if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				{
+					m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
+					//also give points
+					int value{ 25 };
+					getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
+				}
+				else if(comp->GetGameObject()->HasComponent<SlickAndSam>())
+				{
+					if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetSecondTileName())
+					{
+						m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetFirstTileName());
+					}
+					else if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetThirthTileName())
+					{
+						m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetSecondTileName());
+					}
 				}
 				return;
 			}
@@ -53,7 +85,7 @@ void MoveLeftDownCommand::Execute()
 	}
 };
 
-MoveRightDownCommand::MoveRightDownCommand(std::shared_ptr<dae::GameObject> pObject, std::vector<FieldData>& field, std::string fileNamePath)
+MoveRightDownCommand::MoveRightDownCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath)
 	:Command(pObject)
 	, m_Field(field)
 	, m_FileNameBackgroundTile(fileNamePath)
@@ -63,36 +95,70 @@ MoveRightDownCommand::MoveRightDownCommand(std::shared_ptr<dae::GameObject> pObj
 
 void MoveRightDownCommand::Execute()
 {
-	auto comp = getActor()->GetComponent<QBertComponent>();
-	auto fieldData = comp->GetFieldData();
-
-	for (size_t i = 0; i < m_Field.size(); i++)
+	bool hasQbertComp = false;
+	ControlComponent* comp = nullptr;
+	if (getActor()->HasComponent<QBertComponent>())
 	{
-		if (m_Field[i].Row == fieldData.Row + 1 && m_Field[i].Column == fieldData.Column+1)
+		comp = getActor()->GetComponent<QBertComponent>();
+		hasQbertComp = true;
+	}
+	else if (getActor()->HasComponent<AIComponent>())
+	{
+		comp = getActor()->GetComponent<AIComponent>();
+	}
+	else
+	{
+		return;
+	}	
+	auto fieldData = comp->GetFieldDataPlayer();
+
+	for (size_t i = 0; i < m_Field->GetField().size(); i++)
+	{
+		if (m_Field->GetField()[i].Row == fieldData.Row + 1 && m_Field->GetField()[i].Column == fieldData.Column+1)
 		{
-			if (getActor()->GetComponent<QBertComponent>()->GetCanMove())
+			if (comp->GetCanMove())
 			{
-				if (m_Field[i].TextureComponent->GetFileName() == "ColorWheel.png")
+				//colorwheen logic => you go on it and teleport to spawn
+				if (m_Field->GetField()[i].TextureComponent->GetFileName() == "ColorWheel.png")
 				{
-					getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field[0].MiddlePosX, m_Field[0].MiddlePosY);
-					fieldData.Column = m_Field[0].Column;
-					fieldData.Row = m_Field[0].Row;
-					comp->SetFieldData(fieldData);
-					m_Field[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field[i].TextureComponent);
-					m_Field.erase(m_Field.begin() + i);
+					if (hasQbertComp)
+					{
+						getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY);
+						fieldData.Column = m_Field->GetField()[0].Column;
+						fieldData.Row = m_Field->GetField()[0].Row;
+						comp->SetFieldData(fieldData);
+						m_Field->GetField()[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field->GetField()[i].TextureComponent);
+						m_Field->GetField().erase(m_Field->GetField().begin() + i);
+					}
 					return;
 				}
-				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field[i].MiddlePosX, m_Field[i].MiddlePosY);
-				fieldData.Column = m_Field[i].Column;
-				fieldData.Row = m_Field[i].Row;
-				comp->SetFieldData(fieldData);
-				if (m_Field[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile)
-				{
-					m_Field[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
-					//also give points
-					std::cout << "change tile";
 
-				}				
+				//move logic
+				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+				fieldData.Column = m_Field->GetField()[i].Column;
+				fieldData.Row = m_Field->GetField()[i].Row;
+				comp->SetFieldData(fieldData);
+				comp->ResetCurrentTime();
+
+				//changing tile Logic
+				if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				{
+					m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
+					//also give points
+					int value{ 25 };
+					getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
+				}
+				else if (comp->GetGameObject()->HasComponent<SlickAndSam>())
+				{
+					if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetSecondTileName())
+					{
+						m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetFirstTileName());
+					}
+					else if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetThirthTileName())
+					{
+						m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetSecondTileName());
+					}
+				}
 				return;
 			}
 			else
@@ -103,14 +169,14 @@ void MoveRightDownCommand::Execute()
 	}
 };
 
-MoveLeftUpCommand::MoveLeftUpCommand(std::shared_ptr<dae::GameObject> pObject, std::vector<FieldData>& field, std::string fileNamePath)
+MoveLeftUpCommand::MoveLeftUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath)
 	:Command(pObject)
 	, m_Field(field)
 	, m_FileNameBackgroundTile(fileNamePath)
 {
 
 }
-MoveLeftUpCommand::MoveLeftUpCommand(std::shared_ptr<dae::GameObject> pObject, std::vector<FieldData>& field)
+MoveLeftUpCommand::MoveLeftUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field)
 	:Command(pObject)
 	, m_Field(field)
 {
@@ -124,7 +190,6 @@ void MoveLeftUpCommand::Execute()
 	{
 		comp = getActor()->GetComponent<QBertComponent>();
 		hasQbertComp = true;
-		std::cout << "hasQbert";
 	}
 	else if (getActor()->HasComponent<AIComponent>())
 	{
@@ -134,36 +199,39 @@ void MoveLeftUpCommand::Execute()
 	{
 		return;
 	}
-	auto fieldData = comp->GetFieldData();
+	auto fieldData = comp->GetFieldDataPlayer();
 
-	for (size_t i = 0; i < m_Field.size(); i++)
+	for (size_t i = 0; i < m_Field->GetField().size(); i++)
 	{
-		if (m_Field[i].Row == fieldData.Row - 1 && m_Field[i].Column == fieldData.Column-1)
+		if (m_Field->GetField()[i].Row == fieldData.Row - 1 && m_Field->GetField()[i].Column == fieldData.Column-1)
 		{
 			if (comp->GetCanMove())
 			{
-				if (m_Field[i].TextureComponent->GetFileName() == "ColorWheel.png"&&hasQbertComp)
+				if (m_Field->GetField()[i].TextureComponent->GetFileName() == "ColorWheel.png" )
 				{
-					getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field[0].MiddlePosX, m_Field[0].MiddlePosY);
-					fieldData.Column = m_Field[0].Column;
-					fieldData.Row = m_Field[0].Row;
-					comp->SetFieldData(fieldData);
-					m_Field[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field[i].TextureComponent);
-					m_Field.erase(m_Field.begin() + i);
+					if (hasQbertComp)
+					{
+						getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY);
+						fieldData.Column = m_Field->GetField()[0].Column;
+						fieldData.Row = m_Field->GetField()[0].Row;
+						comp->SetFieldData(fieldData);
+						m_Field->GetField()[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field->GetField()[i].TextureComponent);
+						m_Field->GetField().erase(m_Field->GetField().begin() + i);
+					}
 					return;
 				}
-				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field[i].MiddlePosX, m_Field[i].MiddlePosY);
-				fieldData.Column = m_Field[i].Column;
-				fieldData.Row = m_Field[i].Row;
+				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+				fieldData.Column = m_Field->GetField()[i].Column;
+				fieldData.Row = m_Field->GetField()[i].Row;
 				comp->SetFieldData(fieldData);
 				comp->ResetCurrentTime();
 
-				if (m_Field[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
 				{
-					m_Field[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
+					m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
 					//also give points
-					std::cout << "change tile";
-
+					int value{ 25 };
+					getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
 				}				
 				return;
 			}
@@ -175,7 +243,7 @@ void MoveLeftUpCommand::Execute()
 	}
 };
 
-MoveRightUpCommand::MoveRightUpCommand(std::shared_ptr<dae::GameObject> pObject, std::vector<FieldData>& field, std::string fileNamePath)
+MoveRightUpCommand::MoveRightUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath)
 	:Command(pObject)
 	, m_Field(field)
 	, m_FileNameBackgroundTile(fileNamePath)
@@ -183,7 +251,7 @@ MoveRightUpCommand::MoveRightUpCommand(std::shared_ptr<dae::GameObject> pObject,
 
 }
 
-MoveRightUpCommand::MoveRightUpCommand(std::shared_ptr<dae::GameObject> pObject, std::vector<FieldData>& field)
+MoveRightUpCommand::MoveRightUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field)
 	:Command(pObject)
 	, m_Field(field)
 {
@@ -210,36 +278,40 @@ void MoveRightUpCommand::Execute()
 	}
 //	auto comp = getActor()->GetComponent<AIComponent>();
 
-	auto fieldData = comp->GetFieldData();
+	auto fieldData = comp->GetFieldDataPlayer();
 
-	for (size_t i = 0; i < m_Field.size(); i++)
+	for (size_t i = 0; i < m_Field->GetField().size(); i++)
 	{
-		if (m_Field[i].Row == fieldData.Row - 1 && m_Field[i].Column == fieldData.Column)
+		if (m_Field->GetField()[i].Row == fieldData.Row - 1 && m_Field->GetField()[i].Column == fieldData.Column)
 		{
 			if (comp->GetCanMove())
 			{
-				if (m_Field[i].TextureComponent->GetFileName() == "ColorWheel.png" && hasQbertComp)
+				if (m_Field->GetField()[i].TextureComponent->GetFileName() == "ColorWheel.png" )
 				{
-					getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field[0].MiddlePosX, m_Field[0].MiddlePosY);
-					fieldData.Column = m_Field[0].Column;
-					fieldData.Row = m_Field[0].Row;
-					comp->SetFieldData(fieldData);
-					m_Field[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field[i].TextureComponent);
-					m_Field.erase(m_Field.begin() + i);
+					if (hasQbertComp)
+					{
+						std::cout << "colorwheel rightup";
+						getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY);
+						fieldData.Column = m_Field->GetField()[0].Column;
+						fieldData.Row = m_Field->GetField()[0].Row;
+						comp->SetFieldData(fieldData);
+						m_Field->GetField()[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field->GetField()[i].TextureComponent);
+						m_Field->GetField().erase(m_Field->GetField().begin() + i);
+					}
 					return;
 				}
 
-				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field[i].MiddlePosX, m_Field[i].MiddlePosY);
-				fieldData.Column = m_Field[i].Column;
-				fieldData.Row = m_Field[i].Row;
+				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+				fieldData.Column = m_Field->GetField()[i].Column;
+				fieldData.Row = m_Field->GetField()[i].Row;
 				comp->SetFieldData(fieldData);
 				comp->ResetCurrentTime();
-				if (m_Field[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
 				{
-					m_Field[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
+					m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
 					//also give points
-					std::cout << "change tile";
-
+					int value{ 25 };
+					getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
 				}			
 				return;
 			}

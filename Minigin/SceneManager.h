@@ -1,4 +1,5 @@
 #pragma once
+#include "MiniginPCH.h"
 #include "Singleton.h"
 #include <vector>
 namespace dae

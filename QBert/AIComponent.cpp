@@ -2,23 +2,32 @@
 #include <GameTime.h>
 #include <memory>
 #include <GameObject.h>
-AIComponent::AIComponent(std::shared_ptr<dae::GameObject> pObject,std::vector<FieldData>& field)
-{
-	//std::shared_ptr<dae::GameObject> tempGameObject(GetGameObject());
-	m_pCommandMoveLeftUp = new MoveLeftUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
-	m_pCommandMoveRightUp = new MoveRightUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
-}
-//FieldDataPlayer AIComponent::GetFieldData()const
+//AIComponent::AIComponent(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field)
 //{
-//	return m_QBertFieldData;
+//	//std::shared_ptr<dae::GameObject> tempGameObject(GetGameObject());
+//	m_pCommandMoveLeftUp = new MoveLeftUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
+//	m_pCommandMoveRightUp = new MoveRightUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
+//}
+////FieldDataPlayer AIComponent::GetFieldData()const
+////{
+////	return m_QBertFieldData;
+////}
+//
+//AIComponent::~AIComponent()
+//{
+//	delete m_pCommandMoveLeftUp;
+//	delete m_pCommandMoveRightUp;
 //}
 
-AIComponent::~AIComponent()
+void AIComponent::SetIsDead(bool isDead)
 {
-	delete m_pCommandMoveLeftUp;
-	delete m_pCommandMoveRightUp;
+	m_IsDead = isDead;
 }
 
+bool AIComponent::GetIsDead()const
+{
+	return m_IsDead;
+}
 
 //void AIComponent::SetFieldData(FieldDataPlayer data)
 //{
@@ -34,28 +43,31 @@ AIComponent::~AIComponent()
 //	}
 //	return false;
 //}
-
-void AIComponent::Update()
-{
-	m_CurrentTime += GameTime::GetInstance().GetDeltaTime();
-
-	if (GetCanMove())
-	{
-		int whatMovement = rand() % 2;
-		switch (whatMovement)
-		{
-		case 0 :
-			//move left
-			m_pCommandMoveLeftUp->Execute();
-			break;
-		case 1 :
-			//move right
-			m_pCommandMoveRightUp->Execute();
-			break;
-		default:
-			//nothing
-			break;
-		}
-	}
-
-}
+//
+//void AIComponent::Update()
+//{
+//
+//	//if (GetCanMove())
+//	//{
+//	//	if (m_QBertFieldData.Row == 0 && m_QBertFieldData.Column == 0)
+//	//	{
+//	//		GetGameObject()->SetIsActive(false);
+//	//	}
+//	//	int whatMovement = rand() % 2;
+//	//	switch (whatMovement)
+//	//	{
+//	//	case 0 :
+//	//		//move left
+//	//		m_pCommandMoveLeftUp->Execute();
+//	//		break;
+//	//	case 1 :
+//	//		//move right
+//	//		m_pCommandMoveRightUp->Execute();
+//	//		break;
+//	//	default:
+//	//		//nothing
+//	//		break;
+//	//	}
+//	//}
+//
+//}

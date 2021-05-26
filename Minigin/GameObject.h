@@ -49,6 +49,15 @@ namespace dae
 			}
 			return false;
 		}
+		bool GetIsActive()const
+		{
+			return m_IsActive;
+		}
+
+		void SetIsActive(bool isActive)
+		{
+			m_IsActive = isActive;
+		}
 		//template <typename T>
 		//T* GetComponent() const
 		//{
@@ -66,6 +75,8 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
+		bool m_IsActive = true;
+
 		std::vector<std::shared_ptr<BaseComponent>> m_Components;
 		//std::vector<BaseComponent*> m_Components;
 		Transform m_Transform;

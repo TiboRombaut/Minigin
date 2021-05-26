@@ -58,65 +58,61 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	//auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	std::shared_ptr<TextureComponent> component{ std::make_shared<TextureComponent>() };
-	component->SetTexture("background.jpg");
-	go->addComponent(component);
+	//auto go = std::make_shared<GameObject>();
+	//std::shared_ptr<TextureComponent> component{ std::make_shared<TextureComponent>() };
+	//component->SetTexture("background.jpg");
+	//go->addComponent(component);
 
-	std::shared_ptr<TextureComponent> componentTexture{ std::make_shared<TextureComponent>() };
-	componentTexture->SetTexture("logo.png");
-	componentTexture->SetPosition(216, 180);
-	go->addComponent(componentTexture);
+	//std::shared_ptr<TextureComponent> componentTexture{ std::make_shared<TextureComponent>() };
+	//componentTexture->SetTexture("logo.png");
+	//componentTexture->SetPosition(216, 180);
+	//go->addComponent(componentTexture);
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto component2 = std::make_shared<TextComponent>("Programming 4 Assignment", font);
-	component2->SetPosition(80, 20);
-	go->addComponent(component2);
+	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	//auto component2 = std::make_shared<TextComponent>("Programming 4 Assignment", font);
+	//component2->SetPosition(80, 20);
+	//go->addComponent(component2);
 
-	auto component3 = std::make_shared<FPSComponent>();
-	go->addComponent(component3);
-	scene.Add(go);
+	//auto component3 = std::make_shared<FPSComponent>();
+	//go->addComponent(component3);
+	//scene.Add(go);
 
+	////init player
+	//int playerIndex{ 0 };
+	//auto& renderer = Renderer::GetInstance();
 
-	std::cout << "Controls: \n\n";
+	//std::shared_ptr<ObserverPlayer> pPlayerObserver = std::make_shared<ObserverPlayer>();
+	//
+	//std::shared_ptr<GameObject> qBert = std::make_shared<GameObject>();
+	//std::shared_ptr<HealthComponent> healtComponent = std::make_shared<HealthComponent>();
+	//std::shared_ptr<SubjectComponent> subjectComponent = std::make_shared<SubjectComponent>();
+	//std::shared_ptr<ScoreComponent> scoreComponent = std::make_shared<ScoreComponent>();
+	//std::shared_ptr<PlayerIndexComponent> playerIndexComponent = std::make_shared<PlayerIndexComponent>(playerIndex);
+	//subjectComponent->addObserver(pPlayerObserver);
+	//qBert->addComponent(healtComponent);
+	//qBert->addComponent(scoreComponent);
+	//qBert->addComponent(subjectComponent);
+	//qBert->addComponent(playerIndexComponent);
+	//scene.Add(qBert);
 
+	//renderer.InitPlayer(playerIndexComponent->GetIndexPlayer(),healtComponent->GetRemainingLives(),scoreComponent->GetScore());
 
-	//init player
-	int playerIndex{ 0 };
-	auto& renderer = Renderer::GetInstance();
+	//playerIndex++;
+	//std::shared_ptr<GameObject> qBert2 = std::make_shared<GameObject>();
+	//std::shared_ptr<HealthComponent> healtComponent2 = std::make_shared<HealthComponent>();
+	//std::shared_ptr<SubjectComponent> subjectComponent2 = std::make_shared<SubjectComponent>();
+	//std::shared_ptr<ScoreComponent> scoreComponent2 = std::make_shared<ScoreComponent>();
+	//std::shared_ptr<PlayerIndexComponent> playerIndexComponent2 = std::make_shared<PlayerIndexComponent>(playerIndex);
+	//subjectComponent2->addObserver(pPlayerObserver);
+	//qBert2->addComponent(healtComponent2);
+	//qBert2->addComponent(scoreComponent2);
+	//qBert2->addComponent(subjectComponent2);
+	//qBert2->addComponent(playerIndexComponent2);
+	//scene.Add(qBert2);
 
-	std::shared_ptr<ObserverPlayer> pPlayerObserver = std::make_shared<ObserverPlayer>();
-	
-	std::shared_ptr<GameObject> qBert = std::make_shared<GameObject>();
-	std::shared_ptr<HealthComponent> healtComponent = std::make_shared<HealthComponent>();
-	std::shared_ptr<SubjectComponent> subjectComponent = std::make_shared<SubjectComponent>();
-	std::shared_ptr<ScoreComponent> scoreComponent = std::make_shared<ScoreComponent>();
-	std::shared_ptr<PlayerIndexComponent> playerIndexComponent = std::make_shared<PlayerIndexComponent>(playerIndex);
-	subjectComponent->addObserver(pPlayerObserver);
-	qBert->addComponent(healtComponent);
-	qBert->addComponent(scoreComponent);
-	qBert->addComponent(subjectComponent);
-	qBert->addComponent(playerIndexComponent);
-	scene.Add(qBert);
-
-	renderer.InitPlayer(playerIndexComponent->GetIndexPlayer(),healtComponent->GetRemainingLives(),scoreComponent->GetScore());
-
-	playerIndex++;
-	std::shared_ptr<GameObject> qBert2 = std::make_shared<GameObject>();
-	std::shared_ptr<HealthComponent> healtComponent2 = std::make_shared<HealthComponent>();
-	std::shared_ptr<SubjectComponent> subjectComponent2 = std::make_shared<SubjectComponent>();
-	std::shared_ptr<ScoreComponent> scoreComponent2 = std::make_shared<ScoreComponent>();
-	std::shared_ptr<PlayerIndexComponent> playerIndexComponent2 = std::make_shared<PlayerIndexComponent>(playerIndex);
-	subjectComponent2->addObserver(pPlayerObserver);
-	qBert2->addComponent(healtComponent2);
-	qBert2->addComponent(scoreComponent2);
-	qBert2->addComponent(subjectComponent2);
-	qBert2->addComponent(playerIndexComponent2);
-	scene.Add(qBert2);
-
-	renderer.InitPlayer(playerIndexComponent2->GetIndexPlayer(), healtComponent2->GetRemainingLives(), scoreComponent2->GetScore());
+	//renderer.InitPlayer(playerIndexComponent2->GetIndexPlayer(), healtComponent2->GetRemainingLives(), scoreComponent2->GetScore());
 
 	
 	//PlaySoundCommand* playSound = new PlaySoundCommand(qBert, "../Data/road.wav");
@@ -150,20 +146,20 @@ void dae::Minigin::LoadGame() const
 	//input.AddCommand(ControllerButton::None, KeyBoardAndMouseButton::ButtonC, WayKeyBoardButton::buttonDown, changeTexture);
 
 	//printing controls:
-	std::cout << "Controls: \n\n";
-	std::cout << "Player1: \n";
-	std::cout << "PlaySound:        Xbox Controller: A,	    Playstation: Cross \n";
-	std::cout << "Color change:     Xbox Controller: B,	    Playstation: Circle \n";
-	std::cout << "Defeating coily:  Xbox Controller: X,	    Playstation: Square \n";
-	std::cout << "CaughtSlickOrSam: Xbox Controller: Y,	    Playstation: Triangle \n";
-	std::cout << "Remaining disks:  Xbox Controller: Start,   Playstation: Options \n\n";
-	
-	std::cout << "Player2: Arrow = dpad on controller \n";
-	std::cout << "Kill:             Xbox Controller: ArrowDown,  Playstation: ArrowDown \n";
-	std::cout << "Color change:     Xbox Controller: ArrowLeft,  Playstation: ArrowLeft \n";
-	std::cout << "Defeating coily:  Xbox Controller: ArrowRight, Playstation: ArrowRight \n";
-	std::cout << "CaughtSlickOrSam: Xbox Controller: ArrowUp,    Playstation: ArrowUp \n";
-	std::cout << "Remaining disks:  Xbox Controller: Back,       Playstation: Share \n\n";
+	//std::cout << "Controls: \n\n";
+	//std::cout << "Player1: \n";
+	//std::cout << "PlaySound:        Xbox Controller: A,	    Playstation: Cross \n";
+	//std::cout << "Color change:     Xbox Controller: B,	    Playstation: Circle \n";
+	//std::cout << "Defeating coily:  Xbox Controller: X,	    Playstation: Square \n";
+	//std::cout << "CaughtSlickOrSam: Xbox Controller: Y,	    Playstation: Triangle \n";
+	//std::cout << "Remaining disks:  Xbox Controller: Start,   Playstation: Options \n\n";
+	//
+	//std::cout << "Player2: Arrow = dpad on controller \n";
+	//std::cout << "Kill:             Xbox Controller: ArrowDown,  Playstation: ArrowDown \n";
+	//std::cout << "Color change:     Xbox Controller: ArrowLeft,  Playstation: ArrowLeft \n";
+	//std::cout << "Defeating coily:  Xbox Controller: ArrowRight, Playstation: ArrowRight \n";
+	//std::cout << "CaughtSlickOrSam: Xbox Controller: ArrowUp,    Playstation: ArrowUp \n";
+	//std::cout << "Remaining disks:  Xbox Controller: Back,       Playstation: Share \n\n";
 }
 
 void dae::Minigin::Cleanup()

@@ -12,7 +12,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Render() const = 0;
 
-	FieldDataPlayer GetFieldData()const;
+	FieldDataPlayer GetFieldDataPlayer()const;
 	void SetFieldData(FieldDataPlayer data);
 	bool GetCanMove();
 	void ResetCurrentTime();

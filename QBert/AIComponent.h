@@ -4,27 +4,32 @@
 #include <iostream>
 #include "CommandQbert.h"
 #include "ControlComponent.h"
+#include "PlayingField.h"
 class AIComponent : public ControlComponent
 {
 public:
-	AIComponent(std::shared_ptr<dae::GameObject> pObject,std::vector<FieldData>& field);
+	//AIComponent(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field);
+	AIComponent() = default;
 
-	void Update();
-	void Render() const {};
+	virtual void Update() = 0;
+	virtual void Render()const = 0;
 
 	//FieldDataPlayer GetFieldData()const;
 	//void SetFieldData(FieldDataPlayer data);
 	//bool GetCanMove();
-	~AIComponent();
+	void SetIsDead(bool isDead);
+	bool GetIsDead()const;
+	~AIComponent() = default;
 	AIComponent(const AIComponent& other) = delete;
 	AIComponent(AIComponent&& other) = delete;
 	AIComponent& operator=(const AIComponent& other) = delete;
 	AIComponent& operator=(AIComponent&& other) = delete;
 private:
+	bool m_IsDead = false;
 	//FieldDataPlayer m_QBertFieldData;
 	//float m_CurrentTime = 0.5f;
-	MoveLeftUpCommand* m_pCommandMoveLeftUp = nullptr;
-	MoveRightUpCommand* m_pCommandMoveRightUp = nullptr;
+/*	MoveLeftUpCommand* m_pCommandMoveLeftUp = nullptr;
+	MoveRightUpCommand* m_pCommandMoveRightUp = nullptr*/;
 
 };
 

@@ -5,9 +5,12 @@ dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Update()
 {
-	for (size_t i = 0; i < m_Components.size(); ++i)
+	if (m_IsActive)
 	{
-		m_Components[i]->Update();
+		for (size_t i = 0; i < m_Components.size(); ++i)
+		{
+			m_Components[i]->Update();
+		}
 	}
 }
 
@@ -39,15 +42,19 @@ void dae::GameObject::RemoveComponent(std::shared_ptr<BaseComponent> component)
 
 void dae::GameObject::Render() const
 {
-	for (size_t i = 0; i < m_Components.size(); ++i)
+	if (m_IsActive)
 	{
-		m_Components[i]->Render();
+		for (size_t i = 0; i < m_Components.size(); ++i)
+		{
+			m_Components[i]->Render();
+		}
 	}
 }
 
 void dae::GameObject::SetPosition(float x, float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
+	std::cout << "pos set: " << x << " , " << y << std::endl;
 }
 
 void dae::GameObject::addComponent(std::shared_ptr<BaseComponent> component)

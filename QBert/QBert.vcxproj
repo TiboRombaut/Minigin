@@ -178,16 +178,28 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="AIComponent.cpp" />
     <ClCompile Include="CommandQbert.cpp" />
     <ClCompile Include="ControlComponent.cpp" />
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="PlayingField.cpp" />
     <ClCompile Include="QBert.cpp" />
     <ClCompile Include="QBertComponent.cpp" />
+    <ClCompile Include="QBertObserver.cpp" />
+    <ClCompile Include="SlickAndSam.cpp" />
+    <ClCompile Include="SlickAndSamAIComponent.cpp" />
     <ClCompile Include="Structs.cpp" />
+    <ClCompile Include="UggAndWrongway.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
     <ClInclude Include="CommandQbert.h" />
     <ClInclude Include="ControlComponent.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="PlayingField.h" />
     <ClInclude Include="QBertComponent.h" />
+    <ClInclude Include="QBertObserver.h" />
+    <ClInclude Include="SlickAndSam.h" />
+    <ClInclude Include="SlickAndSamAIComponent.h" />
     <ClInclude Include="Structs.h" />
+    <ClInclude Include="UggAndWrongway.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
