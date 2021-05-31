@@ -19,28 +19,49 @@ public:
 	FieldData GetPlayerFieldDataLast()const;
 	FieldData GetFieldDataLeftBottom()const;
 
+	bool ChangeTileColor(int whatTile, bool isQBert);
+
 	std::string GetFirstTileName()const
 	{
-		return "../Data/BackGroundTileRed.png";
+		return m_FirstTileName;
 	}
 	std::string GetSecondTileName()const
 	{
-		return "../Data/BackGroundTileYellow.png";
+		return m_SecondTileName;
 	}
 	std::string GetThirthTileName()const
 	{
-		return "../Data/BackGroundTileBlue.png";
+		return m_ThirthTileName;
 	}
 	//FieldDataPlayer GetFieldData()const;
 	//void SetFieldData(FieldDataPlayer data);
 	//bool GetCanMove();
+
+	bool GetLevelIsResetted()const;
+	bool GetColorWheelsRemaining()const;
+	void SetLevelIsResetted(bool resetLevel);
+	void ResetColorWheelsRemaining();
+
 	~PlayingField() = default;
 	PlayingField(const PlayingField& other) = delete;
 	PlayingField(PlayingField&& other) = delete;
 	PlayingField& operator=(const PlayingField& other) = delete;
 	PlayingField& operator=(PlayingField&& other) = delete;
 private:
+	bool ChangeTileLevel1(int whatTile, int isQBert);
+	bool ChangeTileLevel2(int whatTile, int isQBert);
+	bool ChangeTileLevel3(int whatTile, int isQBert);
+	bool LevelFinished(std::string goalName);
+
+	void ResetLevel();
+
+	bool m_LevelIsResetted = false;
 	std::vector<FieldData> m_Field;
 	int m_BottomLeftIndex = 0;
+	int m_CurrentLevel = 1;
+	int m_ColorWheelsRemaining = 0;
+	std::string m_FirstTileName = "../Data/BackGroundTileRed.png";
+	std::string m_SecondTileName = "../Data/BackGroundTileYellow.png";
+	std::string m_ThirthTileName = "../Data/BackGroundTileBlue.png";
 };
 

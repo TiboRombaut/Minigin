@@ -209,6 +209,25 @@ void Level::Update()
 {
 	m_CurrentRespawnTimer += GameTime::GetInstance().GetDeltaTime();
 
+	if (m_PlayingField->GetLevelIsResetted())
+	{
+		for (size_t i = 0; i < m_pEnemies.size(); ++i)
+		{
+			m_pEnemies[i]->GetGameObject()->SetIsActive(false);
+		}
+		m_CurrentRespawnTimer = 0.0f;
+		auto fieldData = m_pQBert->GetFieldDataPlayer();
+
+		m_pQBert->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
+		fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
+		fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
+		m_pQBert->SetFieldData(fieldData);
+		m_pQBert->ResetCurrentTime();
+		m_PlayingField->SetLevelIsResetted(false);
+		m_pQBert->GetGameObject()->GetComponent<dae::ScoreComponent>()->AddScore(m_PlayingField->GetColorWheelsRemaining() * 50);
+		m_PlayingField->ResetColorWheelsRemaining();
+	}
+
 	if (m_CurrentRespawnTimer > m_MaxRespawnTimer)
 	{
 		int whatCharacter = rand() % 2;

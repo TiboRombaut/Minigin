@@ -57,24 +57,37 @@ void MoveLeftDownCommand::Execute()
 				comp->SetFieldData(fieldData);
 				comp->ResetCurrentTime();
 
-				if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				if (hasQbertComp)
 				{
-					m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
-					//also give points
-					int value{ 25 };
-					getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
-				}
-				else if(comp->GetGameObject()->HasComponent<SlickAndSam>())
-				{
-					if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetSecondTileName())
+					if (m_Field->ChangeTileColor(i, true))
 					{
-						m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetFirstTileName());
-					}
-					else if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetThirthTileName())
-					{
-						m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetSecondTileName());
+						int value{ 25 };
+						getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
 					}
 				}
+				else if (comp->GetGameObject()->HasComponent<SlickAndSam>())
+				{
+					m_Field->ChangeTileColor(i, false);
+				}
+
+				//if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				//{
+				//	m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
+				//	//also give points
+				//	int value{ 25 };
+				//	getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
+				//}
+				//else if(comp->GetGameObject()->HasComponent<SlickAndSam>())
+				//{
+				//	if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetSecondTileName())
+				//	{
+				//		m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetFirstTileName());
+				//	}
+				//	else if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetThirthTileName())
+				//	{
+				//		m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetSecondTileName());
+				//	}
+				//}
 				return;
 			}
 			else
@@ -141,24 +154,37 @@ void MoveRightDownCommand::Execute()
 				comp->ResetCurrentTime();
 
 				//changing tile Logic
-				if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				if (hasQbertComp)
 				{
-					m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
-					//also give points
-					int value{ 25 };
-					getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
+					if (m_Field->ChangeTileColor(i, true))
+					{
+						int value{ 25 };
+						getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
+					}
 				}
 				else if (comp->GetGameObject()->HasComponent<SlickAndSam>())
 				{
-					if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetSecondTileName())
-					{
-						m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetFirstTileName());
-					}
-					else if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetThirthTileName())
-					{
-						m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetSecondTileName());
-					}
+					m_Field->ChangeTileColor(i, false);
 				}
+				
+				//if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				//{
+				//	m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
+				//	//also give points
+				//	int value{ 25 };
+				//	getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
+				//}
+				//else if (comp->GetGameObject()->HasComponent<SlickAndSam>())
+				//{
+				//	if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetSecondTileName())
+				//	{
+				//		m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetFirstTileName());
+				//	}
+				//	else if (m_Field->GetField()[i].TextureComponent->GetFileName() == m_Field->GetThirthTileName())
+				//	{
+				//		m_Field->GetField()[i].TextureComponent->SetTexture(m_Field->GetSecondTileName());
+				//	}
+				//}
 				return;
 			}
 			else
@@ -226,13 +252,26 @@ void MoveLeftUpCommand::Execute()
 				comp->SetFieldData(fieldData);
 				comp->ResetCurrentTime();
 
-				if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				if (hasQbertComp)
 				{
-					m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
-					//also give points
-					int value{ 25 };
-					getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
-				}				
+					if (m_Field->ChangeTileColor(i, true))
+					{
+						int value{ 25 };
+						getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
+					}
+				}
+				else if (comp->GetGameObject()->HasComponent<SlickAndSam>())
+				{
+					m_Field->ChangeTileColor(i, false);
+				}
+
+				//if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				//{
+				//	m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
+				//	//also give points
+				//	int value{ 25 };
+				//	getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
+				//}				
 				return;
 			}
 			else
@@ -306,13 +345,25 @@ void MoveRightUpCommand::Execute()
 				fieldData.Row = m_Field->GetField()[i].Row;
 				comp->SetFieldData(fieldData);
 				comp->ResetCurrentTime();
-				if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				//if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
+				//{
+				//	m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
+				//	//also give points
+				//	int value{ 25 };
+				//	getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
+				//}		
+				if (hasQbertComp)
 				{
-					m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
-					//also give points
-					int value{ 25 };
-					getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
-				}			
+					if (m_Field->ChangeTileColor(i, true))
+					{
+						int value{ 25 };
+						getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
+					}
+				}
+				else if (comp->GetGameObject()->HasComponent<SlickAndSam>())
+				{
+					m_Field->ChangeTileColor(i, false);
+				}
 				return;
 			}
 			else

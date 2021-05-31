@@ -50,7 +50,7 @@ PlayingField::PlayingField(float widthStartPos, float HeightStartPos, std::share
 			}
 
 			std::shared_ptr<dae::TextureComponent> componentTexture{ std::make_shared<dae::TextureComponent>() };
-			componentTexture->SetTexture("BackGroundTileRed.png");
+			componentTexture->SetTexture("../Data/BackGroundTileRed.png");
 			if (row == 0)
 			{
 				textureWidth = float(componentTexture->GetWidth());
@@ -81,6 +81,161 @@ std::vector<FieldData> PlayingField::GetField()const
 	return m_Field;
 }
 
+bool  PlayingField::ChangeTileLevel1(int whatTile, int isQBert)
+{
+	if (m_Field[whatTile].TextureComponent->GetFileName() == m_FirstTileName && isQBert)
+	{
+		m_Field[whatTile].TextureComponent->SetTexture(m_SecondTileName);
+		return true;
+	}
+	else if (!isQBert)
+	{
+		if (m_Field[whatTile].TextureComponent->GetFileName() == m_SecondTileName)
+		{
+			m_Field[whatTile].TextureComponent->SetTexture(m_FirstTileName);
+		}
+		else if (m_Field[whatTile].TextureComponent->GetFileName() == m_ThirthTileName)
+		{
+			m_Field[whatTile].TextureComponent->SetTexture(m_SecondTileName);
+		}
+		return false;
+	}
+	return false;
+}
+
+bool  PlayingField::ChangeTileLevel2(int whatTile, int isQBert)
+{
+	if (m_Field[whatTile].TextureComponent->GetFileName() == m_FirstTileName  && isQBert)
+	{
+		m_Field[whatTile].TextureComponent->SetTexture(m_SecondTileName);
+		return true;
+	}
+	else if (m_Field[whatTile].TextureComponent->GetFileName() == m_SecondTileName && isQBert)
+	{
+		m_Field[whatTile].TextureComponent->SetTexture(m_ThirthTileName);
+		return true;
+	}
+	else if (!isQBert)
+	{
+		if (m_Field[whatTile].TextureComponent->GetFileName() == m_SecondTileName)
+		{
+			m_Field[whatTile].TextureComponent->SetTexture(m_FirstTileName);
+		}
+		else if (m_Field[whatTile].TextureComponent->GetFileName() == m_ThirthTileName)
+		{
+			m_Field[whatTile].TextureComponent->SetTexture(m_SecondTileName);
+		}
+		return false;
+	}
+	return false;
+}
+
+bool  PlayingField::ChangeTileLevel3(int whatTile, int isQBert)
+{
+	if (m_Field[whatTile].TextureComponent->GetFileName() == m_FirstTileName && isQBert)
+	{
+		m_Field[whatTile].TextureComponent->SetTexture(m_SecondTileName);
+		return true;
+	}
+	else if (m_Field[whatTile].TextureComponent->GetFileName() == m_SecondTileName && isQBert)
+	{
+		m_Field[whatTile].TextureComponent->SetTexture(m_FirstTileName);
+		return false;
+	}
+	else if (!isQBert)
+	{
+		if (m_Field[whatTile].TextureComponent->GetFileName() == m_SecondTileName)
+		{
+			m_Field[whatTile].TextureComponent->SetTexture(m_FirstTileName);
+		}
+		else if (m_Field[whatTile].TextureComponent->GetFileName() == m_ThirthTileName)
+		{
+			m_Field[whatTile].TextureComponent->SetTexture(m_SecondTileName);
+		}
+		return false;
+	}
+	return false;
+}
+
+bool PlayingField::ChangeTileColor(int whatTile, bool isQBert)
+{
+	bool result{ false };
+	switch (m_CurrentLevel)
+	{
+	case 1:
+		result = ChangeTileLevel1(whatTile, isQBert);
+		LevelFinished(m_SecondTileName);
+		return result;
+		break;
+	case 2:
+		result = ChangeTileLevel2(whatTile, isQBert);
+		LevelFinished(m_ThirthTileName);
+		return result;
+		break;
+	case 3:
+		result = ChangeTileLevel3(whatTile, isQBert);
+		LevelFinished(m_SecondTileName);
+		return result;
+		break;
+	}
+	return false;
+}
+
+bool PlayingField::GetLevelIsResetted()const
+{
+	return m_LevelIsResetted;
+}
+
+void PlayingField::SetLevelIsResetted(bool resetLevel)
+{
+	m_LevelIsResetted = resetLevel;
+}
+
+bool PlayingField::GetColorWheelsRemaining()const
+{
+	return m_ColorWheelsRemaining;
+}
+
+void PlayingField::ResetColorWheelsRemaining()
+{
+	m_ColorWheelsRemaining = 0;
+}
+
+void PlayingField::ResetLevel()
+{
+	for (size_t i = 0; i < m_Field.size(); ++i)
+	{
+		//respawn colorwheels insert save there positions
+		if (m_Field[i].TextureComponent->GetFileName() != "ColorWheel.png")
+		{
+			m_Field[i].TextureComponent->SetTexture(m_FirstTileName);
+		}
+	}
+	m_LevelIsResetted = true;
+}
+
+bool PlayingField::LevelFinished(std::string goalName)
+{
+	for (size_t i = 0; i < m_Field.size(); ++i)
+	{
+		if (m_Field[i].TextureComponent->GetFileName() != "ColorWheel.png")
+		{
+			if (m_Field[i].TextureComponent->GetFileName() != goalName)
+			{
+				return false;
+			}
+		}
+		else
+		{
+			m_ColorWheelsRemaining++;
+		}
+	}
+	ResetLevel();
+	m_CurrentLevel++;
+	return true;
+}
+
+
 FieldData PlayingField::GetPlayerFieldDataFirst()const
 {
 	//return FieldDataPlayer{ m_Field[0].Row,m_Field[0].Column };
@@ -98,10 +253,6 @@ FieldData PlayingField::GetFieldDataLeftBottom()const
 	//return FieldDataPlayer{ m_Field[0].Row,m_Field[0].Column };
 	return m_Field[m_BottomLeftIndex];
 }
-//void PlayingField::Render()const
-//{
-//
-//}
 
 void PlayingField::Update()
 {
