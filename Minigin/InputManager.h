@@ -115,6 +115,8 @@ namespace dae
 		bool HandleKeyBoard();
 		void AddCommand(const ControllerButton button, const KeyBoardAndMouseButton& whichKeyBoardButton, const WayKeyBoardButton& whichKeyBoardButtonWay, Command* pCommand);
 		void ExecuteCommand(const size_t index);
+		static glm::vec2 GetMousePos();
+		void EndGame() { m_StopGame = true; };
 	private:
 
 		XINPUT_STATE m_CurrentState{};
@@ -122,5 +124,6 @@ namespace dae
 		SDL_Event m_SDLEvent{};
 
 		std::vector<ButtonCommand> m_CommandButton = {};
+		bool m_StopGame = false;
 	};
 }

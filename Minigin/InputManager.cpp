@@ -50,6 +50,10 @@ void dae::InputManager::ExecuteCommand(const size_t index)
 
 bool dae::InputManager::HandleKeyBoard()
 {
+	if (m_StopGame)
+	{
+		return false;
+	}
 	while (SDL_PollEvent(&m_SDLEvent)) {
 		if (m_SDLEvent.type == SDL_QUIT)
 		{
@@ -107,4 +111,13 @@ bool dae::InputManager::IsPressed(const ControllerButton& button)
 		return true;
 	}
 	return false;
+}
+
+glm::vec2 dae::InputManager::GetMousePos()
+{
+	int* x = new int(0);
+	int* y = new int(0);
+
+	SDL_GetMouseState(x,y);	
+	return  glm::vec2(*x, *y);
 }

@@ -21,6 +21,7 @@ void UggAndWrongway::Update()
 
 	if (GetCanMove())
 	{
+		//std::cout << "move ugg and wrongway"
 		if (m_QBertFieldData.Row == 0 && m_QBertFieldData.Column == 0)
 		{
 			GetGameObject()->SetIsActive(false);

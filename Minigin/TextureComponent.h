@@ -26,6 +26,8 @@ namespace dae {
 		int GetWidth()const;
 		int GetHeight()const;
 		std::string GetFileName()const;
+
+		dae::Transform GetTransform()const { return m_Transform; };
 	private:
 		dae::Transform m_Transform;
 		std::shared_ptr<dae::Texture2D> m_Texture{};

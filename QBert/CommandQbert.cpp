@@ -5,6 +5,8 @@
 #include "ScoreComponent.h"
 #include <iostream>
 #include "SlickAndSam.h"
+#include "GameTime.h"
+#include <InputManager.h>
 MoveLeftDownCommand::MoveLeftDownCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath)
 	:Command(pObject)
 	, m_Field(field)
@@ -373,3 +375,87 @@ void MoveRightUpCommand::Execute()
 		}
 	}
 };
+
+MouseClickMainMenuCommand::MouseClickMainMenuCommand(InWhatButtonMainMenu& clickHappened)
+	:Command(nullptr)
+	, m_InWhatButton(clickHappened)
+{
+
+}
+void MouseClickMainMenuCommand::Execute()
+{
+	switch (m_InWhatButton)
+	{
+	case InWhatButtonMainMenu::Solo:
+		//start solo game
+		std::cout << "start solo";
+		break;
+	case InWhatButtonMainMenu::Coop:
+		//start coop game
+		std::cout << "start coop";
+		break;
+	case InWhatButtonMainMenu::Vs:
+		//start vs game
+		std::cout << "start vs";
+		break;
+	case InWhatButtonMainMenu::None:
+		break;
+	default:
+		break;
+	}
+}
+
+MouseClickGameMenus::MouseClickGameMenus(InWhatButtonGameMenu& clickHappened, std::shared_ptr<Menus> menus)
+	:Command(nullptr)
+	, m_InWhatButton(clickHappened)
+	,m_Menus(menus)
+{
+
+}
+void MouseClickGameMenus::Execute()
+{
+	switch (m_InWhatButton)
+	{
+	case InWhatButtonGameMenu::Play:
+		//start solo game
+		if (m_Menus->GetGameObject()->GetIsActive())
+		{
+			m_Menus->SetPauseScreenInActive();
+			m_Menus->GetGameObject()->SetIsActive(false);
+			GameTime::GetInstance().SetPaused(false);
+		}
+
+		break;
+	case InWhatButtonGameMenu::Exit:
+		//start coop game
+		dae::InputManager::GetInstance().EndGame();
+		break;
+	case InWhatButtonGameMenu::None:
+		break;
+	default:
+		break;
+	}
+}
+
+PauseMenuCommand::PauseMenuCommand(std::shared_ptr<Menus> menus)
+	:Command(nullptr)
+	, m_Menus(menus)
+{
+
+}
+void PauseMenuCommand::Execute()
+{
+	auto menuGameObject = m_Menus->GetGameObject();
+	if (menuGameObject->GetIsActive())
+	{
+		m_Menus->SetPauseScreenInActive();
+		menuGameObject->SetIsActive(false);
+		GameTime::GetInstance().SetPaused(false);
+	}
+	else
+	{
+		m_Menus->SetPauseScreenActive();
+		menuGameObject->SetIsActive(true);
+		GameTime::GetInstance().SetPaused(true);
+	}
+}

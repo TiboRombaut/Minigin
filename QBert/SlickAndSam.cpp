@@ -20,6 +20,7 @@ void SlickAndSam::Update()
 
 	if (GetCanMove())
 	{
+		std::cout << "moveCharacter";
 		if (m_QBertFieldData.Row == 6)
 		{
 			GetGameObject()->SetIsActive(false);

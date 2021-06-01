@@ -4,6 +4,7 @@
 #include "QBertComponent.h"
 #include "AIComponent.h"
 #include "PlayingField.h"
+#include "Menus.h"
 class Level : public dae::BaseComponent
 {
 public:
@@ -21,6 +22,7 @@ public:
 	Level& operator=(Level&& other) = delete;
 private:
 	int m_CurrentLevel = 1;
+	std::shared_ptr<Menus> m_pMenusComp;
 	std::vector<std::shared_ptr<AIComponent>> m_pEnemies;
 	std::shared_ptr<QBertComponent> m_pQBert;
 	std::shared_ptr<PlayingField> m_PlayingField;

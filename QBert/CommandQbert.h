@@ -4,6 +4,8 @@
 #include <string>
 #include "PlayingField.h"
 #include <memory>
+#include "Enums.h"
+#include "Menus.h"
 //
 //class CommandQbert
 //{
@@ -49,4 +51,32 @@ public:
 private:
     std::shared_ptr<PlayingField> m_Field;
     std::string m_FileNameBackgroundTile;
+};
+
+class MouseClickMainMenuCommand : public Command
+{
+public:
+    MouseClickMainMenuCommand(InWhatButtonMainMenu& clickHappened);
+    void Execute() override;
+private:
+    InWhatButtonMainMenu& m_InWhatButton;
+};
+
+class MouseClickGameMenus : public Command
+{
+public:
+    MouseClickGameMenus(InWhatButtonGameMenu& clickHappened, std::shared_ptr<Menus> menus);
+    void Execute() override;
+private:
+    InWhatButtonGameMenu& m_InWhatButton;
+    std::shared_ptr<Menus> m_Menus;
+};
+
+class PauseMenuCommand : public Command
+{
+public:
+    PauseMenuCommand(std::shared_ptr<Menus> menus);
+    void Execute() override;
+private:
+    std::shared_ptr<Menus> m_Menus;
 };

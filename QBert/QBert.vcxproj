@@ -179,6 +179,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="CommandQbert.cpp" />
     <ClCompile Include="ControlComponent.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="MainMenuScene.cpp" />
+    <ClCompile Include="Menus.cpp" />
     <ClCompile Include="PlayingField.cpp" />
     <ClCompile Include="QBert.cpp" />
     <ClCompile Include="QBertComponent.cpp" />
@@ -192,7 +194,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="AIComponent.h" />
     <ClInclude Include="CommandQbert.h" />
     <ClInclude Include="ControlComponent.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="MainMenuScene.h" />
+    <ClInclude Include="Menus.h" />
     <ClInclude Include="PlayingField.h" />
     <ClInclude Include="QBertComponent.h" />
     <ClInclude Include="QBertObserver.h" />

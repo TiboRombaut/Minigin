@@ -19,6 +19,7 @@
 #include "GameTime.h"
 #include "UggAndWrongway.h"
 #include "SlickAndSam.h"
+#include "glm/vec2.hpp"
 using namespace dae;
 Level::Level()
 {
@@ -97,6 +98,8 @@ void Level::LoadGame(dae::Scene& currentScene)
 	qBert->addComponent(playerIndexComponent);
 	qBert->addComponent(healtComponent);
 	currentScene.Add(qBert);
+	//qBert->SetIsActive(false);
+
 
 	renderer.InitPlayer(playerIndexComponent->GetIndexPlayer(), healtComponent->GetRemainingLives(), scoreComponent->GetScore());
 
@@ -117,6 +120,7 @@ void Level::LoadGame(dae::Scene& currentScene)
 	componentUggData->SetFieldData(UggFieldData);
 	UggComponent->addComponent(componentUggData);
 	currentScene.Add(UggComponent);
+	UggComponent->SetIsActive(false);
 	m_pEnemies.push_back(componentUggData);
 
 	//slick/sam
@@ -165,15 +169,54 @@ void Level::LoadGame(dae::Scene& currentScene)
 	//CatchingSlickOrSam* caughtSlickOrSam2 = new CatchingSlickOrSam(qBert2);
 	//RemainingDisks* remainingDisks2 = new RemainingDisks(qBert2);
 //	//ChangeTextureCommand* changeTexture = new ChangeTextureCommand(go, component, "../Data/logo.png");
+
+	auto pauseScreen = std::make_shared<dae::GameObject>();
+	std::shared_ptr<dae::TextureComponent> pauseScreenComp = { std::make_shared<dae::TextureComponent>("PauseScreen.png") };
+	pauseScreenComp->SetPosition(150, 100);
+	pauseScreen->addComponent(pauseScreenComp);
+	currentScene.Add(pauseScreen);
+
+	auto deathScreen = std::make_shared<dae::GameObject>();
+	std::shared_ptr<dae::TextureComponent> deathScreenComp = { std::make_shared<dae::TextureComponent>("DeadScreen.png") };
+	deathScreenComp->SetPosition(150, 100);
+	deathScreen->addComponent(deathScreenComp);
+	currentScene.Add(deathScreen);
+
+	auto playButton = std::make_shared<dae::GameObject>();
+	std::shared_ptr<dae::TextureComponent> playButtonComp = { std::make_shared<dae::TextureComponent>("Solo.png") };
+	playButtonComp->SetPosition(250, 200);
+	playButton->addComponent(playButtonComp);
+	currentScene.Add(playButton);
+
+	auto exitButton = std::make_shared<dae::GameObject>();
+	std::shared_ptr<dae::TextureComponent> exitButtonComp = { std::make_shared<dae::TextureComponent>("Vs.png") };
+	exitButtonComp->SetPosition(250, 250);
+	exitButton->addComponent(exitButtonComp);
+	currentScene.Add(exitButton);
+
+
+	auto menu = std::make_shared<dae::GameObject>();
+	m_pMenusComp = { std::make_shared<Menus>(playButtonComp,exitButtonComp,pauseScreenComp,deathScreenComp) };
+	menu->addComponent(m_pMenusComp);
+	currentScene.Add(menu);
+	m_pMenusComp->SetPauseScreenInActive();
+	menu->SetIsActive(false);
+
 	MoveLeftDownCommand* moveLeft = new MoveLeftDownCommand(qBert, componentplayingField, "../Data/BackGroundTileYellow.png");
 	MoveRightDownCommand* moveRight = new MoveRightDownCommand(qBert, componentplayingField, "../Data/BackGroundTileYellow.png");
 	MoveLeftUpCommand* moveLeftUp = new MoveLeftUpCommand(qBert, componentplayingField, "../Data/BackGroundTileYellow.png");
 	MoveRightUpCommand* moveRightUp = new MoveRightUpCommand(qBert, componentplayingField, "../Data/BackGroundTileYellow.png");
+	PauseMenuCommand* pauseMenu = new PauseMenuCommand(m_pMenusComp);
+	MouseClickGameMenus* mouseClick = new MouseClickGameMenus(m_pMenusComp->GetInWhatButtonGameMenu(), m_pMenusComp);
+
 	//	qBertComponent
-	input.AddCommand(ControllerButton::ButtonX, KeyBoardAndMouseButton::ButtonA, WayKeyBoardButton::buttonDown, moveLeft);
-	input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonD, WayKeyBoardButton::buttonDown, moveRight);
-	input.AddCommand(ControllerButton::ButtonY, KeyBoardAndMouseButton::ButtonQ, WayKeyBoardButton::buttonDown, moveLeftUp);
-	input.AddCommand(ControllerButton::ButtonB, KeyBoardAndMouseButton::ButtonE, WayKeyBoardButton::buttonDown, moveRightUp);
+	input.AddCommand(ControllerButton::LeftDpad, KeyBoardAndMouseButton::ButtonA, WayKeyBoardButton::buttonDown, moveLeft);
+	input.AddCommand(ControllerButton::DownDpad, KeyBoardAndMouseButton::ButtonD, WayKeyBoardButton::buttonDown, moveRight);
+	input.AddCommand(ControllerButton::UpDpad, KeyBoardAndMouseButton::ButtonQ, WayKeyBoardButton::buttonDown, moveLeftUp);
+	input.AddCommand(ControllerButton::RightDpad, KeyBoardAndMouseButton::ButtonE, WayKeyBoardButton::buttonDown, moveRightUp);
+	input.AddCommand(ControllerButton::Start, KeyBoardAndMouseButton::ButtonW, WayKeyBoardButton::buttonDown, pauseMenu);
+	input.AddCommand(dae::ControllerButton::None, dae::KeyBoardAndMouseButton::MouseButtonLeft, dae::WayKeyBoardButton::MouseButtonDown, mouseClick);
+
 	//input.AddCommand(ControllerButton::RightBump,KeyBoardAndMouseButton::MouseButtonRight, WayKeyBoardButton::MouseButtonUp,playSound);
 	//input.AddCommand(ControllerButton::LeftBump, KeyBoardAndMouseButton::MouseButtonMiddle, WayKeyBoardButton::MouseButtonDown, muteSound);
 	//input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonS, WayKeyBoardButton::buttonUp, kill);
@@ -207,6 +250,7 @@ void Level::LoadGame(dae::Scene& currentScene)
 
 void Level::Update()
 {
+
 	m_CurrentRespawnTimer += GameTime::GetInstance().GetDeltaTime();
 
 	if (m_PlayingField->GetLevelIsResetted())
@@ -314,6 +358,14 @@ void Level::Update()
 					m_pQBert->SetFieldData(fieldData);
 					m_pQBert->ResetCurrentTime();
 					m_pEnemies[i]->GetGameObject()->SetIsActive(false);
+
+					if (m_pQBert->GetGameObject()->GetComponent<dae::HealthComponent>()->GetRemainingLives() <= 0)
+					{
+						//you die
+						m_pMenusComp->GetGameObject()->SetIsActive(true);
+						m_pMenusComp->SetDeathScreenActive();
+						GameTime::GetInstance().SetPaused(true);
+					}
 				}
 			}
 		}
