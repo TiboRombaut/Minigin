@@ -18,15 +18,7 @@ void LoadGame()
 	objMenu->addComponent(menu);
 	sceneMenu.Add(objMenu);
 
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Level");
 
-	std::shared_ptr<dae::GameObject> obj = std::make_shared<dae::GameObject>();
-	std::shared_ptr<Level> level = std::make_shared<Level>();
-	level->LoadGame(scene);
-	obj->addComponent(level);
-	scene.Add(obj);
-
-	dae::SceneManager::GetInstance().SetActiveScene("Level");
 }
 
 int main()

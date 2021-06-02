@@ -7,6 +7,12 @@
 #include "SlickAndSam.h"
 #include "GameTime.h"
 #include <InputManager.h>
+#include "Level.h"
+#include <memory>
+#include "SceneManager.h"
+#include "Scene.h"
+#include "Coily.h"
+
 MoveLeftDownCommand::MoveLeftDownCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath)
 	:Command(pObject)
 	, m_Field(field)
@@ -17,6 +23,14 @@ MoveLeftDownCommand::MoveLeftDownCommand(std::shared_ptr<dae::GameObject> pObjec
 
 void MoveLeftDownCommand::Execute()
 {
+	//if (getActor()->HasComponent<Coily>())
+	//{
+	//	if (!getActor()->GetComponent<Coily>()->HasReachedBottom())
+	//	{
+	//		return;
+	//	}
+	//}
+
 	bool hasQbertComp = false;
 	ControlComponent* comp = nullptr;
 	if (getActor()->HasComponent<QBertComponent>())
@@ -110,6 +124,14 @@ MoveRightDownCommand::MoveRightDownCommand(std::shared_ptr<dae::GameObject> pObj
 
 void MoveRightDownCommand::Execute()
 {
+	//if (getActor()->HasComponent<Coily>())
+	//{
+	//	if (!getActor()->GetComponent<Coily>()->HasReachedBottom())
+	//	{
+	//		return;
+	//	}
+	//}
+
 	bool hasQbertComp = false;
 	ControlComponent* comp = nullptr;
 	if (getActor()->HasComponent<QBertComponent>())
@@ -125,6 +147,7 @@ void MoveRightDownCommand::Execute()
 	{
 		return;
 	}	
+
 	auto fieldData = comp->GetFieldDataPlayer();
 
 	for (size_t i = 0; i < m_Field->GetField().size(); i++)
@@ -212,6 +235,14 @@ MoveLeftUpCommand::MoveLeftUpCommand(std::shared_ptr<dae::GameObject> pObject, s
 }
 void MoveLeftUpCommand::Execute()
 {
+	//if (getActor()->HasComponent<Coily>())
+	//{
+	//	if (!getActor()->GetComponent<Coily>()->HasReachedBottom())
+	//	{
+	//		return;
+	//	}
+	//}
+
 	bool hasQbertComp = false;
 	ControlComponent* comp = nullptr;
 	if (getActor()->HasComponent<QBertComponent>())
@@ -302,6 +333,14 @@ MoveRightUpCommand::MoveRightUpCommand(std::shared_ptr<dae::GameObject> pObject,
 
 void MoveRightUpCommand::Execute()
 {
+	//if (getActor()->HasComponent<Coily>())
+	//{
+	//	if (!getActor()->GetComponent<Coily>()->HasReachedBottom())
+	//	{
+	//		return;
+	//	}
+	//}
+
 	bool hasQbertComp = false;
 	ControlComponent* comp = nullptr;
 	if (getActor()->HasComponent<QBertComponent>())
@@ -387,17 +426,47 @@ void MouseClickMainMenuCommand::Execute()
 	switch (m_InWhatButton)
 	{
 	case InWhatButtonMainMenu::Solo:
+	{
 		//start solo game
-		std::cout << "start solo";
+		auto& scene = dae::SceneManager::GetInstance().CreateScene("Solo");
+
+		std::shared_ptr<dae::GameObject> obj = std::make_shared<dae::GameObject>();
+		std::shared_ptr<Level> level = std::make_shared<Level>();
+		level->LoadGameSolo(scene);
+		obj->addComponent(level);
+		scene.Add(obj);
+
+		dae::SceneManager::GetInstance().SetActiveScene("Solo");
 		break;
+	}
 	case InWhatButtonMainMenu::Coop:
+	{
 		//start coop game
-		std::cout << "start coop";
+		auto& scene = dae::SceneManager::GetInstance().CreateScene("Coop");
+
+		std::shared_ptr<dae::GameObject> obj = std::make_shared<dae::GameObject>();
+		std::shared_ptr<Level> level = std::make_shared<Level>();
+		level->LoadGameCoop(scene);
+		obj->addComponent(level);
+		scene.Add(obj);
+
+		dae::SceneManager::GetInstance().SetActiveScene("Coop");
 		break;
+	}
 	case InWhatButtonMainMenu::Vs:
+	{
 		//start vs game
-		std::cout << "start vs";
+		auto& scene = dae::SceneManager::GetInstance().CreateScene("Vs");
+
+		std::shared_ptr<dae::GameObject> obj = std::make_shared<dae::GameObject>();
+		std::shared_ptr<Level> level = std::make_shared<Level>();
+		level->LoadGameVs(scene);
+		obj->addComponent(level);
+		scene.Add(obj);
+
+		dae::SceneManager::GetInstance().SetActiveScene("Vs");
 		break;
+	}
 	case InWhatButtonMainMenu::None:
 		break;
 	default:
