@@ -2,7 +2,9 @@
 #include <GameTime.h>
 #include <memory>
 #include <GameObject.h>
-SlickAndSam::SlickAndSam(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field)
+SlickAndSam::SlickAndSam(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, 
+	float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp)
+	:AIComponent(timeItTakesToMove,textureComp)
 {
 	m_pCommandMoveLeftDown = new MoveLeftDownCommand(pObject, field, "../Data/BackGroundTileYellow.png");
 	m_pCommandMoveRightDown = new MoveRightDownCommand(pObject, field, "../Data/BackGroundTileYellow.png");
@@ -17,6 +19,11 @@ SlickAndSam::~SlickAndSam()
 void SlickAndSam::Update()
 {
 	m_CurrentTime += GameTime::GetInstance().GetDeltaTime();
+
+	if (m_NeedsToMove)
+	{
+		UpdateMovement();
+	}
 
 	if (GetCanMove())
 	{

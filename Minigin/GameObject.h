@@ -14,10 +14,8 @@ namespace dae
 		void Render() const;
 
 		void SetPosition(float x, float y);
-	//	void AddComponent(BaseComponent* component);
 
 		void addComponent(std::shared_ptr<BaseComponent > component);
-		//void AddCommand(std::shared_ptr < Command> pCommand);
 
 		void RemoveComponent(std::shared_ptr<BaseComponent> component);
 

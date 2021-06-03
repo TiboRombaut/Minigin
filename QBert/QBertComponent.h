@@ -3,13 +3,17 @@
 #include "Structs.h"
 #include <iostream>
 #include "ControlComponent.h"
+#include <memory>
+#include <TextureComponent.h>
 class QBertComponent : public ControlComponent
 {
 public:
-	QBertComponent() = default;
+	QBertComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp);
 
 	void Update()override;
 	void Render() const override {};
+
+	void ColorWheelNeedsToMovetoTop(std::shared_ptr<dae::TextureComponent> textureColorWheel,glm::vec2 EndPos);
 
 	//FieldDataPlayer GetFieldData()const;
 	//void SetFieldData(FieldDataPlayer data);
@@ -19,8 +23,9 @@ public:
 	QBertComponent(QBertComponent&& other) = delete;
 	QBertComponent& operator=(const QBertComponent& other) = delete;
 	QBertComponent& operator=(QBertComponent&& other) = delete;
-//private :
-//	FieldDataPlayer m_QBertFieldData;
-//	float m_CurrentTime = 0.5f;
+private :
+	std::shared_ptr<dae::TextureComponent> m_ColorWheelPlatform;
+	bool m_PlatformNeedsToMove = false;
+	glm::vec2 m_TargetPosColorWheel;
 };
 

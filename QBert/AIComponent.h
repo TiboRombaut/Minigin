@@ -9,7 +9,7 @@ class AIComponent : public ControlComponent
 {
 public:
 	//AIComponent(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field);
-	AIComponent() = default;
+	explicit AIComponent(float timeItTakesToMove,  std::shared_ptr<dae::TextureComponent> textureComp);
 
 	virtual void Update() = 0;
 	virtual void Render()const = 0;

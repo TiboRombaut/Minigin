@@ -21,12 +21,23 @@ namespace dae
 			return m_pObject;
 		}
 
+		bool GetIsActiveComponent()const
+		{
+			return m_IsActive;
+		}
+
+		void SetIsActiveComponent(bool isActive)
+		{
+			m_IsActive = isActive;
+		}
+
 		virtual ~BaseComponent() = default;
 		BaseComponent(const BaseComponent& other) = delete;
 		BaseComponent(BaseComponent&& other) = delete;
 		BaseComponent& operator=(const BaseComponent& other) = delete;
 		BaseComponent& operator=(BaseComponent&& other) = delete;
 	protected:
+		bool m_IsActive = true;
 		GameObject* m_pObject = nullptr;
 	};
 }

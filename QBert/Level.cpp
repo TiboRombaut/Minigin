@@ -68,7 +68,7 @@ void Level::LoadGameSolo(dae::Scene& currentScene)
 	std::shared_ptr<TextureComponent> componentTextureQBert{ std::make_shared<TextureComponent>() };
 	componentTextureQBert->SetTexture("QBert.png");
 	componentTextureQBert->SetPosition(m_PlayingField->GetPlayerFieldDataLast().MiddlePosX, m_PlayingField->GetPlayerFieldDataLast().MiddlePosY);
-	std::shared_ptr<QBertComponent> componentQbertData{ std::make_shared<QBertComponent>() };
+	std::shared_ptr<QBertComponent> componentQbertData{ std::make_shared<QBertComponent>(0.5f,componentTextureQBert) };
 	m_pQBerts.push_back(componentQbertData);
 	qBert->addComponent(componentTextureQBert);
 	componentQbertData->SetFieldData(QBertFieldData);
@@ -99,12 +99,12 @@ void Level::LoadGameSolo(dae::Scene& currentScene)
 	std::shared_ptr<TextureComponent> componentTextureCoily{ std::make_shared<TextureComponent>() };
 	componentTextureCoily->SetTexture("CoilyEgg.png");
 	componentTextureCoily->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
-	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField) };
+	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField,m_pQBerts,1.0f,componentTextureCoily) };
 	coily->addComponent(componentTextureCoily);
 	componentCoilyData->SetFieldData(CoilyFieldData);
 	coily->addComponent(componentCoilyData);
 	currentScene.Add(coily);
-	//coily->SetIsActive(true);
+	coily->SetIsActive(true);
 	m_pEnemies.push_back(componentCoilyData);
 
 
@@ -152,7 +152,7 @@ void Level::LoadGameVs(dae::Scene& currentScene)
 	std::shared_ptr<TextureComponent> componentTextureQBert{ std::make_shared<TextureComponent>() };
 	componentTextureQBert->SetTexture("QBert.png");
 	componentTextureQBert->SetPosition(m_PlayingField->GetPlayerFieldDataLast().MiddlePosX, m_PlayingField->GetPlayerFieldDataLast().MiddlePosY);
-	std::shared_ptr<QBertComponent> componentQbertData{ std::make_shared<QBertComponent>() };
+	std::shared_ptr<QBertComponent> componentQbertData{ std::make_shared<QBertComponent>(0.5f,componentTextureQBert) };
 	m_pQBerts.push_back(componentQbertData);
 	qBert->addComponent(componentTextureQBert);
 	componentQbertData->SetFieldData(QBertFieldData);
@@ -183,7 +183,7 @@ void Level::LoadGameVs(dae::Scene& currentScene)
 	std::shared_ptr<TextureComponent> componentTextureCoily{ std::make_shared<TextureComponent>() };
 	componentTextureCoily->SetTexture("CoilyEgg.png");
 	componentTextureCoily->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
-	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField) };
+	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField,m_pQBerts,0.6f,componentTextureCoily) };
 	coily->addComponent(componentTextureCoily);
 	componentCoilyData->SetFieldData(CoilyFieldData);
 	coily->addComponent(componentCoilyData);
@@ -237,7 +237,7 @@ void Level::LoadGameCoop(dae::Scene& currentScene)
 	std::shared_ptr<TextureComponent> componentTextureQBert{ std::make_shared<TextureComponent>() };
 	componentTextureQBert->SetTexture("QBert.png");
 	componentTextureQBert->SetPosition(m_PlayingField->GetFieldDataLeftBottom().MiddlePosX, m_PlayingField->GetFieldDataLeftBottom().MiddlePosY);
-	std::shared_ptr<QBertComponent> componentQbertData{ std::make_shared<QBertComponent>() };
+	std::shared_ptr<QBertComponent> componentQbertData{ std::make_shared<QBertComponent>(0.5f,componentTextureQBert) };
 	m_pQBerts.push_back(componentQbertData);
 	qBert->addComponent(componentTextureQBert);
 	componentQbertData->SetFieldData(QBertFieldData);
@@ -288,7 +288,7 @@ void Level::LoadGameCoop(dae::Scene& currentScene)
 	std::shared_ptr<TextureComponent> componentTextureQBert2{ std::make_shared<TextureComponent>() };
 	componentTextureQBert2->SetTexture("QBert.png");
 	componentTextureQBert2->SetPosition(m_PlayingField->GetPlayerFieldDataLast().MiddlePosX, m_PlayingField->GetPlayerFieldDataLast().MiddlePosY);
-	std::shared_ptr<QBertComponent> componentQbertData2{ std::make_shared<QBertComponent>() };
+	std::shared_ptr<QBertComponent> componentQbertData2{ std::make_shared<QBertComponent>(0.5f,componentTextureQBert2) };
 	m_pQBerts.push_back(componentQbertData2);
 	qBert2->addComponent(componentTextureQBert2);
 	componentQbertData2->SetFieldData(QBertFieldData2);
@@ -346,7 +346,7 @@ void Level::LoadGame(dae::Scene& currentScene, std::shared_ptr<dae::Font> font)
 	std::shared_ptr<TextureComponent> componentTextureUgg{ std::make_shared<TextureComponent>() };
 	componentTextureUgg->SetTexture("EnemyUgg.png");
 	componentTextureUgg->SetPosition(componentplayingField->GetPlayerFieldDataLast().MiddlePosX, componentplayingField->GetPlayerFieldDataLast().MiddlePosY);
-	std::shared_ptr<UggAndWrongway> componentUggData{ std::make_shared<UggAndWrongway>(UggComponent ,componentplayingField) };
+	std::shared_ptr<UggAndWrongway> componentUggData{ std::make_shared<UggAndWrongway>(UggComponent ,componentplayingField,1.0f,componentTextureUgg) };
 	UggComponent->addComponent(componentTextureUgg);
 	componentUggData->SetFieldData(UggFieldData);
 	UggComponent->addComponent(componentUggData);
@@ -363,7 +363,7 @@ void Level::LoadGame(dae::Scene& currentScene, std::shared_ptr<dae::Font> font)
 	std::shared_ptr<TextureComponent> componentTextureSlick{ std::make_shared<TextureComponent>() };
 	componentTextureSlick->SetTexture("SamOrSlick.png");
 	componentTextureSlick->SetPosition(componentplayingField->GetPlayerFieldDataFirst().MiddlePosX, componentplayingField->GetPlayerFieldDataFirst().MiddlePosY);
-	std::shared_ptr<SlickAndSam> componentSlickData{ std::make_shared<SlickAndSam>(SlickGameObject ,componentplayingField) };
+	std::shared_ptr<SlickAndSam> componentSlickData{ std::make_shared<SlickAndSam>(SlickGameObject ,componentplayingField,1.0f,componentTextureSlick) };
 	SlickGameObject->addComponent(componentTextureSlick);
 	componentSlickData->SetFieldData(SlickFieldData);
 	SlickGameObject->addComponent(componentSlickData);
@@ -498,6 +498,7 @@ void Level::Update()
 			m_pQBerts[i]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
 			fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
 			fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
+			m_pQBerts[i]->SetThatHeIsAllowedtoMove(false);
 			m_pQBerts[i]->SetFieldData(fieldData);
 			m_pQBerts[i]->ResetCurrentTime();
 			m_pQBerts[i]->GetGameObject()->GetComponent<dae::ScoreComponent>()->AddScore(m_PlayingField->GetColorWheelsRemaining() * 50);
@@ -506,66 +507,77 @@ void Level::Update()
 		m_PlayingField->ResetColorWheelsRemaining();
 	}
 
-	if (m_CurrentRespawnTimer > m_MaxRespawnTimer)
-	{
-		int whatCharacter = rand() % 2;
-		std::cout << "character: " << whatCharacter << std::endl;
-		auto fieldData = m_pEnemies[whatCharacter]->GetFieldDataPlayer();
-		if (m_pEnemies[whatCharacter]->GetGameObject()->GetIsActive())
-		{
-			for (size_t i = 0; i < m_pEnemies.size(); ++i)
-			{
-				if (!m_pEnemies[i]->GetGameObject()->GetIsActive())
-				{
-					whatCharacter = i;
-					break;
-				}
-			}
-		}
-		m_pEnemies[whatCharacter]->GetGameObject()->SetIsActive(true);
+	//if (m_CurrentRespawnTimer > m_MaxRespawnTimer)
+	//{
+	//	int whatCharacter = rand() % 2;
+	//	std::cout << "character: " << whatCharacter << std::endl;
+	//	auto fieldData = m_pEnemies[whatCharacter]->GetFieldDataPlayer();
+	//	if (m_pEnemies[whatCharacter]->GetGameObject()->GetIsActive())
+	//	{
+	//		for (size_t i = 0; i < m_pEnemies.size(); ++i)
+	//		{
+	//			if (!m_pEnemies[i]->GetGameObject()->GetIsActive())
+	//			{
+	//				whatCharacter = i;
+	//				break;
+	//			}
+	//		}
+	//	}
+	//	m_pEnemies[whatCharacter]->GetGameObject()->SetIsActive(true);
 
-		if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<SlickAndSam>())
-		{
-			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
-			fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
-			fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
-			m_pEnemies[whatCharacter]->SetFieldData(fieldData);
-			m_pEnemies[whatCharacter]->ResetCurrentTime();
-		}
-		else if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<UggAndWrongway>())
-		{
-			//respawn logic
-			int whatMovement = rand() % 2;
-			switch (whatMovement)
-			{
-			case 0:
-				//move left
-				m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetFieldDataLeftBottom().MiddlePosX, m_PlayingField->GetFieldDataLeftBottom().MiddlePosY);
-				fieldData.Column = m_PlayingField->GetFieldDataLeftBottom().Column;
-				fieldData.Row = m_PlayingField->GetFieldDataLeftBottom().Row;
-				m_pEnemies[whatCharacter]->SetFieldData(fieldData);
-				m_pEnemies[whatCharacter]->ResetCurrentTime();
-				break;
-			case 1:
-				//move right
-				m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataLast().MiddlePosX, m_PlayingField->GetPlayerFieldDataLast().MiddlePosY);
-				fieldData.Column = m_PlayingField->GetPlayerFieldDataLast().Column;
-				fieldData.Row = m_PlayingField->GetPlayerFieldDataLast().Row;
-				m_pEnemies[whatCharacter]->SetFieldData(fieldData);
-				m_pEnemies[whatCharacter]->ResetCurrentTime();
-				break;
-			default:
-				//nothing
-				break;
-			}
-		}
+	//	if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<SlickAndSam>())
+	//	{
+	//		m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
+	//		fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
+	//		fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
+	//		m_pEnemies[whatCharacter]->SetFieldData(fieldData);
+	//		m_pEnemies[whatCharacter]->ResetCurrentTime();
+	//	}
+	//	else if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<UggAndWrongway>())
+	//	{
+	//		//respawn logic
+	//		int whatMovement = rand() % 2;
+	//		switch (whatMovement)
+	//		{
+	//		case 0:
+	//			//move left
+	//			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetFieldDataLeftBottom().MiddlePosX, m_PlayingField->GetFieldDataLeftBottom().MiddlePosY);
+	//			fieldData.Column = m_PlayingField->GetFieldDataLeftBottom().Column;
+	//			fieldData.Row = m_PlayingField->GetFieldDataLeftBottom().Row;
+	//			m_pEnemies[whatCharacter]->SetFieldData(fieldData);
+	//			m_pEnemies[whatCharacter]->ResetCurrentTime();
+	//			break;
+	//		case 1:
+	//			//move right
+	//			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataLast().MiddlePosX, m_PlayingField->GetPlayerFieldDataLast().MiddlePosY);
+	//			fieldData.Column = m_PlayingField->GetPlayerFieldDataLast().Column;
+	//			fieldData.Row = m_PlayingField->GetPlayerFieldDataLast().Row;
+	//			m_pEnemies[whatCharacter]->SetFieldData(fieldData);
+	//			m_pEnemies[whatCharacter]->ResetCurrentTime();
+	//			break;
+	//		default:
+	//			//nothing
+	//			break;
+	//		}
+	//	}
 
-		m_CurrentRespawnTimer = 0.0f;
-		//random time logic
+	//	m_CurrentRespawnTimer = 0.0f;
+	//	//random time logic
 
-	}
+	//}
 	for (size_t i = 0; i < m_pEnemies.size(); ++i)
 	{
+		if (m_pEnemies[i]->GetGameObject()->HasComponent<Coily>())
+		{
+			if (m_pEnemies[i]->GetGameObject()->GetComponent<Coily>()->GetIsDead() && 
+				!m_pEnemies[i]->GetGameObject()->GetComponent<ControlComponent>()->GetIsAllowedtoMove())
+			{
+				m_pEnemies[i]->GetGameObject()->GetComponent<Coily>()->SetIsDead(false);
+				m_pEnemies[i]->GetGameObject()->SetIsActive(false);
+				m_pQBerts[0]->GetGameObject()->GetComponent<dae::ScoreComponent>()->AddScore(500);
+			}
+		}
+
 		for (size_t j = 0; j < m_pQBerts.size(); ++j)
 		{
 			if (m_pEnemies[i]->GetFieldDataPlayer().Row == m_pQBerts[j]->GetFieldDataPlayer().Row && m_pEnemies[i]->GetFieldDataPlayer().Column == m_pQBerts[j]->GetFieldDataPlayer().Column)

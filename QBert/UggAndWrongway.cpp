@@ -3,7 +3,9 @@
 #include <GameTime.h>
 #include <memory>
 #include <GameObject.h>
-UggAndWrongway::UggAndWrongway(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field)
+UggAndWrongway::UggAndWrongway(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field,
+	float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp)
+	:AIComponent(timeItTakesToMove,textureComp)
 {
 	m_pCommandMoveLeftUp = new MoveLeftUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
 	m_pCommandMoveRightUp = new MoveRightUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
@@ -18,6 +20,11 @@ UggAndWrongway::~UggAndWrongway()
 void UggAndWrongway::Update()
 {
 	m_CurrentTime += GameTime::GetInstance().GetDeltaTime();
+
+	if (m_NeedsToMove)
+	{
+		UpdateMovement();
+	}
 
 	if (GetCanMove())
 	{

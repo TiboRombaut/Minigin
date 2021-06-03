@@ -8,7 +8,8 @@
 class SlickAndSam final : public AIComponent
 {
 public:
-	SlickAndSam(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field);
+	SlickAndSam(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field,
+		float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp);
 
 	void Update();
 	void Render() const {};

@@ -67,7 +67,8 @@ void MoveLeftDownCommand::Execute()
 					}
 					return;
 				}
-				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+				//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+				getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
 				fieldData.Column = m_Field->GetField()[i].Column;
 				fieldData.Row = m_Field->GetField()[i].Row;
 				comp->SetFieldData(fieldData);
@@ -168,11 +169,16 @@ void MoveRightDownCommand::Execute()
 						m_Field->GetField()[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field->GetField()[i].TextureComponent);
 						m_Field->GetField().erase(m_Field->GetField().begin() + i);
 					}
+					else if (comp->GetGameObject()->HasComponent<Coily>())
+					{
+						std::cout << "coily dead";
+					}
 					return;
 				}
 
 				//move logic
-				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+				 getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
+				//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
 				fieldData.Column = m_Field->GetField()[i].Column;
 				fieldData.Row = m_Field->GetField()[i].Row;
 				comp->SetFieldData(fieldData);
@@ -270,16 +276,30 @@ void MoveLeftUpCommand::Execute()
 				{
 					if (hasQbertComp)
 					{
-						getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY);
-						fieldData.Column = m_Field->GetField()[0].Column;
-						fieldData.Row = m_Field->GetField()[0].Row;
+						glm::vec2 sizeQbert{ getActor()->GetComponent<dae::TextureComponent>()->GetWidth(),getActor()->GetComponent<dae::TextureComponent>()->GetHeight() };
+						getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX - sizeQbert.x, m_Field->GetField()[i].MiddlePosY - sizeQbert.y));
+						getActor()->GetComponent<QBertComponent>()->ColorWheelNeedsToMovetoTop(m_Field->GetField()[i].TextureComponent, glm::vec2(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY));
+
+						//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY);
+						fieldData.Column = m_Field->GetField()[i].Column;
+						fieldData.Row = m_Field->GetField()[i].Row;
 						comp->SetFieldData(fieldData);
-						m_Field->GetField()[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field->GetField()[i].TextureComponent);
-						m_Field->GetField().erase(m_Field->GetField().begin() + i);
+
+						//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY);
+						//fieldData.Column = m_Field->GetField()[0].Column;
+						//fieldData.Row = m_Field->GetField()[0].Row;
+						//comp->SetFieldData(fieldData);
+						//m_Field->GetField()[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field->GetField()[i].TextureComponent);
+						//m_Field->GetField().erase(m_Field->GetField().begin() + i);
+					}
+					else if (comp->GetGameObject()->HasComponent<Coily>())
+					{
+						std::cout << "coily dead";
 					}
 					return;
 				}
-				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+				getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
+				//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
 				fieldData.Column = m_Field->GetField()[i].Column;
 				fieldData.Row = m_Field->GetField()[i].Row;
 				comp->SetFieldData(fieldData);
@@ -370,18 +390,31 @@ void MoveRightUpCommand::Execute()
 				{
 					if (hasQbertComp)
 					{
-						std::cout << "colorwheel rightup";
-						getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY);
-						fieldData.Column = m_Field->GetField()[0].Column;
-						fieldData.Row = m_Field->GetField()[0].Row;
+						glm::vec2 sizeQbert{ getActor()->GetComponent<dae::TextureComponent>()->GetWidth(),getActor()->GetComponent<dae::TextureComponent>()->GetHeight() };
+						getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX - sizeQbert.x, m_Field->GetField()[i].MiddlePosY - sizeQbert.y));
+						getActor()->GetComponent<QBertComponent>()->ColorWheelNeedsToMovetoTop(m_Field->GetField()[i].TextureComponent,glm::vec2(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY));
+						
+						//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY);
+						fieldData.Column = m_Field->GetField()[i].Column;
+						fieldData.Row = m_Field->GetField()[i].Row;
 						comp->SetFieldData(fieldData);
-						m_Field->GetField()[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field->GetField()[i].TextureComponent);
-						m_Field->GetField().erase(m_Field->GetField().begin() + i);
+						//m_Field->GetField()[i].TextureComponent->SetIsActiveComponent(false);
+						//m_Field->GetField()[i].TextureComponent->GetGameObject()->RemoveComponent(m_Field->GetField()[i].TextureComponent);
+						//m_Field->GetField().erase(m_Field->GetField().begin() + i);
+					}
+					else if (comp->GetGameObject()->HasComponent<Coily>())
+					{
+						//std::cout << "dead";
+						getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
+						getActor()->GetComponent<Coily>()->SetIsDead(true);
+						//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+						//fieldData.Column = m_Field->GetField()[i].Column;
+						//fieldData.Row = m_Field->GetField()[i].Row;
 					}
 					return;
 				}
-
-				getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+				getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
+				//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
 				fieldData.Column = m_Field->GetField()[i].Column;
 				fieldData.Row = m_Field->GetField()[i].Row;
 				comp->SetFieldData(fieldData);

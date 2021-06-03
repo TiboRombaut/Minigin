@@ -2,6 +2,12 @@
 #include <GameTime.h>
 #include <memory>
 #include <GameObject.h>
+
+AIComponent::AIComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp)
+	:ControlComponent(timeItTakesToMove,textureComp)
+{
+
+}
 //AIComponent::AIComponent(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field)
 //{
 //	//std::shared_ptr<dae::GameObject> tempGameObject(GetGameObject());

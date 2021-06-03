@@ -7,7 +7,8 @@
 class UggAndWrongway final : public AIComponent
 {
 public:
-	UggAndWrongway(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field);
+	UggAndWrongway(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field,
+		float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp);
 
 	void Update();
 	void Render() const {};

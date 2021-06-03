@@ -76,6 +76,7 @@ PlayingField::PlayingField(float widthStartPos, float HeightStartPos, std::share
 	}
 	m_BottomLeftIndex = m_Field.size() - 7;
 }
+
 std::vector<FieldData> PlayingField::GetField()const
 {
 	return m_Field;
@@ -209,6 +210,11 @@ void PlayingField::ResetLevel()
 		if (m_Field[i].TextureComponent->GetFileName() != "ColorWheel.png")
 		{
 			m_Field[i].TextureComponent->SetTexture(m_FirstTileName);
+		}
+		else
+		{
+			m_Field[i].TextureComponent->SetIsActiveComponent(true);
+			m_Field[i].TextureComponent->SetPosition(m_Field[i].MiddlePosX - m_Field[i].TextureComponent->GetWidth()/2, m_Field[i].MiddlePosY - m_Field[i].TextureComponent->GetWidth() / 2);
 		}
 	}
 	m_LevelIsResetted = true;

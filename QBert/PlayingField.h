@@ -57,6 +57,7 @@ private:
 
 	bool m_LevelIsResetted = false;
 	std::vector<FieldData> m_Field;
+	
 	int m_BottomLeftIndex = 0;
 	int m_CurrentLevel = 1;
 	int m_ColorWheelsRemaining = 0;

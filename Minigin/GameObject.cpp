@@ -9,7 +9,10 @@ void dae::GameObject::Update()
 	{
 		for (size_t i = 0; i < m_Components.size(); ++i)
 		{
-			m_Components[i]->Update();
+			if (m_Components[i]->GetIsActiveComponent())
+			{
+				m_Components[i]->Update();
+			}
 		}
 	}
 }
@@ -46,7 +49,10 @@ void dae::GameObject::Render() const
 	{
 		for (size_t i = 0; i < m_Components.size(); ++i)
 		{
-			m_Components[i]->Render();
+			if (m_Components[i]->GetIsActiveComponent())
+			{
+				m_Components[i]->Render();
+			}
 		}
 	}
 }
