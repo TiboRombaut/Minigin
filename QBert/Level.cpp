@@ -104,7 +104,7 @@ void Level::LoadGameSolo(dae::Scene& currentScene)
 	componentCoilyData->SetFieldData(CoilyFieldData);
 	coily->addComponent(componentCoilyData);
 	currentScene.Add(coily);
-	coily->SetIsActive(true);
+	coily->SetIsActive(false);
 	m_pEnemies.push_back(componentCoilyData);
 
 
@@ -507,64 +507,74 @@ void Level::Update()
 		m_PlayingField->ResetColorWheelsRemaining();
 	}
 
-	//if (m_CurrentRespawnTimer > m_MaxRespawnTimer)
-	//{
-	//	int whatCharacter = rand() % 2;
-	//	std::cout << "character: " << whatCharacter << std::endl;
-	//	auto fieldData = m_pEnemies[whatCharacter]->GetFieldDataPlayer();
-	//	if (m_pEnemies[whatCharacter]->GetGameObject()->GetIsActive())
-	//	{
-	//		for (size_t i = 0; i < m_pEnemies.size(); ++i)
-	//		{
-	//			if (!m_pEnemies[i]->GetGameObject()->GetIsActive())
-	//			{
-	//				whatCharacter = i;
-	//				break;
-	//			}
-	//		}
-	//	}
-	//	m_pEnemies[whatCharacter]->GetGameObject()->SetIsActive(true);
+	if (m_CurrentRespawnTimer > m_MaxRespawnTimer)
+	{
+		int whatCharacter = rand() % 3;
+		//std::cout << "character: " << whatCharacter << std::endl;
+		auto fieldData = m_pEnemies[whatCharacter]->GetFieldDataPlayer();
+		if (m_pEnemies[whatCharacter]->GetGameObject()->GetIsActive())
+		{
+			for (size_t i = 0; i < m_pEnemies.size(); ++i)
+			{
+				if (!m_pEnemies[i]->GetGameObject()->GetIsActive())
+				{
+					whatCharacter = i;
+					break;
+				}
+			}
+		}
+		m_pEnemies[whatCharacter]->GetGameObject()->SetIsActive(true);
 
-	//	if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<SlickAndSam>())
-	//	{
-	//		m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
-	//		fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
-	//		fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
-	//		m_pEnemies[whatCharacter]->SetFieldData(fieldData);
-	//		m_pEnemies[whatCharacter]->ResetCurrentTime();
-	//	}
-	//	else if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<UggAndWrongway>())
-	//	{
-	//		//respawn logic
-	//		int whatMovement = rand() % 2;
-	//		switch (whatMovement)
-	//		{
-	//		case 0:
-	//			//move left
-	//			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetFieldDataLeftBottom().MiddlePosX, m_PlayingField->GetFieldDataLeftBottom().MiddlePosY);
-	//			fieldData.Column = m_PlayingField->GetFieldDataLeftBottom().Column;
-	//			fieldData.Row = m_PlayingField->GetFieldDataLeftBottom().Row;
-	//			m_pEnemies[whatCharacter]->SetFieldData(fieldData);
-	//			m_pEnemies[whatCharacter]->ResetCurrentTime();
-	//			break;
-	//		case 1:
-	//			//move right
-	//			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataLast().MiddlePosX, m_PlayingField->GetPlayerFieldDataLast().MiddlePosY);
-	//			fieldData.Column = m_PlayingField->GetPlayerFieldDataLast().Column;
-	//			fieldData.Row = m_PlayingField->GetPlayerFieldDataLast().Row;
-	//			m_pEnemies[whatCharacter]->SetFieldData(fieldData);
-	//			m_pEnemies[whatCharacter]->ResetCurrentTime();
-	//			break;
-	//		default:
-	//			//nothing
-	//			break;
-	//		}
-	//	}
+		if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<SlickAndSam>())
+		{
+			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
+			fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
+			fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
+			m_pEnemies[whatCharacter]->SetFieldData(fieldData);
+			m_pEnemies[whatCharacter]->ResetCurrentTime();
+		}
+		else if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<UggAndWrongway>())
+		{
+			//respawn logic
+			int whatMovement = rand() % 2;
+			switch (whatMovement)
+			{
+			case 0:
+				//move left
+				m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetFieldDataLeftBottom().MiddlePosX, m_PlayingField->GetFieldDataLeftBottom().MiddlePosY);
+				fieldData.Column = m_PlayingField->GetFieldDataLeftBottom().Column;
+				fieldData.Row = m_PlayingField->GetFieldDataLeftBottom().Row;
+				m_pEnemies[whatCharacter]->SetFieldData(fieldData);
+				m_pEnemies[whatCharacter]->ResetCurrentTime();
+				break;
+			case 1:
+				//move right
+				m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataLast().MiddlePosX, m_PlayingField->GetPlayerFieldDataLast().MiddlePosY);
+				fieldData.Column = m_PlayingField->GetPlayerFieldDataLast().Column;
+				fieldData.Row = m_PlayingField->GetPlayerFieldDataLast().Row;
+				m_pEnemies[whatCharacter]->SetFieldData(fieldData);
+				m_pEnemies[whatCharacter]->ResetCurrentTime();
+				break;
+			default:
+				//nothing
+				break;
+			}
+		}
+		else if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<Coily>())
+		{
+			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
+			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetTexture("CoilyEgg.png");
+			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<Coily>()->SetIsEgg(true);
+			fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
+			fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
+			m_pEnemies[whatCharacter]->SetFieldData(fieldData);
+			m_pEnemies[whatCharacter]->ResetCurrentTime();
+		}
 
-	//	m_CurrentRespawnTimer = 0.0f;
-	//	//random time logic
+		m_CurrentRespawnTimer = 0.0f;
+		//random time logic
 
-	//}
+	}
 	for (size_t i = 0; i < m_pEnemies.size(); ++i)
 	{
 		if (m_pEnemies[i]->GetGameObject()->HasComponent<Coily>())

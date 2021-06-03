@@ -34,6 +34,11 @@ void Coily::SetIsDead(bool isDead)
 	m_IsDead = isDead;
 }
 
+void Coily::SetIsEgg(bool isEgg)
+{
+	m_IsEgg = isEgg;
+}
+
 void Coily::Update()
 {
 	m_CurrentTime += GameTime::GetInstance().GetDeltaTime();
@@ -45,7 +50,7 @@ void Coily::Update()
 
 	if (GetCanMove())
 	{
-		if (IsEgg)
+		if (m_IsEgg)
 		{
 			int whatMovement = rand() % 2;
 			switch (whatMovement)
@@ -66,7 +71,7 @@ void Coily::Update()
 			if (m_QBertFieldData.Row == 6)
 			{
 				std::cout << "reachedBottom\n";
-				IsEgg = false;
+				m_IsEgg = false;
 				//change texture
 				m_CoilyGameObject->GetComponent<dae::TextureComponent>()->SetTexture("../Data/Coily.png");
 				// //startPathfinding

@@ -27,5 +27,6 @@ private :
 	std::shared_ptr<dae::TextureComponent> m_ColorWheelPlatform;
 	bool m_PlatformNeedsToMove = false;
 	glm::vec2 m_TargetPosColorWheel;
+	glm::vec2 m_RespawnPos;
 };
 

@@ -113,6 +113,16 @@ void MoveLeftDownCommand::Execute()
 			}
 		}
 	}
+	if (hasQbertComp)
+	{
+		getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().x - m_Field->GetField()[0].TextureComponent->GetWidth(),
+			getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().y + m_Field->GetField()[0].TextureComponent->GetHeight()));
+		fieldData.Column = -1;
+		fieldData.Row = -1;
+		comp->SetFieldData(fieldData);
+		comp->ResetCurrentTime();
+
+	}
 };
 
 MoveRightDownCommand::MoveRightDownCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath)
@@ -224,6 +234,16 @@ void MoveRightDownCommand::Execute()
 			}
 		}
 	}
+	if (hasQbertComp)
+	{
+		getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().x + m_Field->GetField()[0].TextureComponent->GetWidth(),
+			getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().y + m_Field->GetField()[0].TextureComponent->GetHeight()));
+		fieldData.Column = -1;
+		fieldData.Row = -1;
+		comp->SetFieldData(fieldData);
+		comp->ResetCurrentTime();
+
+	}
 };
 
 MoveLeftUpCommand::MoveLeftUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath)
@@ -294,7 +314,12 @@ void MoveLeftUpCommand::Execute()
 					}
 					else if (comp->GetGameObject()->HasComponent<Coily>())
 					{
-						std::cout << "coily dead";
+						//std::cout << "dead";
+						getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
+						getActor()->GetComponent<Coily>()->SetIsDead(true);
+						//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+						//fieldData.Column = m_Field->GetField()[i].Column;
+						//fieldData.Row = m_Field->GetField()[i].Row;
 					}
 					return;
 				}
@@ -332,6 +357,17 @@ void MoveLeftUpCommand::Execute()
 				std::cout << "Wait A little bit\n";
 			}
 		}
+	}
+	//if he gets here check whether he is Qbert then move away and respawn
+	if (hasQbertComp)
+	{
+		getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().x - m_Field->GetField()[0].TextureComponent->GetWidth(),
+			getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().y - m_Field->GetField()[0].TextureComponent->GetHeight()));
+		fieldData.Column = -1;
+		fieldData.Row = -1;
+		comp->SetFieldData(fieldData);
+		comp->ResetCurrentTime();
+
 	}
 };
 
@@ -445,6 +481,16 @@ void MoveRightUpCommand::Execute()
 				std::cout << "Wait A little bit\n";
 			}
 		}
+	}
+	if (hasQbertComp)
+	{
+		getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().x + m_Field->GetField()[0].TextureComponent->GetWidth(),
+			getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().y - m_Field->GetField()[0].TextureComponent->GetHeight()));
+		fieldData.Column = -1;
+		fieldData.Row = -1;
+		comp->SetFieldData(fieldData);
+		comp->ResetCurrentTime();
+
 	}
 };
 

@@ -4,7 +4,8 @@
 QBertComponent::QBertComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp)
 	:ControlComponent(timeItTakesToMove,textureComp)
 {
-
+	m_RespawnPos.x = textureComp->GetTransform().GetPosition().x;
+	m_RespawnPos.y = textureComp->GetTransform().GetPosition().y;
 }
 
 //FieldDataPlayer QBertComponent::GetFieldData()const
@@ -38,6 +39,7 @@ void QBertComponent::ColorWheelNeedsToMovetoTop(std::shared_ptr<dae::TextureComp
 
 void QBertComponent::Update()
 {
+
 	//std::cout << "Qbert FieldData: X:  " << m_QBertFieldData.Row << "  Y:  " << m_QBertFieldData.Column << std::endl;
 	if (!m_PlatformNeedsToMove)
 	{
@@ -91,6 +93,15 @@ void QBertComponent::Update()
 			m_QBertFieldData.Row = 0;
 			m_ColorWheelPlatform->SetIsActiveComponent(false);
 		}
+	}
+	else if (m_QBertFieldData.Row == -1 || m_QBertFieldData.Column == -1)
+	{
+		auto fieldData = m_QBertFieldData;
+		m_TextureComp->SetPosition(m_RespawnPos.x, m_RespawnPos.y);
+		fieldData.Column = 0;
+		fieldData.Row = 0;
+		m_QBertFieldData = fieldData;
+		ResetCurrentTime();
 	}
 
 

@@ -27,9 +27,10 @@ public:
 	//FieldDataPlayer GetFieldData()const;
 	//void SetFieldData(FieldDataPlayer data);
 	//bool GetCanMove();
-	bool HasReachedBottom() { return !IsEgg; };
+	bool HasReachedBottom() { return !m_IsEgg; };
 	bool GetIsDead()const;
 	void SetIsDead(bool isDead);
+	void SetIsEgg(bool isEgg);
 	~Coily();
 	Coily(const Coily& other) = delete;
 	Coily(Coily&& other) = delete;
@@ -41,7 +42,7 @@ private:
 	MoveRightDownCommand* m_pCommandMoveRightDown = nullptr;
 	MoveLeftDownCommand* m_pCommandMoveLeftDown = nullptr;
 	std::shared_ptr<dae::GameObject> m_CoilyGameObject;
-	bool IsEgg = true;
+	bool m_IsEgg = true;
 	std::vector < std::shared_ptr<QBertComponent>> m_pQBerts;
 	bool m_IsDead = false;
 };
