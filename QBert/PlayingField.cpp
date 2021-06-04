@@ -1,20 +1,60 @@
 #include "PlayingField.h"
 #include <TextureComponent.h>
 #include <iostream>
-PlayingField::PlayingField(float widthStartPos, float HeightStartPos, std::shared_ptr<dae::GameObject> field)
-{
+#include <rapidjson.h>
+#include <document.h>
+#include <stream.h>
+#include <filereadstream.h>
+using rapidjson::Value;
 
-	//float widthStartPos = 250;
-	//float HeightStartPos = 200;
+PlayingField::PlayingField(float , float , std::shared_ptr<dae::GameObject> field)
+{
+	std::wstring fileName = L"../Data/PlayingFieldLayout.json";
+	rapidjson::Document jsonDocumentExam;
+	FILE* pFile = nullptr;
+
+	_wfopen_s(&pFile, fileName.c_str(), L"rb");
+
+	if (pFile != nullptr)
+	{
+
+		fseek(pFile, 0, SEEK_END);
+		const size_t size = ftell(pFile);
+		fseek(pFile, 0, SEEK_SET);
+		char* readBuffer = new char[size];
+		rapidjson::FileReadStream inputStream(pFile, readBuffer, sizeof(readBuffer));
+		jsonDocumentExam.ParseStream(inputStream);
+		delete[] readBuffer;
+		fclose(pFile);
+
+	}
+
+	//const Value& amountOfLevels = jsonDocumentExam["AmountOfLevels"];
+	const Value& rows = jsonDocumentExam["Rows"];
+	const Value& colorWheelRow = jsonDocumentExam["ColorWheelRow"];
+	const Value& startingPosX = jsonDocumentExam["StartingPosX"];
+	const Value& startingPosY = jsonDocumentExam["StartingPosY"];
+	const Value& firstTile = jsonDocumentExam["FirstTile"];
+	const Value& secondTile = jsonDocumentExam["SecondTile"];
+	const Value& thirthTile = jsonDocumentExam["ThirthTile"];
+
+	//m_MaxAmountOfLevels = amountOfLevels.GetInt();
+	m_FirstTileName = firstTile.GetString();
+	m_SecondTileName = secondTile.GetString();
+	m_ThirthTileName = thirthTile.GetString();
+
+
+	float widthStartPos = startingPosX.GetFloat();
+	float HeightStartPos = startingPosY.GetFloat();
 	float textureWidth = 0;
 	float textureHeight = 0;
-	for (int row = 0; row < 7; ++row)
+	for (int row = 0; row < rows.GetInt(); ++row)
 	{
 		//The row we are on determines how many colums we have
 		int temp = row + 1;
 		for (int column = 0; column < temp; ++column)
 		{
-			if (row == 4 && column == 0)
+			if (row == colorWheelRow && column == 0)
 			{
 				std::shared_ptr<dae::TextureComponent> componentTextureColorWheel{ std::make_shared<dae::TextureComponent>() };
 				componentTextureColorWheel->SetTexture("ColorWheel.png");
@@ -31,7 +71,7 @@ PlayingField::PlayingField(float widthStartPos, float HeightStartPos, std::share
 				m_Field.push_back(currentDataColorWheel);
 				field->addComponent(componentTextureColorWheel);
 			}
-			else if (row == 4 && column == temp - 1)
+			else if (row == colorWheelRow && column == temp - 1)
 			{
 				std::shared_ptr<dae::TextureComponent> componentTextureColorWheel{ std::make_shared<dae::TextureComponent>() };
 				componentTextureColorWheel->SetTexture("ColorWheel.png");
@@ -213,6 +253,7 @@ void PlayingField::ResetLevel()
 		}
 		else
 		{
+			std::cout << "colorwheel";
 			m_Field[i].TextureComponent->SetIsActiveComponent(true);
 			m_Field[i].TextureComponent->SetPosition(m_Field[i].MiddlePosX - m_Field[i].TextureComponent->GetWidth()/2, m_Field[i].MiddlePosY - m_Field[i].TextureComponent->GetWidth() / 2);
 		}

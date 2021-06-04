@@ -12,6 +12,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "Coily.h"
+#include <ServiceLocator.h>
 
 MoveLeftDownCommand::MoveLeftDownCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath)
 	:Command(pObject)
@@ -35,6 +36,7 @@ void MoveLeftDownCommand::Execute()
 	ControlComponent* comp = nullptr;
 	if (getActor()->HasComponent<QBertComponent>())
 	{
+		std::cout << "leftDown\n";
 		comp = getActor()->GetComponent<QBertComponent>();
 		hasQbertComp = true;
 	}
@@ -73,9 +75,12 @@ void MoveLeftDownCommand::Execute()
 				fieldData.Row = m_Field->GetField()[i].Row;
 				comp->SetFieldData(fieldData);
 				comp->ResetCurrentTime();
+			
 
 				if (hasQbertComp)
 				{
+					dae::ServiceLocator::get_sound_system().Play(0, 1, "../Data/QbertHop.wav");
+
 					if (m_Field->ChangeTileColor(i, true))
 					{
 						int value{ 25 };
@@ -110,17 +115,21 @@ void MoveLeftDownCommand::Execute()
 			else
 			{
 				std::cout << "Wait A little bit\n";
+				return;
 			}
 		}
 	}
 	if (hasQbertComp)
 	{
+		std::cout << "has reached end";
+
 		getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().x - m_Field->GetField()[0].TextureComponent->GetWidth(),
 			getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().y + m_Field->GetField()[0].TextureComponent->GetHeight()));
 		fieldData.Column = -1;
 		fieldData.Row = -1;
 		comp->SetFieldData(fieldData);
 		comp->ResetCurrentTime();
+		dae::ServiceLocator::get_sound_system().Play(0, 1, "../Data/QBertFall.wav");
 
 	}
 };
@@ -147,6 +156,7 @@ void MoveRightDownCommand::Execute()
 	ControlComponent* comp = nullptr;
 	if (getActor()->HasComponent<QBertComponent>())
 	{
+		std::cout << "leftUp\n";
 		comp = getActor()->GetComponent<QBertComponent>();
 		hasQbertComp = true;
 	}
@@ -197,6 +207,7 @@ void MoveRightDownCommand::Execute()
 				//changing tile Logic
 				if (hasQbertComp)
 				{
+					dae::ServiceLocator::get_sound_system().Play(0, 1, "../Data/QbertHop.wav");
 					if (m_Field->ChangeTileColor(i, true))
 					{
 						int value{ 25 };
@@ -231,17 +242,20 @@ void MoveRightDownCommand::Execute()
 			else
 			{
 				std::cout << "Wait A little bit\n";
+				return;
 			}
 		}
 	}
 	if (hasQbertComp)
 	{
+		std::cout << "has reached end";
 		getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().x + m_Field->GetField()[0].TextureComponent->GetWidth(),
 			getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().y + m_Field->GetField()[0].TextureComponent->GetHeight()));
 		fieldData.Column = -1;
 		fieldData.Row = -1;
 		comp->SetFieldData(fieldData);
 		comp->ResetCurrentTime();
+		dae::ServiceLocator::get_sound_system().Play(0, 1, "../Data/QBertFall.wav");
 
 	}
 };
@@ -273,6 +287,7 @@ void MoveLeftUpCommand::Execute()
 	ControlComponent* comp = nullptr;
 	if (getActor()->HasComponent<QBertComponent>())
 	{
+		std::cout << "leftUp\n";
 		comp = getActor()->GetComponent<QBertComponent>();
 		hasQbertComp = true;
 	}
@@ -296,6 +311,7 @@ void MoveLeftUpCommand::Execute()
 				{
 					if (hasQbertComp)
 					{
+						std::cout << "moving to color wheel";
 						glm::vec2 sizeQbert{ getActor()->GetComponent<dae::TextureComponent>()->GetWidth(),getActor()->GetComponent<dae::TextureComponent>()->GetHeight() };
 						getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX - sizeQbert.x, m_Field->GetField()[i].MiddlePosY - sizeQbert.y));
 						getActor()->GetComponent<QBertComponent>()->ColorWheelNeedsToMovetoTop(m_Field->GetField()[i].TextureComponent, glm::vec2(m_Field->GetField()[0].MiddlePosX, m_Field->GetField()[0].MiddlePosY));
@@ -314,15 +330,21 @@ void MoveLeftUpCommand::Execute()
 					}
 					else if (comp->GetGameObject()->HasComponent<Coily>())
 					{
-						//std::cout << "dead";
-						getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
-						getActor()->GetComponent<Coily>()->SetIsDead(true);
-						//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
-						//fieldData.Column = m_Field->GetField()[i].Column;
-						//fieldData.Row = m_Field->GetField()[i].Row;
+						if (!getActor()->GetComponent<Coily>()->GetIsDead())
+						{
+							//std::cout << "dead";
+							getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
+							getActor()->GetComponent<Coily>()->SetIsDead(true);
+							//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+							//fieldData.Column = m_Field->GetField()[i].Column;
+							//fieldData.Row = m_Field->GetField()[i].Row;
+							dae::ServiceLocator::get_sound_system().Play(0, 1, "../Data/SnakeFall.wav");
+						}
 					}
 					return;
 				}
+				std::cout << "moving to " << m_Field->GetField()[i].Row << " , " << m_Field->GetField()[i].Column << std::endl;
+				std::cout << "moving to " << m_Field->GetField()[i].MiddlePosX << " , " << m_Field->GetField()[i].MiddlePosY << std::endl;
 				getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
 				//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
 				fieldData.Column = m_Field->GetField()[i].Column;
@@ -332,6 +354,8 @@ void MoveLeftUpCommand::Execute()
 
 				if (hasQbertComp)
 				{
+					std::cout << "moved to shit";
+					dae::ServiceLocator::get_sound_system().Play(0, 1, "../Data/QbertHop.wav");
 					if (m_Field->ChangeTileColor(i, true))
 					{
 						int value{ 25 };
@@ -355,18 +379,21 @@ void MoveLeftUpCommand::Execute()
 			else
 			{
 				std::cout << "Wait A little bit\n";
+				return;
 			}
 		}
 	}
 	//if he gets here check whether he is Qbert then move away and respawn
 	if (hasQbertComp)
 	{
+		std::cout << "has reached end";
 		getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().x - m_Field->GetField()[0].TextureComponent->GetWidth(),
 			getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().y - m_Field->GetField()[0].TextureComponent->GetHeight()));
 		fieldData.Column = -1;
 		fieldData.Row = -1;
 		comp->SetFieldData(fieldData);
 		comp->ResetCurrentTime();
+		dae::ServiceLocator::get_sound_system().Play(0, 1, "../Data/QBertFall.wav");
 
 	}
 };
@@ -401,6 +428,7 @@ void MoveRightUpCommand::Execute()
 	ControlComponent* comp = nullptr;
 	if (getActor()->HasComponent<QBertComponent>())
 	{
+		std::cout << "rightDown\n";
 		comp = getActor()->GetComponent<QBertComponent>();
 		hasQbertComp = true;
 	}
@@ -440,12 +468,16 @@ void MoveRightUpCommand::Execute()
 					}
 					else if (comp->GetGameObject()->HasComponent<Coily>())
 					{
-						//std::cout << "dead";
-						getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
-						getActor()->GetComponent<Coily>()->SetIsDead(true);
-						//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
-						//fieldData.Column = m_Field->GetField()[i].Column;
-						//fieldData.Row = m_Field->GetField()[i].Row;
+						if (!getActor()->GetComponent<Coily>()->GetIsDead())
+						{
+							//std::cout << "dead";
+							getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY));
+							getActor()->GetComponent<Coily>()->SetIsDead(true);
+							//getActor()->GetComponent<dae::TextureComponent>()->SetPosition(m_Field->GetField()[i].MiddlePosX, m_Field->GetField()[i].MiddlePosY);
+							//fieldData.Column = m_Field->GetField()[i].Column;
+							//fieldData.Row = m_Field->GetField()[i].Row;
+							dae::ServiceLocator::get_sound_system().Play(0, 1.0f, "../Data/SnakeFall.wav");
+						}
 					}
 					return;
 				}
@@ -455,6 +487,7 @@ void MoveRightUpCommand::Execute()
 				fieldData.Row = m_Field->GetField()[i].Row;
 				comp->SetFieldData(fieldData);
 				comp->ResetCurrentTime();
+
 				//if (m_Field->GetField()[i].TextureComponent->GetFileName() != m_FileNameBackgroundTile && hasQbertComp)
 				//{
 				//	m_Field->GetField()[i].TextureComponent->SetTexture(m_FileNameBackgroundTile);
@@ -464,6 +497,7 @@ void MoveRightUpCommand::Execute()
 				//}		
 				if (hasQbertComp)
 				{
+					dae::ServiceLocator::get_sound_system().Play(0, 1, "../Data/QbertHop.wav");
 					if (m_Field->ChangeTileColor(i, true))
 					{
 						int value{ 25 };
@@ -479,17 +513,21 @@ void MoveRightUpCommand::Execute()
 			else
 			{
 				std::cout << "Wait A little bit\n";
+				return;
 			}
 		}
 	}
 	if (hasQbertComp)
 	{
+		std::cout << "has reached end";
+
 		getActor()->GetComponent<ControlComponent>()->SetMoveToTarget(glm::vec2(getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().x + m_Field->GetField()[0].TextureComponent->GetWidth(),
 			getActor()->GetComponent<dae::TextureComponent>()->GetTransform().GetPosition().y - m_Field->GetField()[0].TextureComponent->GetHeight()));
 		fieldData.Column = -1;
 		fieldData.Row = -1;
 		comp->SetFieldData(fieldData);
 		comp->ResetCurrentTime();
+		dae::ServiceLocator::get_sound_system().Play(0, 1, "../Data/QBertFall.wav");
 
 	}
 };

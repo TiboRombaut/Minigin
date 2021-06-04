@@ -24,13 +24,16 @@ public:
 	void Update();
 	void Render() const {};
 
-	//FieldDataPlayer GetFieldData()const;
-	//void SetFieldData(FieldDataPlayer data);
-	//bool GetCanMove();
 	bool HasReachedBottom() { return !m_IsEgg; };
 	bool GetIsDead()const;
 	void SetIsDead(bool isDead);
 	void SetIsEgg(bool isEgg);
+
+	MoveLeftUpCommand* GetCommandUpLeft()const;
+	MoveRightUpCommand* GetCommandUpRight()const;
+	MoveRightDownCommand* GetCommandDownRight()const;
+	MoveLeftDownCommand* GetCommandDownLeft()const;
+
 	~Coily();
 	Coily(const Coily& other) = delete;
 	Coily(Coily&& other) = delete;

@@ -127,7 +127,6 @@ PlaySoundCommand::PlaySoundCommand(std::shared_ptr<dae::GameObject> pObject, std
 void PlaySoundCommand::Execute()
 {
 	dae::ServiceLocator::get_sound_system().Play(0, 1, m_FileName);
-	std::cout << "sound";
 };
 
 MuteCommand::MuteCommand(std::shared_ptr<dae::GameObject> pObject)

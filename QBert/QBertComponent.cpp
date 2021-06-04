@@ -4,8 +4,16 @@
 QBertComponent::QBertComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp)
 	:ControlComponent(timeItTakesToMove,textureComp)
 {
-	m_RespawnPos.x = textureComp->GetTransform().GetPosition().x;
-	m_RespawnPos.y = textureComp->GetTransform().GetPosition().y;
+	
+
+}
+
+void QBertComponent::SetRespawnPoint()
+{
+	m_RespawnPos.MiddlePosX = m_TextureComp->GetTransform().GetPosition().x;
+	m_RespawnPos.MiddlePosY = m_TextureComp->GetTransform().GetPosition().y;
+	m_RespawnPos.Row = m_QBertFieldData.Row;
+	m_RespawnPos.Column = m_QBertFieldData.Column;
 }
 
 //FieldDataPlayer QBertComponent::GetFieldData()const
@@ -37,6 +45,17 @@ void QBertComponent::ColorWheelNeedsToMovetoTop(std::shared_ptr<dae::TextureComp
 
 }
 
+void QBertComponent::RespawnQBert()
+{
+	m_TextureComp->SetPosition(m_RespawnPos.MiddlePosX, m_RespawnPos.MiddlePosY);
+	m_QBertFieldData.Row = m_RespawnPos.Row;
+	m_QBertFieldData.Column = m_RespawnPos.Column;
+	ResetCurrentTime();
+	SetMoveToTarget(glm::vec2(m_RespawnPos.MiddlePosX, m_RespawnPos.MiddlePosY));
+	SetThatHeIsAllowedtoMove(false);
+}
+
+
 void QBertComponent::Update()
 {
 
@@ -48,6 +67,7 @@ void QBertComponent::Update()
 
 	if (m_NeedsToMove)
 	{
+		//std::cout << "updating movement qbert";
 		UpdateMovement();
 	}
 	else if(m_PlatformNeedsToMove)
@@ -82,7 +102,7 @@ void QBertComponent::Update()
 		float distanceX = glm::distance(posX, m_TargetPosColorWheel.x);
 		float distanceY = glm::distance(posY, m_TargetPosColorWheel.y);
 
-		if (distanceX < 1.0f && distanceY < 1.0f)
+		if (distanceX < 2.0f && distanceY < 2.0f)
 		{
 			m_PlatformNeedsToMove = false;
 			m_Speed.x = 0.0f;
@@ -96,12 +116,13 @@ void QBertComponent::Update()
 	}
 	else if (m_QBertFieldData.Row == -1 || m_QBertFieldData.Column == -1)
 	{
-		auto fieldData = m_QBertFieldData;
-		m_TextureComp->SetPosition(m_RespawnPos.x, m_RespawnPos.y);
-		fieldData.Column = 0;
-		fieldData.Row = 0;
-		m_QBertFieldData = fieldData;
-		ResetCurrentTime();
+		RespawnQBert();
+		//auto fieldData = m_QBertFieldData;
+		//m_TextureComp->SetPosition(m_RespawnPos.MiddlePosX, m_RespawnPos.MiddlePosY);
+		//fieldData.Column = 0;
+		//fieldData.Row = 0;
+		//m_QBertFieldData = fieldData;
+		//ResetCurrentTime();
 	}
 
 

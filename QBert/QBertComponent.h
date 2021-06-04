@@ -14,7 +14,8 @@ public:
 	void Render() const override {};
 
 	void ColorWheelNeedsToMovetoTop(std::shared_ptr<dae::TextureComponent> textureColorWheel,glm::vec2 EndPos);
-
+	void SetRespawnPoint();
+	void RespawnQBert();
 	//FieldDataPlayer GetFieldData()const;
 	//void SetFieldData(FieldDataPlayer data);
 	//bool GetCanMove();
@@ -27,6 +28,6 @@ private :
 	std::shared_ptr<dae::TextureComponent> m_ColorWheelPlatform;
 	bool m_PlatformNeedsToMove = false;
 	glm::vec2 m_TargetPosColorWheel;
-	glm::vec2 m_RespawnPos;
+	FieldData m_RespawnPos;
 };
 

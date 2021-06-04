@@ -60,6 +60,7 @@ private:
 	
 	int m_BottomLeftIndex = 0;
 	int m_CurrentLevel = 1;
+	int m_MaxAmountOfLevels = 1;
 	int m_ColorWheelsRemaining = 0;
 	std::string m_FirstTileName = "../Data/BackGroundTileRed.png";
 	std::string m_SecondTileName = "../Data/BackGroundTileYellow.png";

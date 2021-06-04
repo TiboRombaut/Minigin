@@ -78,6 +78,7 @@ void Level::LoadGameSolo(dae::Scene& currentScene)
 	qBert->addComponent(playerIndexComponent);
 	qBert->addComponent(healtComponent);
 	currentScene.Add(qBert);
+	componentQbertData->SetRespawnPoint();
 
 	auto& input = dae::InputManager::GetInstance();
 
@@ -162,6 +163,7 @@ void Level::LoadGameVs(dae::Scene& currentScene)
 	qBert->addComponent(playerIndexComponent);
 	qBert->addComponent(healtComponent);
 	currentScene.Add(qBert);
+	componentQbertData->SetRespawnPoint();
 
 	auto& input = dae::InputManager::GetInstance();
 
@@ -191,15 +193,15 @@ void Level::LoadGameVs(dae::Scene& currentScene)
 	//coily->SetIsActive(true);
 	m_pEnemies.push_back(componentCoilyData);
 
-	MoveLeftDownCommand* moveLeft2 = new MoveLeftDownCommand(coily, m_PlayingField, "../Data/BackGroundTileRed.png");
-	MoveRightDownCommand* moveRight2 = new MoveRightDownCommand(coily, m_PlayingField, "../Data/BackGroundTileRed.png");
-	MoveLeftUpCommand* moveLeftUp2 = new MoveLeftUpCommand(coily, m_PlayingField, "../Data/BackGroundTileRed.png");
-	MoveRightUpCommand* moveRightUp2 = new MoveRightUpCommand(coily, m_PlayingField, "../Data/BackGroundTileRed.png");
+	//MoveLeftDownCommand* moveLeft2 = new MoveLeftDownCommand(coily, m_PlayingField, "../Data/BackGroundTileRed.png");
+	//MoveRightDownCommand* moveRight2 = new MoveRightDownCommand(coily, m_PlayingField, "../Data/BackGroundTileRed.png");
+	//MoveLeftUpCommand* moveLeftUp2 = new MoveLeftUpCommand(coily, m_PlayingField, "../Data/BackGroundTileRed.png");
+	//MoveRightUpCommand* moveRightUp2 = new MoveRightUpCommand(coily, m_PlayingField, "../Data/BackGroundTileRed.png");
 
-	input.AddCommand(ControllerButton::ButtonX, KeyBoardAndMouseButton::ButtonArrowLeft, WayKeyBoardButton::buttonDown, moveLeft2);
-	input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonArrowDown, WayKeyBoardButton::buttonDown, moveRight2);
-	input.AddCommand(ControllerButton::ButtonY, KeyBoardAndMouseButton::ButtonArrowUp, WayKeyBoardButton::buttonDown, moveLeftUp2);
-	input.AddCommand(ControllerButton::ButtonB, KeyBoardAndMouseButton::ButtonArrowRight, WayKeyBoardButton::buttonDown, moveRightUp2);
+	input.AddCommand(ControllerButton::ButtonX, KeyBoardAndMouseButton::ButtonArrowLeft, WayKeyBoardButton::buttonDown, componentCoilyData->GetCommandDownLeft());
+	input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonArrowDown, WayKeyBoardButton::buttonDown, componentCoilyData->GetCommandDownRight());
+	input.AddCommand(ControllerButton::ButtonY, KeyBoardAndMouseButton::ButtonArrowUp, WayKeyBoardButton::buttonDown, componentCoilyData->GetCommandUpLeft());
+	input.AddCommand(ControllerButton::ButtonB, KeyBoardAndMouseButton::ButtonArrowRight, WayKeyBoardButton::buttonDown, componentCoilyData->GetCommandUpRight());
 	LoadMenus(currentScene);
 }
 
@@ -247,6 +249,7 @@ void Level::LoadGameCoop(dae::Scene& currentScene)
 	qBert->addComponent(playerIndexComponent);
 	qBert->addComponent(healtComponent);
 	currentScene.Add(qBert);
+	componentQbertData->SetRespawnPoint();
 
 	auto& input = dae::InputManager::GetInstance();
 
@@ -267,23 +270,20 @@ void Level::LoadGameCoop(dae::Scene& currentScene)
 
 	 playerIndex = 1;
 
-	std::shared_ptr<QBertObserver> pPlayerObserver2 = std::make_shared<QBertObserver>();
 	std::shared_ptr<PlayerIndexComponent> playerIndexComponent2 = std::make_shared<PlayerIndexComponent>(playerIndex);
-	auto scoreDisplay2 = std::make_shared <dae::GameObject>();
-	auto livesDisplay2 = std::make_shared<TextComponent>("Score: 0", font);
-	auto healthDisplay2 = std::make_shared<TextComponent>("Health: 3", font);
-	livesDisplay2->SetPosition(400, 0);
-	healthDisplay2->SetPosition(400, 100);
-	scoreDisplay2->addComponent(livesDisplay2);
-	scoreDisplay2->addComponent(healthDisplay2);
-	currentScene.Add(scoreDisplay2);
+	//auto scoreDisplay2 = std::make_shared <dae::GameObject>();
+	//auto livesDisplay2 = std::make_shared<TextComponent>("Score: 0", font);
+	//auto healthDisplay2 = std::make_shared<TextComponent>("Health: 3", font);
+	//livesDisplay2->SetPosition(400, 0);
+	//healthDisplay2->SetPosition(400, 100);
+	//scoreDisplay2->addComponent(livesDisplay);
+	//scoreDisplay2->addComponent(healthDisplay);
+	//currentScene.Add(scoreDisplay2);
 
-	pPlayerObserver2->SetScoreComp(livesDisplay2);
-	pPlayerObserver2->SetHealthComp(healthDisplay2);
 	std::shared_ptr<SubjectComponent> subjectComponent2 = std::make_shared<SubjectComponent>();
-	subjectComponent2->addObserver(pPlayerObserver2);
-	std::shared_ptr<ScoreComponent> scoreComponent2 = std::make_shared<ScoreComponent>();
-	std::shared_ptr<HealthComponent> healtComponent2 = std::make_shared<HealthComponent>();
+	subjectComponent2->addObserver(pPlayerObserver);
+	//std::shared_ptr<ScoreComponent> scoreComponent2 = std::make_shared<ScoreComponent>();
+	//std::shared_ptr<HealthComponent> healtComponent2 = std::make_shared<HealthComponent>();
 
 	std::shared_ptr<TextureComponent> componentTextureQBert2{ std::make_shared<TextureComponent>() };
 	componentTextureQBert2->SetTexture("QBert.png");
@@ -293,11 +293,12 @@ void Level::LoadGameCoop(dae::Scene& currentScene)
 	qBert2->addComponent(componentTextureQBert2);
 	componentQbertData2->SetFieldData(QBertFieldData2);
 	qBert2->addComponent(componentQbertData2);
-	qBert2->addComponent(scoreComponent2);
+	qBert2->addComponent(scoreComponent);
 	qBert2->addComponent(subjectComponent2);
 	qBert2->addComponent(playerIndexComponent2);
-	qBert2->addComponent(healtComponent2);
+	qBert2->addComponent(healtComponent);
 	currentScene.Add(qBert2);
+	componentQbertData2->SetRespawnPoint();
 
 	MoveLeftDownCommand* moveLeft2 = new MoveLeftDownCommand(qBert2, m_PlayingField, "../Data/BackGroundTileRed.png");
 	MoveRightDownCommand* moveRight2 = new MoveRightDownCommand(qBert2, m_PlayingField, "../Data/BackGroundTileRed.png");
@@ -308,6 +309,22 @@ void Level::LoadGameCoop(dae::Scene& currentScene)
 	input.AddCommand(ControllerButton::ButtonA, KeyBoardAndMouseButton::ButtonArrowDown, WayKeyBoardButton::buttonDown, moveRight2);
 	input.AddCommand(ControllerButton::ButtonY, KeyBoardAndMouseButton::ButtonArrowUp, WayKeyBoardButton::buttonDown, moveLeftUp2);
 	input.AddCommand(ControllerButton::ButtonB, KeyBoardAndMouseButton::ButtonArrowRight, WayKeyBoardButton::buttonDown, moveRightUp2);
+
+		auto coily = std::make_shared<dae::GameObject>();
+	FieldDataPlayer CoilyFieldData;
+	CoilyFieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
+	CoilyFieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
+
+	std::shared_ptr<TextureComponent> componentTextureCoily{ std::make_shared<TextureComponent>() };
+	componentTextureCoily->SetTexture("CoilyEgg.png");
+	componentTextureCoily->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
+	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField,m_pQBerts,1.0f,componentTextureCoily) };
+	coily->addComponent(componentTextureCoily);
+	componentCoilyData->SetFieldData(CoilyFieldData);
+	coily->addComponent(componentCoilyData);
+	currentScene.Add(coily);
+	coily->SetIsActive(false);
+	m_pEnemies.push_back(componentCoilyData);
 
 	LoadMenus(currentScene);
 }
@@ -493,16 +510,18 @@ void Level::Update()
 		m_CurrentRespawnTimer = 0.0f;
 		for (size_t i = 0; i < m_pQBerts.size(); ++i)
 		{
-			auto fieldData = m_pQBerts[i]->GetFieldDataPlayer();
+			m_pQBerts[i]->RespawnQBert();
+			//auto fieldData = m_pQBerts[i]->GetFieldDataPlayer();
 
-			m_pQBerts[i]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
-			fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
-			fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
-			m_pQBerts[i]->SetThatHeIsAllowedtoMove(false);
-			m_pQBerts[i]->SetFieldData(fieldData);
-			m_pQBerts[i]->ResetCurrentTime();
-			m_pQBerts[i]->GetGameObject()->GetComponent<dae::ScoreComponent>()->AddScore(m_PlayingField->GetColorWheelsRemaining() * 50);
+			//m_pQBerts[i]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
+			//fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
+			//fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
+			//m_pQBerts[i]->SetThatHeIsAllowedtoMove(false);
+			//m_pQBerts[i]->SetFieldData(fieldData);
+			//m_pQBerts[i]->ResetCurrentTime();
 		}
+		m_pQBerts[0]->GetGameObject()->GetComponent<dae::ScoreComponent>()->AddScore(m_PlayingField->GetColorWheelsRemaining() * 50);
+
 		m_PlayingField->SetLevelIsResetted(false);
 		m_PlayingField->ResetColorWheelsRemaining();
 	}
@@ -528,6 +547,8 @@ void Level::Update()
 		if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<SlickAndSam>())
 		{
 			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
+			m_pEnemies[whatCharacter]->SetMoveToTarget(glm::vec2(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY));
+			m_pEnemies[whatCharacter]->SetThatHeIsAllowedtoMove(false);
 			fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
 			fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
 			m_pEnemies[whatCharacter]->SetFieldData(fieldData);
@@ -542,6 +563,8 @@ void Level::Update()
 			case 0:
 				//move left
 				m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetFieldDataLeftBottom().MiddlePosX, m_PlayingField->GetFieldDataLeftBottom().MiddlePosY);
+				m_pEnemies[whatCharacter]->SetMoveToTarget(glm::vec2(m_PlayingField->GetFieldDataLeftBottom().MiddlePosX, m_PlayingField->GetFieldDataLeftBottom().MiddlePosY));
+				m_pEnemies[whatCharacter]->SetThatHeIsAllowedtoMove(false);
 				fieldData.Column = m_PlayingField->GetFieldDataLeftBottom().Column;
 				fieldData.Row = m_PlayingField->GetFieldDataLeftBottom().Row;
 				m_pEnemies[whatCharacter]->SetFieldData(fieldData);
@@ -550,6 +573,8 @@ void Level::Update()
 			case 1:
 				//move right
 				m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataLast().MiddlePosX, m_PlayingField->GetPlayerFieldDataLast().MiddlePosY);
+				m_pEnemies[whatCharacter]->SetMoveToTarget(glm::vec2(m_PlayingField->GetPlayerFieldDataLast().MiddlePosX, m_PlayingField->GetPlayerFieldDataLast().MiddlePosY));
+				m_pEnemies[whatCharacter]->SetThatHeIsAllowedtoMove(false);
 				fieldData.Column = m_PlayingField->GetPlayerFieldDataLast().Column;
 				fieldData.Row = m_PlayingField->GetPlayerFieldDataLast().Row;
 				m_pEnemies[whatCharacter]->SetFieldData(fieldData);
@@ -563,6 +588,8 @@ void Level::Update()
 		else if (m_pEnemies[whatCharacter]->GetGameObject()->HasComponent<Coily>())
 		{
 			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
+			m_pEnemies[whatCharacter]->SetMoveToTarget(glm::vec2(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY));
+			m_pEnemies[whatCharacter]->SetThatHeIsAllowedtoMove(false);
 			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetTexture("CoilyEgg.png");
 			m_pEnemies[whatCharacter]->GetGameObject()->GetComponent<Coily>()->SetIsEgg(true);
 			fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
@@ -608,13 +635,15 @@ void Level::Update()
 						m_pQBerts[j]->GetGameObject()->GetComponent<dae::HealthComponent>()->LoseLive();
 						//m_pQBert->GetGameObject()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
 						//m_pQBert->SetFieldData(FieldDataPlayer{ m_PlayingField->GetPlayerFieldDataFirst().Row, m_PlayingField->GetPlayerFieldDataFirst().Column});
-						auto fieldData = m_pQBerts[j]->GetFieldDataPlayer();
+						//auto fieldData = m_pQBerts[j]->GetFieldDataPlayer();
 
-						m_pQBerts[j]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
-						fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
-						fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
-						m_pQBerts[j]->SetFieldData(fieldData);
-						m_pQBerts[j]->ResetCurrentTime();
+						m_pQBerts[j]->RespawnQBert();
+
+						//m_pQBerts[j]->GetGameObject()->GetComponent<dae::TextureComponent>()->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
+						//fieldData.Column = m_PlayingField->GetPlayerFieldDataFirst().Column;
+						//fieldData.Row = m_PlayingField->GetPlayerFieldDataFirst().Row;
+						//m_pQBerts[j]->SetFieldData(fieldData);
+						//m_pQBerts[j]->ResetCurrentTime();
 						m_pEnemies[i]->GetGameObject()->SetIsActive(false);
 
 						if (m_pQBerts[j]->GetGameObject()->GetComponent<dae::HealthComponent>()->GetRemainingLives() <= 0)

@@ -24,6 +24,26 @@ Coily::~Coily()
 	delete m_pCommandMoveLeftDown;
 }
 
+MoveLeftUpCommand* Coily::GetCommandUpLeft()const
+{
+	return m_pCommandMoveLeftUp;
+}
+
+MoveRightUpCommand*  Coily::GetCommandUpRight()const
+{
+	return m_pCommandMoveRightUp;
+}
+
+MoveRightDownCommand* Coily::GetCommandDownRight()const
+{
+	return m_pCommandMoveRightDown;
+}
+
+MoveLeftDownCommand* Coily::GetCommandDownLeft()const
+{
+	return m_pCommandMoveLeftDown;
+}
+
 bool Coily::GetIsDead()const
 {
 	return m_IsDead;
@@ -56,194 +76,74 @@ void Coily::Update()
 			switch (whatMovement)
 			{
 			case 0:
-				//move left
 				m_pCommandMoveLeftDown->Execute();
 				break;
 			case 1:
-				//move right
 				m_pCommandMoveRightDown->Execute();
 				break;
 			default:
-				//nothing
 				break;
 			}
 
 			if (m_QBertFieldData.Row == 6)
 			{
-				std::cout << "reachedBottom\n";
 				m_IsEgg = false;
-				//change texture
 				m_CoilyGameObject->GetComponent<dae::TextureComponent>()->SetTexture("../Data/Coily.png");
-				// //startPathfinding
-				//GetGameObject()->SetIsActive(false);
 			}
 		}
 		else
 		{
+			int qBertIndex{ 0 };
 
-			//do pathfinding
-			//std::cout << "pathfinding\n";
-			//std::vector<PossibleMovement> whatMovementsArePossible;
-			////first of all try to find possible movements.
-			//if (m_QBertFieldData.Column == 0)
-			//{
-			//	//can't move leftTop
-			//	if (m_QBertFieldData.Row == 0)
-			//	{
-			//		//can move left down , right down
-			//		whatMovementsArePossible.push_back(PossibleMovement::LeftDown);
-			//		whatMovementsArePossible.push_back(PossibleMovement::RightDown);
-			//	}
-			//	else if (m_QBertFieldData.Row == 6)
-			//	{
-			//		// can move right up
-			//		whatMovementsArePossible.push_back(PossibleMovement::RightUp);
-			//	}
-			//	else
-			//	{
-			//		// can move right up, right down , left down
-			//		whatMovementsArePossible.push_back(PossibleMovement::RightUp);
-			//		whatMovementsArePossible.push_back(PossibleMovement::RightDown);
-			//		whatMovementsArePossible.push_back(PossibleMovement::LeftDown);
-			//	}
-			//}
-			//else if (m_QBertFieldData.Column == m_QBertFieldData.Row)
-			//{
-			//	//if the currentColumn we are on == the current row we are on => he is on the last column of the row
-
-			//	//can't move rightTop
-			//	if (m_QBertFieldData.Row == 0)
-			//	{
-			//		//can move left down , right down
-			//		whatMovementsArePossible.push_back(PossibleMovement::LeftDown);
-			//		whatMovementsArePossible.push_back(PossibleMovement::RightDown);
-			//	}
-			//	else if (m_QBertFieldData.Row == 6)
-			//	{
-			//		// can move left up
-			//		whatMovementsArePossible.push_back(PossibleMovement::LeftUp);
-			//	}
-			//	else
-			//	{
-			//		// can move left up, right down , left down
-			//		whatMovementsArePossible.push_back(PossibleMovement::RightDown);
-			//		whatMovementsArePossible.push_back(PossibleMovement::LeftDown);
-			//		whatMovementsArePossible.push_back(PossibleMovement::LeftUp);
-			//	}
-			//}
-			//else if(m_QBertFieldData.Row == 6)
-			//{
-			//	//can only go up
-			//	whatMovementsArePossible.push_back(PossibleMovement::LeftUp);
-			//	whatMovementsArePossible.push_back(PossibleMovement::RightUp);
-			//}
-			//else
-			//{
-			//	//can do anything
-			//	whatMovementsArePossible.push_back(PossibleMovement::LeftUp);
-			//	whatMovementsArePossible.push_back(PossibleMovement::RightUp);
-			//	whatMovementsArePossible.push_back(PossibleMovement::RightDown);
-			//	whatMovementsArePossible.push_back(PossibleMovement::LeftDown);
-			//}
-			 
-			//if one => do that movement 
-			//if (whatMovementsArePossible.size() == 1)
-			//if ()
-			//{
-			//	////do that movement
-			//	//switch (whatMovementsArePossible[0])
-			//	//{
-			//	//case PossibleMovement::LeftDown:
-			//	//	m_pCommandMoveLeftDown->Execute();
-			//	//	break;
-			//	//case PossibleMovement::LeftUp:
-			//	//	m_pCommandMoveLeftUp->Execute();
-			//	//	break;
-			//	//case PossibleMovement::RightDown:
-			//	//	m_pCommandMoveRightDown->Execute();
-			//	//	break;
-			//	//case PossibleMovement::RightUp:
-			//	//	m_pCommandMoveRightUp->Execute();
-			//	//	break;
-			//	//default:
-			//	//	break;
-			//	//}
-			//}
-			if(true)
+			if (m_pQBerts.size() > 1)
 			{
-				//else
-				//get player location
-				if (m_pQBerts.size() > 1)
+				int distanceQBert{ 10000 };
+				for (size_t i = 0; i < m_pQBerts.size(); ++i)
 				{
-					//do shit
-					std::cout << "more then 1 Qbert";
+					int rowResult = m_QBertFieldData.Row - m_pQBerts[i]->GetFieldDataPlayer().Row;
+					int colResult = m_QBertFieldData.Column - m_pQBerts[i]->GetFieldDataPlayer().Column;
+					if (rowResult < 0)
+					{
+						rowResult *= -1;
+					}
+					if (colResult < 0)
+					{
+						colResult *= -1;
+					}
+
+					int resultRowColDis = rowResult + colResult;
+					if (resultRowColDis < distanceQBert)
+					{
+						qBertIndex = i;
+						distanceQBert = resultRowColDis;
+					}
 				}
-				else
-				{
-					//do coily.row - player.row = rowResult
-					//&& coily.col - player.col = colResult
-					int rowResult =  m_QBertFieldData.Row -  m_pQBerts[0]->GetFieldDataPlayer().Row;
-					int colResult = m_QBertFieldData.Column -  m_pQBerts[0]->GetFieldDataPlayer().Column;
-
-
-					if (colResult <= 0 && rowResult <= 0)
-					{
-
-						//move rightBottom
-						//for (size_t i = 0; i < whatMovementsArePossible.size(); ++i)
-						//{
-						//	if (whatMovementsArePossible[i] == PossibleMovement::RightDown)
-						//	{
-								m_pCommandMoveRightDown->Execute();
-								return;
-							//}
-						//}
-					}
-					if (colResult >= 0 && rowResult <= 0)
-					{
-
-						//for (size_t i = 0; i < whatMovementsArePossible.size(); ++i)
-						//{
-						//	if (whatMovementsArePossible[i] == PossibleMovement::LeftDown)
-						//	{
-								m_pCommandMoveLeftDown->Execute();
-								return;
-						//	}
-						//}
-					}
-					if (colResult <= 0 && rowResult >= 0)
-					{
-						/*					for (size_t i = 0; i < whatMovementsArePossible.size(); ++i)
-											{
-												if (whatMovementsArePossible[i] == PossibleMovement::RightUp)
-												{*/
-						m_pCommandMoveRightUp->Execute();
-						return;
-						//}
-					//}
-					}
-					if (colResult >= 0 && rowResult >= 0)
-					{
-
-					//	for (size_t i = 0; i < whatMovementsArePossible.size(); ++i)
-					//	{
-					//		if (whatMovementsArePossible[i] == PossibleMovement::LeftUp)
-					//		{
-								m_pCommandMoveLeftUp->Execute();
-								return;
-				//			}
-				//		}
-					}
-					std::cout << "no movement";
-				}
-	
-				//then see the one with the greatest distance.
-				//do the one with the greatest distance 
-				//=> if colResult == negative move right else move left
-				//=> if rowResult == negative move bottom else move top
 			}
 
-			
+			int rowResult = m_QBertFieldData.Row - m_pQBerts[qBertIndex]->GetFieldDataPlayer().Row;
+			int colResult = m_QBertFieldData.Column - m_pQBerts[qBertIndex]->GetFieldDataPlayer().Column;
+
+
+			if (colResult <= 0 && rowResult <= 0)
+			{
+				m_pCommandMoveRightDown->Execute();
+				return;
+			}
+			if (colResult >= 0 && rowResult <= 0)
+			{
+				m_pCommandMoveLeftDown->Execute();
+				return;
+			}
+			if (colResult <= 0 && rowResult >= 0)
+			{
+				m_pCommandMoveRightUp->Execute();
+				return;
+			}
+			if (colResult >= 0 && rowResult >= 0)
+			{
+				m_pCommandMoveLeftUp->Execute();
+				return;
+			}
 		}
 	}
 
