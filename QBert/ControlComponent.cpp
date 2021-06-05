@@ -80,7 +80,7 @@ void ControlComponent::UpdateMovement()
 	float distanceX = glm::distance(posX, m_TargetPos.x);
 	float distanceY = glm::distance(posY, m_TargetPos.y);
 	
-	if (distanceX < 0.5f && distanceY < 0.5f)
+	if (distanceX <1.0f && distanceY < 1.0f)
 	{
 		m_NeedsToMove = false;
 		m_Speed.x = 0.0f;

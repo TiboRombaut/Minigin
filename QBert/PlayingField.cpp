@@ -7,7 +7,7 @@
 #include <filereadstream.h>
 using rapidjson::Value;
 
-PlayingField::PlayingField(float , float , std::shared_ptr<dae::GameObject> field)
+PlayingField::PlayingField(float , float , std::shared_ptr<dae::GameObject> field, std::shared_ptr<dae::TextureComponent> goalComp)
 {
 	std::wstring fileName = L"../Data/PlayingFieldLayout.json";
 	rapidjson::Document jsonDocumentExam;
@@ -43,6 +43,8 @@ PlayingField::PlayingField(float , float , std::shared_ptr<dae::GameObject> fiel
 	m_SecondTileName = secondTile.GetString();
 	m_ThirthTileName = thirthTile.GetString();
 
+	m_TextureCompGoalIndication = goalComp;
+	m_TextureCompGoalIndication->SetTexture(m_SecondTileName);
 
 	float widthStartPos = startingPosX.GetFloat();
 	float HeightStartPos = startingPosY.GetFloat();
@@ -201,7 +203,11 @@ bool  PlayingField::ChangeTileLevel3(int whatTile, int isQBert)
 bool PlayingField::ChangeTileColor(int whatTile, bool isQBert)
 {
 	bool result{ false };
-	switch (m_CurrentLevel)
+	//level 1 = 2
+	//level 2 = 1
+	//level 3 = 0
+	int currentLevel = m_CurrentLevel % 3;
+	switch (currentLevel)
 	{
 	case 1:
 		result = ChangeTileLevel1(whatTile, isQBert);
@@ -213,7 +219,7 @@ bool PlayingField::ChangeTileColor(int whatTile, bool isQBert)
 		LevelFinished(m_ThirthTileName);
 		return result;
 		break;
-	case 3:
+	case 0:
 		result = ChangeTileLevel3(whatTile, isQBert);
 		LevelFinished(m_SecondTileName);
 		return result;
@@ -259,6 +265,7 @@ void PlayingField::ResetLevel()
 		}
 	}
 	m_LevelIsResetted = true;
+
 }
 
 bool PlayingField::LevelFinished(std::string goalName)
@@ -279,6 +286,20 @@ bool PlayingField::LevelFinished(std::string goalName)
 	}
 	ResetLevel();
 	m_CurrentLevel++;
+
+	int currentLevel = m_CurrentLevel % 3;
+	switch (currentLevel)
+	{
+	case 1:
+		m_TextureCompGoalIndication->SetTexture(m_SecondTileName);
+		break;
+	case 2:
+		m_TextureCompGoalIndication->SetTexture(m_ThirthTileName);
+		break;
+	case 0:
+		m_TextureCompGoalIndication->SetTexture(m_SecondTileName);
+		break;
+	}
 	return true;
 }
 
@@ -304,74 +325,3 @@ FieldData PlayingField::GetFieldDataLeftBottom()const
 void PlayingField::Update()
 {
 }
-
-//float widthStartPos = 250;
-//float HeightStartPos = 200;
-//float textureWidth = 0;
-//float textureHeight = 0;
-//for (int row = 0; row < 7; ++row)
-//{
-//	//The row we are on determines how many colums we have
-//	int temp = row + 1;
-//	for (int column = 0; column < temp; ++column)
-//	{
-//		if (row == 4 && column == 0)
-//		{
-//			std::shared_ptr<dae::TextureComponent> componentTextureColorWheel{ std::make_shared<dae::TextureComponent>() };
-//			componentTextureColorWheel->SetTexture("ColorWheel.png");
-//			float posXColorWheel = widthStartPos - (textureWidth / 3);
-//
-//			componentTextureColorWheel->SetPosition(posXColorWheel, HeightStartPos - textureHeight / 3);
-//			FieldData currentDataColorWheel;
-//			currentDataColorWheel.Row = row - 1;
-//			currentDataColorWheel.Column = column - 1;
-//			currentDataColorWheel.MiddlePosX = posXColorWheel + textureWidth / 4;
-//			currentDataColorWheel.MiddlePosY = HeightStartPos;
-//			currentDataColorWheel.TextureComponent = componentTextureColorWheel;
-//
-//			m_Field.push_back(currentDataColorWheel);
-//			go->addComponent(componentTextureColorWheel);
-//		}
-//		else if (row == 4 && column == temp - 1)
-//		{
-//			std::shared_ptr<dae::TextureComponent> componentTextureColorWheel{ std::make_shared<dae::TextureComponent>() };
-//			componentTextureColorWheel->SetTexture("ColorWheel.png");
-//			float posXColorWheel = widthStartPos + (column * textureWidth) + textureWidth;
-//
-//			componentTextureColorWheel->SetPosition(posXColorWheel, HeightStartPos - textureHeight / 3);
-//			FieldData currentDataColorWheel;
-//			currentDataColorWheel.Row = row - 1;
-//			currentDataColorWheel.Column = column;
-//			currentDataColorWheel.MiddlePosX = posXColorWheel + textureWidth / 4;
-//			currentDataColorWheel.MiddlePosY = HeightStartPos;
-//			currentDataColorWheel.TextureComponent = componentTextureColorWheel;
-//
-//			m_Field.push_back(currentDataColorWheel);
-//			go->addComponent(componentTextureColorWheel);
-//		}
-//
-//		std::shared_ptr<dae::TextureComponent> componentTexture{ std::make_shared<dae::TextureComponent>() };
-//		componentTexture->SetTexture("BackGroundTileRed.png");
-//		if (row == 0)
-//		{
-//			textureWidth = float(componentTexture->GetWidth());
-//			textureHeight = float(componentTexture->GetHeight());
-//		}
-//
-//
-//		float posX = widthStartPos + (column * textureWidth);
-//
-//		componentTexture->SetPosition(posX, HeightStartPos);
-//		FieldData currentData;
-//		currentData.Row = row;
-//		currentData.Column = column;
-//		currentData.MiddlePosX = posX + textureWidth / 4;
-//		currentData.MiddlePosY = HeightStartPos;
-//		currentData.TextureComponent = componentTexture;
-//
-//		m_Field.push_back(currentData);
-//		go->addComponent(componentTexture);
-//	}
-//	widthStartPos -= textureWidth / 2;
-//	HeightStartPos += textureHeight / 4 * 3;
-//}

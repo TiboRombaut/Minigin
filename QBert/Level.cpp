@@ -27,6 +27,22 @@ Level::Level()
 
 }
 
+Level::~Level()
+{
+	std::vector<dae::ButtonCommand> commandsToDelete = {};
+	auto commands = dae::InputManager::GetInstance().GetCommands();
+	for (size_t i = 0; i < commands.size(); ++i)
+	{
+		if (dynamic_cast<MouseClickMainMenuCommand*>(commands[i].pCommand) == nullptr)
+		{
+			commandsToDelete.push_back(commands[i]);
+		}
+	}
+	dae::InputManager::GetInstance().DeleteCommands(commandsToDelete);
+	std::cout << "end destructor level";
+	dae::InputManager::GetInstance().GetCommands();
+}
+
 void Level::LoadGameSolo(dae::Scene& currentScene)
 {
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
@@ -50,8 +66,8 @@ void Level::LoadGameSolo(dae::Scene& currentScene)
 	auto scoreDisplay = std::make_shared <dae::GameObject>();
 	auto livesDisplay = std::make_shared<TextComponent>("Score: 0", font);
 	auto healthDisplay = std::make_shared<TextComponent>("Health: 3", font);
-	livesDisplay->SetPosition(200, 0);
-	healthDisplay->SetPosition(200, 100);
+	livesDisplay->SetPosition(10, 10);
+	healthDisplay->SetPosition(480, 10);
 	//livesDisplay->SetText("Score: 0");
 
 	scoreDisplay->addComponent(livesDisplay);
@@ -100,7 +116,7 @@ void Level::LoadGameSolo(dae::Scene& currentScene)
 	std::shared_ptr<TextureComponent> componentTextureCoily{ std::make_shared<TextureComponent>() };
 	componentTextureCoily->SetTexture("CoilyEgg.png");
 	componentTextureCoily->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
-	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField,m_pQBerts,1.0f,componentTextureCoily) };
+	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField,m_pQBerts,1.0f,componentTextureCoily,false) };
 	coily->addComponent(componentTextureCoily);
 	componentCoilyData->SetFieldData(CoilyFieldData);
 	coily->addComponent(componentCoilyData);
@@ -135,8 +151,8 @@ void Level::LoadGameVs(dae::Scene& currentScene)
 	auto scoreDisplay = std::make_shared <dae::GameObject>();
 	auto livesDisplay = std::make_shared<TextComponent>("Score: 0", font);
 	auto healthDisplay = std::make_shared<TextComponent>("Health: 3", font);
-	livesDisplay->SetPosition(200, 0);
-	healthDisplay->SetPosition(200, 100);
+	livesDisplay->SetPosition(10, 10);
+	healthDisplay->SetPosition(480, 10);
 	//livesDisplay->SetText("Score: 0");
 
 	scoreDisplay->addComponent(livesDisplay);
@@ -185,7 +201,7 @@ void Level::LoadGameVs(dae::Scene& currentScene)
 	std::shared_ptr<TextureComponent> componentTextureCoily{ std::make_shared<TextureComponent>() };
 	componentTextureCoily->SetTexture("CoilyEgg.png");
 	componentTextureCoily->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
-	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField,m_pQBerts,0.6f,componentTextureCoily) };
+	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField,m_pQBerts,1.0f,componentTextureCoily,true) };
 	coily->addComponent(componentTextureCoily);
 	componentCoilyData->SetFieldData(CoilyFieldData);
 	coily->addComponent(componentCoilyData);
@@ -223,8 +239,8 @@ void Level::LoadGameCoop(dae::Scene& currentScene)
 	auto scoreDisplay = std::make_shared <dae::GameObject>();
 	auto livesDisplay = std::make_shared<TextComponent>("Score: 0", font);
 	auto healthDisplay = std::make_shared<TextComponent>("Health: 3", font);
-	livesDisplay->SetPosition(200, 0);
-	healthDisplay->SetPosition(200, 100);
+	livesDisplay->SetPosition(10, 10);
+	healthDisplay->SetPosition(480, 10);
 	scoreDisplay->addComponent(livesDisplay);
 	scoreDisplay->addComponent(healthDisplay);
 	currentScene.Add(scoreDisplay);
@@ -318,7 +334,7 @@ void Level::LoadGameCoop(dae::Scene& currentScene)
 	std::shared_ptr<TextureComponent> componentTextureCoily{ std::make_shared<TextureComponent>() };
 	componentTextureCoily->SetTexture("CoilyEgg.png");
 	componentTextureCoily->SetPosition(m_PlayingField->GetPlayerFieldDataFirst().MiddlePosX, m_PlayingField->GetPlayerFieldDataFirst().MiddlePosY);
-	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField,m_pQBerts,1.0f,componentTextureCoily) };
+	std::shared_ptr<Coily> componentCoilyData{ std::make_shared<Coily>(coily ,m_PlayingField,m_pQBerts,1.0f,componentTextureCoily,false) };
 	coily->addComponent(componentTextureCoily);
 	componentCoilyData->SetFieldData(CoilyFieldData);
 	coily->addComponent(componentCoilyData);
@@ -331,26 +347,30 @@ void Level::LoadGameCoop(dae::Scene& currentScene)
 
 void Level::LoadGame(dae::Scene& currentScene, std::shared_ptr<dae::Font> font)
 {
+	auto font2 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+
 	auto go = std::make_shared<dae::GameObject>();
 	std::shared_ptr<dae::TextureComponent> component{ std::make_shared<dae::TextureComponent>() };
 	component->SetTexture("background.jpg");
 	go->addComponent(component);
 
+	auto component2 = std::make_shared<TextComponent>("Goal: ", font2);
+	component2->SetPosition(10, 60);
+	go->addComponent(component2);
+	currentScene.Add(go);
+
+	auto goalTexture = std::make_shared<dae::GameObject>();
+	std::shared_ptr<dae::TextureComponent> goalTextureComp{ std::make_shared<dae::TextureComponent>() };
+	goalTextureComp->SetTexture("BackGroundTileYellow.png");
+	goalTextureComp->SetPosition(100, 50);
+	goalTexture->addComponent(goalTextureComp);
+	currentScene.Add(goalTexture);
 	auto playingField = std::make_shared<dae::GameObject>();
-	std::shared_ptr<PlayingField> componentplayingField{ std::make_shared<PlayingField>(250.0f,200.0f,go) };
+	std::shared_ptr<PlayingField> componentplayingField{ std::make_shared<PlayingField>(250.0f,200.0f,go,goalTextureComp) };
 	playingField->addComponent(componentplayingField);
 	currentScene.Add(playingField);
 
 	m_PlayingField = componentplayingField;
-
-	auto component2 = std::make_shared<TextComponent>("Programming 4 Exam Assignment", font);
-	component2->SetPosition(80, 20);
-	go->addComponent(component2);
-
-	//auto component3 = std::make_shared<FPSComponent>();
-	//go->addComponent(component3);
-	currentScene.Add(go);
-
 	//init player
 	//auto& renderer = dae::Renderer::GetInstance();
 
@@ -457,31 +477,43 @@ void Level::LoadMenus(dae::Scene& currentScene)
 
 	auto pauseScreen = std::make_shared<dae::GameObject>();
 	std::shared_ptr<dae::TextureComponent> pauseScreenComp = { std::make_shared<dae::TextureComponent>("PauseScreen.png") };
-	pauseScreenComp->SetPosition(150, 100);
+	pauseScreenComp->SetPosition(195, 100);
 	pauseScreen->addComponent(pauseScreenComp);
 	currentScene.Add(pauseScreen);
 
 	auto deathScreen = std::make_shared<dae::GameObject>();
 	std::shared_ptr<dae::TextureComponent> deathScreenComp = { std::make_shared<dae::TextureComponent>("DeadScreen.png") };
-	deathScreenComp->SetPosition(150, 100);
+	deathScreenComp->SetPosition(195, 100);
 	deathScreen->addComponent(deathScreenComp);
 	currentScene.Add(deathScreen);
 
 	auto playButton = std::make_shared<dae::GameObject>();
-	std::shared_ptr<dae::TextureComponent> playButtonComp = { std::make_shared<dae::TextureComponent>("Solo.png") };
+	std::shared_ptr<dae::TextureComponent> playButtonComp = { std::make_shared<dae::TextureComponent>("Resume.png") };
 	playButtonComp->SetPosition(250, 200);
 	playButton->addComponent(playButtonComp);
 	currentScene.Add(playButton);
 
+	auto mainMenuButton = std::make_shared<dae::GameObject>();
+	std::shared_ptr<dae::TextureComponent> mainMenuButtonComp = { std::make_shared<dae::TextureComponent>("MainMenu.png") };
+	mainMenuButtonComp->SetPosition(250, 250);
+	mainMenuButton->addComponent(mainMenuButtonComp);
+	currentScene.Add(mainMenuButton);
+
+	auto restartButton = std::make_shared<dae::GameObject>();
+	std::shared_ptr<dae::TextureComponent> restartButtonComp = { std::make_shared<dae::TextureComponent>("Restart.png") };
+	restartButtonComp->SetPosition(250, 300);
+	restartButton->addComponent(restartButtonComp);
+	currentScene.Add(restartButton);
+
 	auto exitButton = std::make_shared<dae::GameObject>();
-	std::shared_ptr<dae::TextureComponent> exitButtonComp = { std::make_shared<dae::TextureComponent>("Vs.png") };
-	exitButtonComp->SetPosition(250, 250);
+	std::shared_ptr<dae::TextureComponent> exitButtonComp = { std::make_shared<dae::TextureComponent>("Exit.png") };
+	exitButtonComp->SetPosition(250, 350);
 	exitButton->addComponent(exitButtonComp);
 	currentScene.Add(exitButton);
 
 
 	auto menu = std::make_shared<dae::GameObject>();
-	m_pMenusComp = { std::make_shared<Menus>(playButtonComp,exitButtonComp,pauseScreenComp,deathScreenComp) };
+	m_pMenusComp = { std::make_shared<Menus>(playButtonComp,exitButtonComp,restartButtonComp,mainMenuButtonComp,pauseScreenComp,deathScreenComp) };
 	menu->addComponent(m_pMenusComp);
 	currentScene.Add(menu);
 	m_pMenusComp->SetPauseScreenInActive();
@@ -646,15 +678,16 @@ void Level::Update()
 						//m_pQBerts[j]->ResetCurrentTime();
 						m_pEnemies[i]->GetGameObject()->SetIsActive(false);
 
-						if (m_pQBerts[j]->GetGameObject()->GetComponent<dae::HealthComponent>()->GetRemainingLives() <= 0)
-						{
-							//you die
-							m_pMenusComp->GetGameObject()->SetIsActive(true);
-							m_pMenusComp->SetDeathScreenActive();
-							GameTime::GetInstance().SetPaused(true);
-						}
+				
 					}
 				}
+			}
+			if (m_pQBerts[j]->GetGameObject()->GetComponent<dae::HealthComponent>()->GetRemainingLives() <= 0)
+			{
+				//you die
+				m_pMenusComp->GetGameObject()->SetIsActive(true);
+				m_pMenusComp->SetDeathScreenActive();
+				GameTime::GetInstance().SetPaused(true);
 			}
 		}
 	}

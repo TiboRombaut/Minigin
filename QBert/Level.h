@@ -18,7 +18,8 @@ public:
 	void Update();
 	void Render() const {};
 
-	~Level() = default;
+
+	~Level();
 	Level(const Level& other) = delete;
 	Level(Level&& other) = delete;
 	Level& operator=(const Level& other) = delete;

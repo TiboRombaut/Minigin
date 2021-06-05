@@ -1,5 +1,6 @@
 #include "QBertComponent.h"
 #include <GameTime.h>
+#include <HealthComponent.h>
 
 QBertComponent::QBertComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp)
 	:ControlComponent(timeItTakesToMove,textureComp)
@@ -117,6 +118,7 @@ void QBertComponent::Update()
 	else if (m_QBertFieldData.Row == -1 || m_QBertFieldData.Column == -1)
 	{
 		RespawnQBert();
+		m_TextureComp->GetGameObject()->GetComponent<dae::HealthComponent>()->LoseLive();
 		//auto fieldData = m_QBertFieldData;
 		//m_TextureComp->SetPosition(m_RespawnPos.MiddlePosX, m_RespawnPos.MiddlePosY);
 		//fieldData.Column = 0;

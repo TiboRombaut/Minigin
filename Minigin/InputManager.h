@@ -114,6 +114,8 @@ namespace dae
 		bool IsPressed(const ControllerButton& button);
 		bool HandleKeyBoard();
 		void AddCommand(const ControllerButton button, const KeyBoardAndMouseButton& whichKeyBoardButton, const WayKeyBoardButton& whichKeyBoardButtonWay, Command* pCommand);
+		std::vector<ButtonCommand> GetCommands()const;
+		void DeleteCommands(std::vector<ButtonCommand> commandsToDelete);
 		void ExecuteCommand(const size_t index);
 		static glm::vec2 GetMousePos();
 		void EndGame() { m_StopGame = true; };

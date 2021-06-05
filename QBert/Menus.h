@@ -7,6 +7,7 @@ class Menus : public dae::BaseComponent
 {
 public:
 	Menus(std::shared_ptr<dae::TextureComponent> playButton, std::shared_ptr<dae::TextureComponent> exitButton,
+		std::shared_ptr<dae::TextureComponent> restartButton, std::shared_ptr<dae::TextureComponent> mainMenuButton,
 		std::shared_ptr<dae::TextureComponent> pauseScreen, std::shared_ptr<dae::TextureComponent> DeathScreen);
 
 	void Update();
@@ -25,6 +26,8 @@ private:
 
 	InWhatButtonGameMenu m_MouseClickHappenend = InWhatButtonGameMenu::None;
 	std::shared_ptr<dae::TextureComponent> m_pPlayButton;
+	std::shared_ptr<dae::TextureComponent> m_pMainMenuButton;
+	std::shared_ptr<dae::TextureComponent> m_pRestartButton;
 	std::shared_ptr<dae::TextureComponent> m_pExitButton;
 	std::shared_ptr<dae::TextureComponent> m_pPauseScreen;
 	std::shared_ptr<dae::TextureComponent> m_pDeathScreen;

@@ -48,7 +48,7 @@ void dae::Renderer::Render() const
 	//{
 	//	ImGui::ShowDemoWindow(m_pShowDemo);
 	//}
-	RenderUI();
+	//RenderUI();
 	
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
@@ -62,60 +62,6 @@ void dae::Renderer::RenderUI()const
 	ImGui::Button("Co-op");
 	ImGui::Button("Versus");
 	ImGui::End();
-
-	ImGui::Begin("Player1");
-	std::string textLives{ "Lives: " + std::to_string(m_QBert1Lives) };
-	ImGui::Text(textLives.c_str());
-	
-	std::string textScore{ "Score: " + std::to_string(m_QBert1Score) };
-	ImGui::Text(textScore.c_str());
-	ImGui::End();
-
-	ImGui::Begin("Player2");
-	std::string textLives2{ "Lives: " + std::to_string(m_QBert2Lives) };
-	ImGui::Text(textLives2.c_str());
-
-	std::string textScore2{ "Score: " + std::to_string(m_QBert2Score) };
-	ImGui::Text(textScore2.c_str());
-	ImGui::End();
-}
-
-void  dae::Renderer::InitPlayer(int index, int amount,int score)
-{
-	if(index == 0)
-	{
-		m_QBert1Lives = amount;
-		m_QBert1Score = score;
-	}else
-	{
-		m_QBert2Lives = amount;
-		m_QBert2Score = score;
-	}
-
-}
-
-void  dae::Renderer::UpdateLives(int index, int amount)
-{
-	if (index == 0)
-	{		
-		m_QBert1Lives = amount;
-	}
-	else
-	{
-		m_QBert2Lives = amount;
-	}
-}
-
-void  dae::Renderer::UpdateScore(int index, int amount)
-{
-	if (index == 0)
-	{
-		m_QBert1Score = amount;
-	}
-	else
-	{
-		m_QBert2Score = amount;
-	}
 }
 
 void dae::Renderer::Destroy()

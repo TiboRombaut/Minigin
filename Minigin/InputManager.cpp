@@ -31,6 +31,25 @@ dae::InputManager::~InputManager()
 
 }
 
+std::vector<dae::ButtonCommand> dae::InputManager::GetCommands()const
+{
+	return m_CommandButton;
+}
+
+void dae::InputManager::DeleteCommands(std::vector<dae::ButtonCommand> commandsToDelete)
+{
+	for (size_t i = 0; i < m_CommandButton.size(); ++i)
+	{
+		for (size_t j = 0; j < commandsToDelete.size(); ++j)
+		{
+			if (m_CommandButton[i].pCommand == commandsToDelete[j].pCommand)
+			{
+				delete m_CommandButton[i].pCommand;
+				m_CommandButton.erase(m_CommandButton.begin() + i);
+			}
+		}
+	}
+}
 
 void dae::InputManager::AddCommand(const ControllerButton button, const KeyBoardAndMouseButton& whichKeyBoardButton, const WayKeyBoardButton& whichKeyBoardButtonWay, Command* pCommand)
 {

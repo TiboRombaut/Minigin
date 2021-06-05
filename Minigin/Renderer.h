@@ -14,9 +14,6 @@ namespace dae
 	{
 	public:
 		void Init(SDL_Window* window);
-		void InitPlayer(int index,int amount,int Score);
-		void UpdateLives(int index,int amount);
-		void UpdateScore(int index,int amount);
 		void Render() const;
 		void Destroy();
 
@@ -28,11 +25,5 @@ namespace dae
 	private:
 		SDL_Renderer* m_Renderer{};
 		SDL_Window* m_pWindow{};
-		//bool* m_pShowDemo{ new bool(true) };
-		int m_QBert1Lives{ 0 };
-		int m_QBert1Score{ 0 };
-
-		int m_QBert2Lives{ 0 };
-		int m_QBert2Score{ 0 };
 	};
 }

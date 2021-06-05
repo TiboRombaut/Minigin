@@ -2,8 +2,8 @@
   "AmountOfLevels": "3",
   "Rows": 7,
   "ColorWheelRow": 4,
-  "StartingPosX": 200,
-  "StartingPosY": 200,
+  "StartingPosX": 300,
+  "StartingPosY": 100,
   "FirstTile": "../Data/BackGroundTileRed.png",
   "SecondTile": "../Data/BackGroundTileYellow.png",
   "ThirthTile": "../Data/BackGroundTileBlue.png"

@@ -5,10 +5,11 @@
 #include <GameObject.h>
 
 Coily::Coily(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::vector<std::shared_ptr<QBertComponent>>& Qberts,
-	float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp)
+	float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp, bool isPlayerControlled)
 	:AIComponent(timeItTakesToMove,textureComp)
 	,m_CoilyGameObject(pObject)
 	, m_pQBerts(Qberts)
+	,m_IsPlayerControlled(isPlayerControlled)
 {
 	m_pCommandMoveLeftUp = new MoveLeftUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
 	m_pCommandMoveRightUp = new MoveRightUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
@@ -91,7 +92,7 @@ void Coily::Update()
 				m_CoilyGameObject->GetComponent<dae::TextureComponent>()->SetTexture("../Data/Coily.png");
 			}
 		}
-		else
+		else if(!m_IsPlayerControlled)
 		{
 			int qBertIndex{ 0 };
 

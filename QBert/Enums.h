@@ -11,6 +11,8 @@ enum class InWhatButtonGameMenu : unsigned int
 {
 	Play = 0,
 	Exit = 1,
-	None = 2
+	MainMenu = 3,
+	Restart = 4,
+	None = 5
 };
 

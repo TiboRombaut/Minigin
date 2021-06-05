@@ -19,7 +19,7 @@ class Coily final : public AIComponent
 public:
 
 	Coily(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::vector<std::shared_ptr<QBertComponent>>& Qberts, 
-		float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp);
+		float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp,bool isPlayerControlled);
 
 	void Update();
 	void Render() const {};
@@ -48,5 +48,6 @@ private:
 	bool m_IsEgg = true;
 	std::vector < std::shared_ptr<QBertComponent>> m_pQBerts;
 	bool m_IsDead = false;
+	bool m_IsPlayerControlled = false;
 };
 

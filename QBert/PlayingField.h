@@ -8,7 +8,7 @@
 class PlayingField : public dae::BaseComponent
 {
 public:
-	PlayingField(float widthStartPos,float heightStartPos,std::shared_ptr<dae::GameObject> field);
+	PlayingField(float widthStartPos,float heightStartPos,std::shared_ptr<dae::GameObject> field, std::shared_ptr<dae::TextureComponent> goalComp);
 	//PlayingField(std::shared_ptr<dae::GameObject> pObject, std::vector<FieldData>& field);
 
 	void Update();
@@ -65,5 +65,6 @@ private:
 	std::string m_FirstTileName = "../Data/BackGroundTileRed.png";
 	std::string m_SecondTileName = "../Data/BackGroundTileYellow.png";
 	std::string m_ThirthTileName = "../Data/BackGroundTileBlue.png";
+	std::shared_ptr<dae::TextureComponent> m_TextureCompGoalIndication;
 };
 

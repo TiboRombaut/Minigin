@@ -15,11 +15,11 @@ void dae::ObserverPlayer::Notify(const GameObject* object, Event event)
 	{
 	case Event::PlayerDied:
 		std::cout << "PlayerDied : " << object->GetComponent<dae::HealthComponent>()->GetRemainingLives() << std::endl;
-		dae::Renderer::GetInstance().UpdateLives(object->GetComponent<PlayerIndexComponent>()->GetIndexPlayer(), object->GetComponent<dae::HealthComponent>()->GetRemainingLives());
+		//dae::Renderer::GetInstance().UpdateLives(object->GetComponent<PlayerIndexComponent>()->GetIndexPlayer(), object->GetComponent<dae::HealthComponent>()->GetRemainingLives());
 		break;
 	case Event::ScoreIncrease:
 		std::cout << "Increasing score: " << object->GetComponent<ScoreComponent>()->GetScore() << std::endl;
-		dae::Renderer::GetInstance().UpdateScore(object->GetComponent<PlayerIndexComponent>()->GetIndexPlayer(), object->GetComponent<ScoreComponent>()->GetScore());
+		//dae::Renderer::GetInstance().UpdateScore(object->GetComponent<PlayerIndexComponent>()->GetIndexPlayer(), object->GetComponent<ScoreComponent>()->GetScore());
 		break;
 	default:
 		break;

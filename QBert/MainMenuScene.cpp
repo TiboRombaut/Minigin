@@ -11,9 +11,9 @@ void MainMenuScene::LoadGame(dae::Scene& currentScene)
 	go->addComponent(component);
 
 
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto component2 = std::make_shared<dae::TextComponent>("Programming 4 Exam Assignment", font);
-	component2->SetPosition(80, 20);
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 64);
+	auto component2 = std::make_shared<dae::TextComponent>("Q*Bert", font);
+	component2->SetPosition(200, 50);
 	go->addComponent(component2);
 	currentScene.Add(go);
 
