@@ -28,6 +28,10 @@ private:
 	void LoadGame(dae::Scene& currentScene);
 	void LoadMenus(dae::Scene& currentScene);
 
+	void UpdateRespawning();
+	void UpdatePlayerCollsionWithEnemy();
+	void UpdateLevel();
+
 	int m_CurrentLevel = 1;
 	std::shared_ptr<Menus> m_pMenusComp;
 	std::vector<std::shared_ptr<AIComponent>> m_pEnemies;
