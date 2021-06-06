@@ -10,7 +10,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Render()const = 0;
 
-	void SetIsDead(bool isDead);
+	void SetIsDead(bool isDead); 
 	bool GetIsDead()const;
 
 	~AIComponent() = default;
