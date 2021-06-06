@@ -358,18 +358,17 @@ void Level::LoadGame(dae::Scene& currentScene)
 	//printing controls:
 	std::cout << "Controls: \n\n";
 	std::cout << "Player1: \n";
-	std::cout << "PlaySound:        Xbox Controller: A,	    Playstation: Cross \n";
-	std::cout << "Color change:     Xbox Controller: B,	    Playstation: Circle \n";
-	std::cout << "Defeating coily:  Xbox Controller: X,	    Playstation: Square \n";
-	std::cout << "CaughtSlickOrSam: Xbox Controller: Y,	    Playstation: Triangle \n";
-	std::cout << "Remaining disks:  Xbox Controller: Start,   Playstation: Options \n\n";
+	std::cout << "move leftup:    Xbox Controller: ArrowUp,     Playstation: ArrowUp,    keyboard: W\n";
+	std::cout << "move rightup:   Xbox Controller: ArrowRight,  Playstation: ArrowRight, keyboard: D\n";
+	std::cout << "move leftDown:  Xbox Controller:ArrowLeft,    Playstation: ArrowLeft,  keyboard: A\n";
+	std::cout << "move rightDown: Xbox Controller: ArrowDown,   Playstation: ArrowDown,  keyboard: S\n";
+	std::cout << "pause:          Xbox Controller: Start,       Playstation: Options,    keyboard: ESC\n\n";
 
-	std::cout << "Player2: Arrow = dpad on controller \n";
-	std::cout << "Kill:             Xbox Controller: ArrowDown,  Playstation: ArrowDown \n";
-	std::cout << "Color change:     Xbox Controller: ArrowLeft,  Playstation: ArrowLeft \n";
-	std::cout << "Defeating coily:  Xbox Controller: ArrowRight, Playstation: ArrowRight \n";
-	std::cout << "CaughtSlickOrSam: Xbox Controller: ArrowUp,    Playstation: ArrowUp \n";
-	std::cout << "Remaining disks:  Xbox Controller: Back,       Playstation: Share \n\n";
+	std::cout << "Player2:  \n";
+	std::cout << "move leftup:    Xbox Controller: Y, Playstation: Triangle,  keyboard: ArrowUp\n";
+	std::cout << "move rightup:   Xbox Controller: B, Playstation: circle,    keyboard: ArrowRight\n";
+	std::cout << "move leftDown:  Xbox Controller: X, Playstation: sqaure,    keyboard: ArrowLeft\n";
+	std::cout << "move rightDOwn: Xbox Controller: A, Playstation: Cross,     keyboard: ArrowDown\n";
 }
 
 void Level::LoadMenus(dae::Scene& currentScene)
