@@ -57,7 +57,7 @@ void MoveLeftDownCommand::Execute()
 				{
 					dae::ServiceLocator::Get_Sound_System().Play(0, 1, "../Data/QbertHop.wav");
 
-					if (m_pField->ChangeTileColor(i, true))
+					if (m_pField->ChangeTileColor(int(i), true))
 					{
 						int value{ 25 };
 						getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
@@ -65,7 +65,7 @@ void MoveLeftDownCommand::Execute()
 				}
 				else if (comp->GetGameObject()->HasComponent<SlickAndSam>())
 				{
-					m_pField->ChangeTileColor(i, false);
+					m_pField->ChangeTileColor(int(i), false);
 				}
 				return;
 			}
@@ -134,7 +134,7 @@ void MoveRightDownCommand::Execute()
 				if (hasQbertComp)
 				{
 					dae::ServiceLocator::Get_Sound_System().Play(0, 1, "../Data/QbertHop.wav");
-					if (m_pField->ChangeTileColor(i, true))
+					if (m_pField->ChangeTileColor(int(i), true))
 					{
 						int value{ 25 };
 						getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
@@ -142,7 +142,7 @@ void MoveRightDownCommand::Execute()
 				}
 				else if (comp->GetGameObject()->HasComponent<SlickAndSam>())
 				{
-					m_pField->ChangeTileColor(i, false);
+					m_pField->ChangeTileColor(int(i), false);
 				}
 
 				return;
@@ -234,7 +234,7 @@ void MoveLeftUpCommand::Execute()
 				if (hasQbertComp)
 				{
 					dae::ServiceLocator::Get_Sound_System().Play(0, 1, "../Data/QbertHop.wav");
-					if (m_pField->ChangeTileColor(i, true))
+					if (m_pField->ChangeTileColor(int(i), true))
 					{
 						int value{ 25 };
 						getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
@@ -242,7 +242,7 @@ void MoveLeftUpCommand::Execute()
 				}
 				else if (comp->GetGameObject()->HasComponent<SlickAndSam>())
 				{
-					m_pField->ChangeTileColor(i, false);
+					m_pField->ChangeTileColor(int(i), false);
 				}		
 				return;
 			}
@@ -337,7 +337,7 @@ void MoveRightUpCommand::Execute()
 			if (hasQbertComp)
 			{
 				dae::ServiceLocator::Get_Sound_System().Play(0, 1, "../Data/QbertHop.wav");
-				if (m_pField->ChangeTileColor(i, true))
+				if (m_pField->ChangeTileColor(int(i), true))
 				{
 					int value{ 25 };
 					getActor()->GetComponent<dae::ScoreComponent>()->AddScore(value);
@@ -345,7 +345,7 @@ void MoveRightUpCommand::Execute()
 			}
 			else if (comp->GetGameObject()->HasComponent<SlickAndSam>())
 			{
-				m_pField->ChangeTileColor(i, false);
+				m_pField->ChangeTileColor(int(i), false);
 			}
 			return;
 		}

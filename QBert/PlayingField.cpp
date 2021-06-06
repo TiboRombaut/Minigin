@@ -1,10 +1,17 @@
 #include "PlayingField.h"
 #include <TextureComponent.h>
 #include <iostream>
+#pragma warning(push)
+#pragma warning(disable: 26495)
+#pragma warning(disable: 33010)
+#pragma warning(disable: 26812)
+#pragma warning(disable: 26451)
 #include <rapidjson.h>
 #include <document.h>
 #include <stream.h>
 #include <filereadstream.h>
+#pragma warning(pop)
+
 using rapidjson::Value;
 
 PlayingField::PlayingField(std::shared_ptr<dae::GameObject> pField, std::shared_ptr<dae::TextureComponent> pGoalComp)
@@ -113,7 +120,7 @@ PlayingField::PlayingField(std::shared_ptr<dae::GameObject> pField, std::shared_
 		widthStartPos -= textureWidth / 2;
 		HeightStartPos += textureHeight / 4 * 3;
 	}
-	m_BottomLeftIndex = m_Field.size() - 7;
+	m_BottomLeftIndex = int(m_Field.size()) - 7;
 }
 
 std::vector<FieldData> PlayingField::GetField()const

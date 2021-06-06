@@ -474,7 +474,7 @@ void Level::Update()
 			{
 				if (!m_pEnemies[i]->GetGameObject()->GetIsActive())
 				{
-					whatCharacter = i;
+					whatCharacter = int(i);
 					break;
 				}
 			}

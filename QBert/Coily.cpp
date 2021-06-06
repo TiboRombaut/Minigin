@@ -113,7 +113,7 @@ void Coily::Update()
 					int resultRowColDis = rowResult + colResult;
 					if (resultRowColDis < distanceQBert)
 					{
-						qBertIndex = i;
+						qBertIndex = int(i);
 						distanceQBert = resultRowColDis;
 					}
 				}
