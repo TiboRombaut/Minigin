@@ -332,6 +332,16 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
+# don't ignore the 3rd party folder
+!3rdParty/*
+!3rdParty/glm/*
+!3rdParty/imgui-master/*
+3rdParty/rapidjson/*
+3rdParty/SDL_Audio/*
+!3rdParty/SDL2/lib/*
+!3rdParty/SDL2_image/lib/*
+!3rdParty/SDL2_ttf/lib/*
+
 # OpenCover UI analysis results
 OpenCover/
 
