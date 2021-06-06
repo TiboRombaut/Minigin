@@ -1,14 +1,13 @@
 #pragma once
 #include <BaseComponent.h>
 #include "Structs.h"
-#include <iostream>
-#include "CommandQbert.h"
 #include <memory>
 #include <TextureComponent.h>
+
 class ControlComponent : public dae::BaseComponent
 {
 public:
-	explicit ControlComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp);
+	explicit ControlComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> pTextureComp);
 
 	void Update() =  0;
 	void UpdateMovement();
@@ -28,13 +27,13 @@ public:
 	ControlComponent& operator=(const ControlComponent& other) = delete;
 	ControlComponent& operator=(ControlComponent&& other) = delete;
 protected:
-	FieldDataPlayer m_QBertFieldData;
+	FieldDataPlayer m_FieldData;
 	float m_CurrentTime = 0.5f;
 	float m_MoveTime = 0.5f;
 
 	//move to pos
 	bool m_NeedsToMove = false;
-	std::shared_ptr<dae::TextureComponent> m_TextureComp;
+	std::shared_ptr<dae::TextureComponent> m_pTextureComp;
 	glm::vec2 m_Speed = glm::vec2(0.0f, 0.0f);
 
 private:

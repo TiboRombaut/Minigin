@@ -187,7 +187,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="QBertComponent.cpp" />
     <ClCompile Include="QBertObserver.cpp" />
     <ClCompile Include="SlickAndSam.cpp" />
-    <ClCompile Include="SlickAndSamAIComponent.cpp" />
     <ClCompile Include="Structs.cpp" />
     <ClCompile Include="UggAndWrongway.cpp" />
   </ItemGroup>
@@ -204,7 +203,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="QBertComponent.h" />
     <ClInclude Include="QBertObserver.h" />
     <ClInclude Include="SlickAndSam.h" />
-    <ClInclude Include="SlickAndSamAIComponent.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="UggAndWrongway.h" />
   </ItemGroup>

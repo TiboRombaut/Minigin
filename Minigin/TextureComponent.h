@@ -30,7 +30,7 @@ namespace dae {
 		dae::Transform GetTransform()const { return m_Transform; };
 	private:
 		dae::Transform m_Transform;
-		std::shared_ptr<dae::Texture2D> m_Texture{};
+		std::shared_ptr<dae::Texture2D> m_pTexture{};
 		std::string m_FileName;
 	};
 }

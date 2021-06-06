@@ -8,15 +8,15 @@
 #include "Texture2D.h"
 
 dae::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<dae::Font>& font)
-	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_Texture(nullptr)
+	: m_NeedsUpdate(true), m_Text(text), m_pFont(font), m_pTexture(nullptr)
 { }
 
 void dae::TextComponent::Update()
 {
 	if (m_NeedsUpdate)
 	{
-		const SDL_Color color = { 255,255,255 }; // only white text is supported now
-		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
+		const SDL_Color color = { 255,255,255 }; 
+		const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), color);
 		if (surf == nullptr)
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -27,17 +27,17 @@ void dae::TextComponent::Update()
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_Texture = std::make_shared<dae::Texture2D>(texture);
+		m_pTexture = std::make_shared<dae::Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
 }
 
 void dae::TextComponent::Render() const
 {
-	if (m_Texture != nullptr)
+	if (m_pTexture != nullptr)
 	{
 		const auto pos = m_Transform.GetPosition();
-		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
+		Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
 	}
 }
 

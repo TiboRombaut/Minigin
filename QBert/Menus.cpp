@@ -2,15 +2,18 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "CommandQbert.h"
+
 Menus::Menus(std::shared_ptr<dae::TextureComponent> playButton,std::shared_ptr<dae::TextureComponent> exitButton,
 	std::shared_ptr<dae::TextureComponent> restartButton, std::shared_ptr<dae::TextureComponent> mainMenuButton,
-	std::shared_ptr<dae::TextureComponent> pauseScreen, std::shared_ptr<dae::TextureComponent> DeathScreen)
-	:m_pPlayButton(playButton)
+	std::shared_ptr<dae::TextureComponent> pauseScreen, std::shared_ptr<dae::TextureComponent> DeathScreen,
+	std::shared_ptr<dae::TextComponent> textFinalScore)
+	: m_pPlayButton(playButton)
 	, m_pDeathScreen(DeathScreen)
 	, m_pMainMenuButton(mainMenuButton)
 	, m_pRestartButton(restartButton)
 	, m_pExitButton(exitButton)
 	, m_pPauseScreen(pauseScreen)
+	,m_pTextFinalScore(textFinalScore)
 {
 	m_pDeathScreen->GetGameObject()->SetIsActive(false);
 	m_pPauseScreen->GetGameObject()->SetIsActive(false);
@@ -105,8 +108,6 @@ void Menus::SetPauseScreenActive()
 	m_pMainMenuButton->GetGameObject()->SetIsActive(true);
 	m_pExitButton->GetGameObject()->SetIsActive(true);
 	m_pPauseScreen->GetGameObject()->SetIsActive(true);
-
-	//m_IsActive = true;
 }
 
 void Menus::SetPauseScreenInActive()
@@ -116,17 +117,16 @@ void Menus::SetPauseScreenInActive()
 	m_pMainMenuButton->GetGameObject()->SetIsActive(false);
 	m_pRestartButton->GetGameObject()->SetIsActive(false);
 	m_pExitButton->GetGameObject()->SetIsActive(false);
-	//m_IsActive = false;
 }
 
-void Menus::SetDeathScreenActive()
+void Menus::SetDeathScreenActive(int finalScore)
 {
 	m_pMainMenuButton->GetGameObject()->SetIsActive(true);
 	m_pRestartButton->GetGameObject()->SetIsActive(true);
 	m_pExitButton->GetGameObject()->SetIsActive(true);
 	m_pDeathScreen->GetGameObject()->SetIsActive(true);
-
-	//m_IsActive = true;
+	m_pTextFinalScore->GetGameObject()->SetIsActive(true);
+	m_pTextFinalScore->SetText("Score: " + std::to_string(finalScore));
 }
 
 void Menus::SetDeathScreenInActive()
@@ -135,23 +135,7 @@ void Menus::SetDeathScreenInActive()
 	m_pRestartButton->GetGameObject()->SetIsActive(false);
 	m_pMainMenuButton->GetGameObject()->SetIsActive(false);
 	m_pExitButton->GetGameObject()->SetIsActive(false);
-	//m_IsActive = false;
 }
-
-//void Menus::SetActive(std::shared_ptr<dae::TextureComponent> object)
-//{
-//	auto scale = object->GetTransform()->GetScale();
-//	auto posScreen = object->GetTransform()->GetPosition();
-//
-//	object->GetTransform()->Translate(posScreen.x, posScreen.y / -2, posScreen.z);
-//}
-//
-//void Menus::SetInActive(std::shared_ptr<dae::TextureComponent> object)
-//{
-//	auto scale = object->GetTransform()->GetScale();
-//	auto posScreen = object->GetTransform()->GetPosition();
-//	object->GetTransform()->Translate(posScreen.x, posScreen.y * -2, posScreen.z);
-//}
 
 bool Menus::IsInButton(glm::vec2 pos, glm::vec2  posTexture, glm::vec2 sizeTexture)
 {

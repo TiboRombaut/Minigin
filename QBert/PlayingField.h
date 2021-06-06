@@ -8,15 +8,14 @@
 class PlayingField : public dae::BaseComponent
 {
 public:
-	PlayingField(float widthStartPos,float heightStartPos,std::shared_ptr<dae::GameObject> field, std::shared_ptr<dae::TextureComponent> goalComp);
-	//PlayingField(std::shared_ptr<dae::GameObject> pObject, std::vector<FieldData>& field);
+	PlayingField(std::shared_ptr<dae::GameObject> pField, std::shared_ptr<dae::TextureComponent> pGoalComp);
 
 	void Update();
 	void Render() const {};
 
 	std::vector<FieldData> GetField()const;
-	FieldData GetPlayerFieldDataFirst()const;
-	FieldData GetPlayerFieldDataLast()const;
+	FieldData GetFieldDataFirst()const;
+	FieldData GetFieldDataLast()const;
 	FieldData GetFieldDataLeftBottom()const;
 
 	bool ChangeTileColor(int whatTile, bool isQBert);
@@ -33,9 +32,6 @@ public:
 	{
 		return m_ThirthTileName;
 	}
-	//FieldDataPlayer GetFieldData()const;
-	//void SetFieldData(FieldDataPlayer data);
-	//bool GetCanMove();
 
 	bool GetLevelIsResetted()const;
 	bool GetColorWheelsRemaining()const;
@@ -52,7 +48,6 @@ private:
 	bool ChangeTileLevel2(int whatTile, int isQBert);
 	bool ChangeTileLevel3(int whatTile, int isQBert);
 	bool LevelFinished(std::string goalName);
-
 	void ResetLevel();
 
 	bool m_LevelIsResetted = false;
@@ -65,6 +60,6 @@ private:
 	std::string m_FirstTileName = "../Data/BackGroundTileRed.png";
 	std::string m_SecondTileName = "../Data/BackGroundTileYellow.png";
 	std::string m_ThirthTileName = "../Data/BackGroundTileBlue.png";
-	std::shared_ptr<dae::TextureComponent> m_TextureCompGoalIndication;
+	std::shared_ptr<dae::TextureComponent> m_pTextureCompGoalIndication;
 };
 

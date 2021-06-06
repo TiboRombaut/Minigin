@@ -13,13 +13,12 @@ void dae::TextureComponent::Update() {}
 void dae::TextureComponent::Render() const
 {
 	const auto pos = m_Transform.GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
+	Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
 }
 
 void dae::TextureComponent::SetTexture(const std::string& fileName)
 {
-	//m_Texture = ResourceManager::GetInstance().LoadTexture(fileName);
-	m_Texture = ResourceManager::GetInstance().LoadTexture(fileName);
+	m_pTexture = ResourceManager::GetInstance().LoadTexture(fileName);
 	m_FileName = fileName;
 }
 
@@ -30,12 +29,12 @@ void dae::TextureComponent::SetPosition(float x, float y)
 
 int dae::TextureComponent::GetWidth() const
 {
-	return m_Texture->GetWidth();
+	return m_pTexture->GetWidth();
 }
 
 int dae::TextureComponent::GetHeight() const
 {
-	return m_Texture->GetHeight();
+	return m_pTexture->GetHeight();
 }
 
 std::string dae::TextureComponent::GetFileName()const

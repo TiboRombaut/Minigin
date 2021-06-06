@@ -2,14 +2,14 @@
 #include "ServiceLocator.h"
 
 dae::Null_Sound_System dae::ServiceLocator::m_Default_ss{};
-dae::Sound_System* dae::ServiceLocator::m_ss_Instance{ &m_Default_ss };
+dae::Sound_System* dae::ServiceLocator::m_pSs_Instance{ &m_Default_ss };
 
-dae::Sound_System& dae::ServiceLocator::get_sound_system()
+dae::Sound_System& dae::ServiceLocator::Get_Sound_System()
 {
-	return *m_ss_Instance;
+	return *m_pSs_Instance;
 }
 
-void dae::ServiceLocator::register_sound_system(Sound_System* ss)
+void dae::ServiceLocator::Register_Sound_System(Sound_System* pSs)
 {
-	m_ss_Instance = ss == nullptr ? &m_Default_ss : ss;
+	m_pSs_Instance = pSs == nullptr ? &m_Default_ss : pSs;
 }

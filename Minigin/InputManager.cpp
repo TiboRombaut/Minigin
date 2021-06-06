@@ -14,13 +14,11 @@ bool dae::InputManager::ProcessInput()
 			ExecuteCommand(i);
 		}
 	}
-	//return true;
 	return  HandleKeyBoard();
 }
 
 dae::InputManager::~InputManager()
 {
-	std::cout << "delete controls";
 	for (size_t i = 0; i < m_CommandButton.size(); ++i)
 	{
 		if (m_CommandButton[i].pCommand != nullptr)

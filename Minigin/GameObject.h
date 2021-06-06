@@ -56,15 +56,7 @@ namespace dae
 		{
 			m_IsActive = isActive;
 		}
-		//template <typename T>
-		//T* GetComponent() const
-		//{
-		//	for (BaseComponent* component : m_Components)
-		//	{
-		//		if (dynamic_cast<T*>(component)) return (T*)component;
-		//	}
-		//	return nullptr;
-		//}
+
 		GameObject() = default;
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
@@ -76,8 +68,6 @@ namespace dae
 		bool m_IsActive = true;
 
 		std::vector<std::shared_ptr<BaseComponent>> m_Components;
-		//std::vector<BaseComponent*> m_Components;
 		Transform m_Transform;
-		//std::vector<std::shared_ptr<Command>> m_pCommands;
 	};
 }

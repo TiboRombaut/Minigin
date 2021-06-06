@@ -20,7 +20,7 @@ public:
 private:
 	std::chrono::steady_clock::time_point m_PreviousTime = std::chrono::high_resolution_clock::now();
 	float m_DeltaTime{};
-	int m_MsPerFrame = 16; //16 = 60fps, 33 = 30 fps
+	int m_MsPerFrame = 16; 
 	bool m_IsPaused = false;
 };
 

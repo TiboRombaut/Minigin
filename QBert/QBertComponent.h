@@ -8,24 +8,22 @@
 class QBertComponent : public ControlComponent
 {
 public:
-	QBertComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp);
+	QBertComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> pTextureComp);
 
 	void Update()override;
 	void Render() const override {};
 
-	void ColorWheelNeedsToMovetoTop(std::shared_ptr<dae::TextureComponent> textureColorWheel,glm::vec2 EndPos);
+	void ColorWheelNeedsToMovetoTop(std::shared_ptr<dae::TextureComponent> pTextureColorWheel,glm::vec2 EndPos);
 	void SetRespawnPoint();
 	void RespawnQBert();
-	//FieldDataPlayer GetFieldData()const;
-	//void SetFieldData(FieldDataPlayer data);
-	//bool GetCanMove();
+
 	~QBertComponent() = default;
 	QBertComponent(const QBertComponent& other) = delete;
 	QBertComponent(QBertComponent&& other) = delete;
 	QBertComponent& operator=(const QBertComponent& other) = delete;
 	QBertComponent& operator=(QBertComponent&& other) = delete;
 private :
-	std::shared_ptr<dae::TextureComponent> m_ColorWheelPlatform;
+	std::shared_ptr<dae::TextureComponent> m_pColorWheelPlatform;
 	bool m_PlatformNeedsToMove = false;
 	glm::vec2 m_TargetPosColorWheel;
 	FieldData m_RespawnPos;

@@ -6,51 +6,41 @@
 #include <memory>
 #include "Enums.h"
 #include "Menus.h"
-//
-//class CommandQbert
-//{
-//};
 
 class MoveLeftDownCommand : public Command
 {
 public:
-    MoveLeftDownCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath);
+    MoveLeftDownCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> pField);
     void Execute() override;
 private:
-    std::shared_ptr<PlayingField> m_Field;
-    std::string m_FileNameBackgroundTile;
+    std::shared_ptr<PlayingField> m_pField;
 };
 
 class MoveRightDownCommand : public Command
 {
 public:
-    MoveRightDownCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath);
+    MoveRightDownCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> pField);
     void Execute() override;
 private:
-    std::shared_ptr<PlayingField> m_Field;
-    std::string m_FileNameBackgroundTile;
+    std::shared_ptr<PlayingField> m_pField;
 };
 
 class MoveLeftUpCommand : public Command
 {
 public:
-    MoveLeftUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath);
-    MoveLeftUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field);
+    MoveLeftUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> pField);
     void Execute() override;
 private:
-    std::shared_ptr<PlayingField> m_Field;
-    std::string m_FileNameBackgroundTile;
+    std::shared_ptr<PlayingField> m_pField;
 };
 
 class MoveRightUpCommand : public Command
 {
 public:
-    MoveRightUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::string fileNamePath);
-    MoveRightUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field);
+    MoveRightUpCommand(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> pField);
     void Execute() override;
 private:
-    std::shared_ptr<PlayingField> m_Field;
-    std::string m_FileNameBackgroundTile;
+    std::shared_ptr<PlayingField> m_pField;
 };
 
 class MouseClickMainMenuCommand : public Command
@@ -65,18 +55,18 @@ private:
 class MouseClickGameMenus : public Command
 {
 public:
-    MouseClickGameMenus(InWhatButtonGameMenu& clickHappened, std::shared_ptr<Menus> menus);
+    MouseClickGameMenus(InWhatButtonGameMenu& clickHappened, std::shared_ptr<Menus> Menus);
     void Execute() override;
 private:
     InWhatButtonGameMenu& m_InWhatButton;
-    std::shared_ptr<Menus> m_Menus;
+    std::shared_ptr<Menus> m_pMenus;
 };
 
 class PauseMenuCommand : public Command
 {
 public:
-    PauseMenuCommand(std::shared_ptr<Menus> menus);
+    PauseMenuCommand(std::shared_ptr<Menus> pMenus);
     void Execute() override;
 private:
-    std::shared_ptr<Menus> m_Menus;
+    std::shared_ptr<Menus> m_pMenus;
 };

@@ -29,7 +29,7 @@ namespace dae {
 		bool m_NeedsUpdate;
 		std::string m_Text;
 		dae::Transform m_Transform;
-		std::shared_ptr<dae::Font> m_Font;
-		std::shared_ptr<dae::Texture2D> m_Texture{};
+		std::shared_ptr<dae::Font> m_pFont;
+		std::shared_ptr<dae::Texture2D> m_pTexture{};
 	};
 }

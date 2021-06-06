@@ -1,9 +1,6 @@
 #pragma once
 #include <memory>
 #include <TextureComponent.h>
-//class Structs
-//{
-//};
 
 struct FieldData
 {
@@ -11,7 +8,7 @@ struct FieldData
 	int Column = 0;
 	float MiddlePosX = 0;
 	float MiddlePosY = 0;
-	std::shared_ptr<dae::TextureComponent> TextureComponent;
+	std::shared_ptr<dae::TextureComponent> pTextureComponent;
 };
 
 struct FieldDataPlayer

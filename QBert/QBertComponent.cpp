@@ -1,9 +1,9 @@
 #include "QBertComponent.h"
 #include <GameTime.h>
 #include <HealthComponent.h>
-
-QBertComponent::QBertComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp)
-	:ControlComponent(timeItTakesToMove,textureComp)
+#include <GameObject.h>
+QBertComponent::QBertComponent(float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> pTextureComp)
+	:ControlComponent(timeItTakesToMove, pTextureComp)
 {
 	
 
@@ -11,46 +11,25 @@ QBertComponent::QBertComponent(float timeItTakesToMove, std::shared_ptr<dae::Tex
 
 void QBertComponent::SetRespawnPoint()
 {
-	m_RespawnPos.MiddlePosX = m_TextureComp->GetTransform().GetPosition().x;
-	m_RespawnPos.MiddlePosY = m_TextureComp->GetTransform().GetPosition().y;
-	m_RespawnPos.Row = m_QBertFieldData.Row;
-	m_RespawnPos.Column = m_QBertFieldData.Column;
+	m_RespawnPos.MiddlePosX = m_pTextureComp->GetTransform().GetPosition().x;
+	m_RespawnPos.MiddlePosY = m_pTextureComp->GetTransform().GetPosition().y;
+	m_RespawnPos.Row = m_FieldData.Row;
+	m_RespawnPos.Column = m_FieldData.Column;
 }
 
-//FieldDataPlayer QBertComponent::GetFieldData()const
-//{
-//	return m_QBertFieldData;
-//}
-//
-//void QBertComponent::SetFieldData(FieldDataPlayer data)
-//{
-//	m_QBertFieldData = data;
-//}
-//
-//bool QBertComponent::GetCanMove()
-//{
-//	//float minTime{0.5f};
-//	//if (m_CurrentTime > minTime)
-//	//{
-//	//	m_CurrentTime = 0.0f;
-//	//	return true;
-//	//}
-//	//return false;
-//
-//}
-void QBertComponent::ColorWheelNeedsToMovetoTop(std::shared_ptr<dae::TextureComponent> textureColorWheel, glm::vec2 EndPos)
+void QBertComponent::ColorWheelNeedsToMovetoTop(std::shared_ptr<dae::TextureComponent> pTextureColorWheel, glm::vec2 EndPos)
 {
 	m_PlatformNeedsToMove = true;
-	m_ColorWheelPlatform = textureColorWheel;
+	m_pColorWheelPlatform = pTextureColorWheel;
 	m_TargetPosColorWheel = EndPos;
 
 }
 
 void QBertComponent::RespawnQBert()
 {
-	m_TextureComp->SetPosition(m_RespawnPos.MiddlePosX, m_RespawnPos.MiddlePosY);
-	m_QBertFieldData.Row = m_RespawnPos.Row;
-	m_QBertFieldData.Column = m_RespawnPos.Column;
+	m_pTextureComp->SetPosition(m_RespawnPos.MiddlePosX, m_RespawnPos.MiddlePosY);
+	m_FieldData.Row = m_RespawnPos.Row;
+	m_FieldData.Column = m_RespawnPos.Column;
 	ResetCurrentTime();
 	SetMoveToTarget(glm::vec2(m_RespawnPos.MiddlePosX, m_RespawnPos.MiddlePosY));
 	SetThatHeIsAllowedtoMove(false);
@@ -60,7 +39,6 @@ void QBertComponent::RespawnQBert()
 void QBertComponent::Update()
 {
 
-	//std::cout << "Qbert FieldData: X:  " << m_QBertFieldData.Row << "  Y:  " << m_QBertFieldData.Column << std::endl;
 	if (!m_PlatformNeedsToMove)
 	{
 		m_CurrentTime += GameTime::GetInstance().GetDeltaTime();
@@ -68,16 +46,15 @@ void QBertComponent::Update()
 
 	if (m_NeedsToMove)
 	{
-		//std::cout << "updating movement qbert";
 		UpdateMovement();
 	}
 	else if(m_PlatformNeedsToMove)
 	{
 		//for movement platform
-		float posX = m_TextureComp->GetTransform().GetPosition().x;
-		float posY = m_TextureComp->GetTransform().GetPosition().y;
-		float posXColorWheel = m_ColorWheelPlatform->GetTransform().GetPosition().x;
-		float posYColorWheel = m_ColorWheelPlatform->GetTransform().GetPosition().y;
+		float posX = m_pTextureComp->GetTransform().GetPosition().x;
+		float posY = m_pTextureComp->GetTransform().GetPosition().y;
+		float posXColorWheel = m_pColorWheelPlatform->GetTransform().GetPosition().x;
+		float posYColorWheel = m_pColorWheelPlatform->GetTransform().GetPosition().y;
 
 		if (m_Speed.x == 0.0f && m_Speed.y == 0.0f)
 		{
@@ -98,8 +75,8 @@ void QBertComponent::Update()
 		posY += m_Speed.y * GameTime::GetInstance().GetDeltaTime();
 		posYColorWheel += m_Speed.y * GameTime::GetInstance().GetDeltaTime();
 
-		m_TextureComp->SetPosition(posX, posY);
-		m_ColorWheelPlatform->SetPosition(posXColorWheel, posYColorWheel);
+		m_pTextureComp->SetPosition(posX, posY);
+		m_pColorWheelPlatform->SetPosition(posXColorWheel, posYColorWheel);
 		float distanceX = glm::distance(posX, m_TargetPosColorWheel.x);
 		float distanceY = glm::distance(posY, m_TargetPosColorWheel.y);
 
@@ -108,23 +85,18 @@ void QBertComponent::Update()
 			m_PlatformNeedsToMove = false;
 			m_Speed.x = 0.0f;
 			m_Speed.y = 0.0f;
-			m_TextureComp->SetPosition(m_TargetPosColorWheel.x, m_TargetPosColorWheel.y);
+			m_pTextureComp->SetPosition(m_TargetPosColorWheel.x, m_TargetPosColorWheel.y);
 
-			m_QBertFieldData.Column = 0;
-			m_QBertFieldData.Row = 0;
-			m_ColorWheelPlatform->SetIsActiveComponent(false);
+			m_FieldData.Column = 0;
+			m_FieldData.Row = 0;
+			m_pColorWheelPlatform->SetIsActiveComponent(false);
 		}
 	}
-	else if (m_QBertFieldData.Row == -1 || m_QBertFieldData.Column == -1)
+	else if (m_FieldData.Row == -1 || m_FieldData.Column == -1)
 	{
 		RespawnQBert();
-		m_TextureComp->GetGameObject()->GetComponent<dae::HealthComponent>()->LoseLive();
-		//auto fieldData = m_QBertFieldData;
-		//m_TextureComp->SetPosition(m_RespawnPos.MiddlePosX, m_RespawnPos.MiddlePosY);
-		//fieldData.Column = 0;
-		//fieldData.Row = 0;
-		//m_QBertFieldData = fieldData;
-		//ResetCurrentTime();
+		//m_pTextureComp->GetGameObject().
+		m_pTextureComp->GetGameObject()->GetComponent<dae::HealthComponent>()->LoseLive();
 	}
 
 

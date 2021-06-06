@@ -1,20 +1,18 @@
 #include "Coily.h"
 
 #include <GameTime.h>
-#include <memory>
-#include <GameObject.h>
 
-Coily::Coily(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, std::vector<std::shared_ptr<QBertComponent>>& Qberts,
-	float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp, bool isPlayerControlled)
-	:AIComponent(timeItTakesToMove,textureComp)
-	,m_CoilyGameObject(pObject)
+Coily::Coily(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> pField, std::vector<std::shared_ptr<QBertComponent>>& Qberts,
+	float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> pTextureComp, bool isPlayerControlled)
+	:AIComponent(timeItTakesToMove, pTextureComp)
+	,m_pCoilyGameObject(pObject)
 	, m_pQBerts(Qberts)
 	,m_IsPlayerControlled(isPlayerControlled)
 {
-	m_pCommandMoveLeftUp = new MoveLeftUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
-	m_pCommandMoveRightUp = new MoveRightUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
-	m_pCommandMoveRightDown = new MoveRightDownCommand(pObject, field, "../Data/BackGroundTileYellow.png");
-	m_pCommandMoveLeftDown = new MoveLeftDownCommand(pObject, field, "../Data/BackGroundTileYellow.png");
+	m_pCommandMoveLeftUp = new MoveLeftUpCommand(pObject, pField);
+	m_pCommandMoveRightUp = new MoveRightUpCommand(pObject, pField);
+	m_pCommandMoveRightDown = new MoveRightDownCommand(pObject, pField);
+	m_pCommandMoveLeftDown = new MoveLeftDownCommand(pObject, pField);
 }
 
 Coily::~Coily()
@@ -86,10 +84,10 @@ void Coily::Update()
 				break;
 			}
 
-			if (m_QBertFieldData.Row == 6)
+			if (m_FieldData.Row == 6)
 			{
 				m_IsEgg = false;
-				m_CoilyGameObject->GetComponent<dae::TextureComponent>()->SetTexture("../Data/Coily.png");
+				m_pCoilyGameObject->GetComponent<dae::TextureComponent>()->SetTexture("../Data/Coily.png");
 			}
 		}
 		else if(!m_IsPlayerControlled)
@@ -101,8 +99,8 @@ void Coily::Update()
 				int distanceQBert{ 10000 };
 				for (size_t i = 0; i < m_pQBerts.size(); ++i)
 				{
-					int rowResult = m_QBertFieldData.Row - m_pQBerts[i]->GetFieldDataPlayer().Row;
-					int colResult = m_QBertFieldData.Column - m_pQBerts[i]->GetFieldDataPlayer().Column;
+					int rowResult = m_FieldData.Row - m_pQBerts[i]->GetFieldDataPlayer().Row;
+					int colResult = m_FieldData.Column - m_pQBerts[i]->GetFieldDataPlayer().Column;
 					if (rowResult < 0)
 					{
 						rowResult *= -1;
@@ -121,9 +119,8 @@ void Coily::Update()
 				}
 			}
 
-			int rowResult = m_QBertFieldData.Row - m_pQBerts[qBertIndex]->GetFieldDataPlayer().Row;
-			int colResult = m_QBertFieldData.Column - m_pQBerts[qBertIndex]->GetFieldDataPlayer().Column;
-
+			int rowResult = m_FieldData.Row - m_pQBerts[qBertIndex]->GetFieldDataPlayer().Row;
+			int colResult = m_FieldData.Column - m_pQBerts[qBertIndex]->GetFieldDataPlayer().Column;
 
 			if (colResult <= 0 && rowResult <= 0)
 			{

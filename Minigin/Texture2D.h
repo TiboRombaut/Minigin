@@ -10,7 +10,7 @@ namespace dae
 	{
 	public:
 		SDL_Texture* GetSDLTexture() const;
-		explicit Texture2D(SDL_Texture* texture);
+		explicit Texture2D(SDL_Texture* pTexture);
 		~Texture2D();
 
 		Texture2D(const Texture2D&) = delete;
@@ -21,7 +21,7 @@ namespace dae
 		int GetWidth();
 		int GetHeight();
 	private:
-		SDL_Texture* m_Texture;
+		SDL_Texture* m_pTexture;
 
 		int m_Width = 0;
 		int m_Height = 0;

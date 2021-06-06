@@ -1,13 +1,14 @@
 #include "SlickAndSam.h"
+
 #include <GameTime.h>
-#include <memory>
 #include <GameObject.h>
-SlickAndSam::SlickAndSam(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field, 
-	float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp)
-	:AIComponent(timeItTakesToMove,textureComp)
+
+SlickAndSam::SlickAndSam(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> pField,
+	float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> pTextureComp)
+	:AIComponent(timeItTakesToMove, pTextureComp)
 {
-	m_pCommandMoveLeftDown = new MoveLeftDownCommand(pObject, field, "../Data/BackGroundTileYellow.png");
-	m_pCommandMoveRightDown = new MoveRightDownCommand(pObject, field, "../Data/BackGroundTileYellow.png");
+	m_pCommandMoveLeftDown = new MoveLeftDownCommand(pObject, pField);
+	m_pCommandMoveRightDown = new MoveRightDownCommand(pObject, pField);
 }
 
 SlickAndSam::~SlickAndSam()
@@ -27,8 +28,7 @@ void SlickAndSam::Update()
 
 	if (GetCanMove())
 	{
-		std::cout << "moveCharacter";
-		if (m_QBertFieldData.Row == 6)
+		if (m_FieldData.Row == 6)
 		{
 			GetGameObject()->SetIsActive(false);
 		}
@@ -36,17 +36,13 @@ void SlickAndSam::Update()
 		switch (whatMovement)
 		{
 		case 0:
-			//move left
 			m_pCommandMoveLeftDown->Execute();
 			break;
 		case 1:
-			//move right
 			m_pCommandMoveRightDown->Execute();
 			break;
 		default:
-			//nothing
 			break;
 		}
 	}
-
 }

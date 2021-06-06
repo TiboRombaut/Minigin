@@ -20,10 +20,10 @@ namespace dae
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
 
-		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
+		SDL_Renderer* GetSDLRenderer() const { return m_pRenderer; }
 		void RenderUI() const;
 	private:
-		SDL_Renderer* m_Renderer{};
+		SDL_Renderer* m_pRenderer{};
 		SDL_Window* m_pWindow{};
 	};
 }

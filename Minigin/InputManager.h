@@ -78,7 +78,7 @@ namespace dae
 		ButtonArrowRight = SDL_SCANCODE_RIGHT,
 		ButtonArrowLeft = SDL_SCANCODE_LEFT,
 		//ButtonSpace = VK_SPACE,
-		//ButtonEscape = VK_ESCAPE,
+		ButtonEscape = SDLK_ESCAPE,
 		Button0 = SDLK_0,
 		Button1 = SDLK_1,
 		Button2 = SDLK_2,

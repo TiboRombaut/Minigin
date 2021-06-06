@@ -4,18 +4,18 @@
 
 dae::Texture2D::~Texture2D()
 {
-	SDL_DestroyTexture(m_Texture);
+	SDL_DestroyTexture(m_pTexture);
 }
 
 SDL_Texture* dae::Texture2D::GetSDLTexture() const
 {
-	return m_Texture;
+	return m_pTexture;
 }
 
-dae::Texture2D::Texture2D(SDL_Texture* texture)
+dae::Texture2D::Texture2D(SDL_Texture* pTexture)
 {
-	m_Texture = texture;
-	SDL_QueryTexture(texture, NULL, NULL, &m_Width, &m_Height);
+	m_pTexture = pTexture;
+	SDL_QueryTexture(pTexture, NULL, NULL, &m_Width, &m_Height);
 }
 
 int dae::Texture2D::GetWidth()

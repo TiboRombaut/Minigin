@@ -1,22 +1,15 @@
 #pragma once
 #include "AIComponent.h"
-#include <memory>
-#include "Structs.h"
-#include "PlayingField.h"
 #include "CommandQbert.h"
 
 class SlickAndSam final : public AIComponent
 {
 public:
-	SlickAndSam(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field,
-		float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp);
+	SlickAndSam(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> pField,
+		float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> pTextureComp);
 
 	void Update();
 	void Render() const {};
-
-	//FieldDataPlayer GetFieldData()const;
-	//void SetFieldData(FieldDataPlayer data);
-	//bool GetCanMove();
 
 	~SlickAndSam();
 	SlickAndSam(const SlickAndSam& other) = delete;
@@ -26,6 +19,5 @@ public:
 private:
 	MoveLeftDownCommand* m_pCommandMoveLeftDown = nullptr;
 	MoveRightDownCommand* m_pCommandMoveRightDown = nullptr;
-
 };
 

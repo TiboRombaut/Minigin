@@ -1,14 +1,14 @@
 #include "UggAndWrongway.h"
 
 #include <GameTime.h>
-#include <memory>
 #include <GameObject.h>
-UggAndWrongway::UggAndWrongway(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> field,
-	float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> textureComp)
-	:AIComponent(timeItTakesToMove,textureComp)
+
+UggAndWrongway::UggAndWrongway(std::shared_ptr<dae::GameObject> pObject, std::shared_ptr<PlayingField> pField,
+	float timeItTakesToMove, std::shared_ptr<dae::TextureComponent> pTextureComp)
+	:AIComponent(timeItTakesToMove, pTextureComp)
 {
-	m_pCommandMoveLeftUp = new MoveLeftUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
-	m_pCommandMoveRightUp = new MoveRightUpCommand(pObject, field, "../Data/BackGroundTileYellow.png");
+	m_pCommandMoveLeftUp = new MoveLeftUpCommand(pObject, pField);
+	m_pCommandMoveRightUp = new MoveRightUpCommand(pObject, pField);
 }
 
 UggAndWrongway::~UggAndWrongway()
@@ -28,8 +28,7 @@ void UggAndWrongway::Update()
 
 	if (GetCanMove())
 	{
-		//std::cout << "move ugg and wrongway"
-		if (m_QBertFieldData.Row == 0 && m_QBertFieldData.Column == 0)
+		if (m_FieldData.Row == 0 && m_FieldData.Column == 0)
 		{
 			GetGameObject()->SetIsActive(false);
 		}
@@ -37,15 +36,12 @@ void UggAndWrongway::Update()
 		switch (whatMovement)
 		{
 		case 0:
-			//move left
 			m_pCommandMoveLeftUp->Execute();
 			break;
 		case 1:
-			//move right
 			m_pCommandMoveRightUp->Execute();
 			break;
 		default:
-			//nothing
 			break;
 		}
 	}

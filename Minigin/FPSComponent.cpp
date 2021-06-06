@@ -7,9 +7,9 @@
 FPSComponent::FPSComponent()
 {
 	m_UpdateTime = 0.0f;
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
+	auto pFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
 
-	m_pTextComponent = std::make_shared<dae::TextComponent>("FPS", font);
+	m_pTextComponent = std::make_shared<dae::TextComponent>("FPS", pFont);
 }
 
 FPSComponent::~FPSComponent()

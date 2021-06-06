@@ -6,6 +6,7 @@
 #include "PlayingField.h"
 #include "Menus.h"
 #include <Font.h>
+
 class Level : public dae::BaseComponent
 {
 public:
@@ -18,21 +19,20 @@ public:
 	void Update();
 	void Render() const {};
 
-
 	~Level();
 	Level(const Level& other) = delete;
 	Level(Level&& other) = delete;
 	Level& operator=(const Level& other) = delete;
 	Level& operator=(Level&& other) = delete;
 private:
-	void LoadGame(dae::Scene& currentScene,std::shared_ptr<dae::Font> font);
+	void LoadGame(dae::Scene& currentScene);
 	void LoadMenus(dae::Scene& currentScene);
 
 	int m_CurrentLevel = 1;
 	std::shared_ptr<Menus> m_pMenusComp;
 	std::vector<std::shared_ptr<AIComponent>> m_pEnemies;
 	std::vector < std::shared_ptr<QBertComponent>> m_pQBerts;
-	std::shared_ptr<PlayingField> m_PlayingField;
+	std::shared_ptr<PlayingField> m_pPlayingField;
 	float m_CurrentRespawnTimer = 0.0f;
 	float m_MaxRespawnTimer = 5.0f;
 };

@@ -10,7 +10,6 @@ void MainMenuScene::LoadGame(dae::Scene& currentScene)
 	component->SetTexture("background.jpg");
 	go->addComponent(component);
 
-
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 64);
 	auto component2 = std::make_shared<dae::TextComponent>("Q*Bert", font);
 	component2->SetPosition(200, 50);
@@ -37,8 +36,8 @@ void MainMenuScene::LoadGame(dae::Scene& currentScene)
 
 	auto& input = dae::InputManager::GetInstance();
 
-	MouseClickMainMenuCommand* mosueClick = new MouseClickMainMenuCommand(m_MouseClickHappenend);
-	input.AddCommand(dae::ControllerButton::None, dae::KeyBoardAndMouseButton::MouseButtonLeft, dae::WayKeyBoardButton::MouseButtonDown, mosueClick);
+	MouseClickMainMenuCommand* pMouseClick = new MouseClickMainMenuCommand(m_MouseClickHappenend);
+	input.AddCommand(dae::ControllerButton::None, dae::KeyBoardAndMouseButton::MouseButtonLeft, dae::WayKeyBoardButton::MouseButtonDown, pMouseClick);
 
 }
 
@@ -96,26 +95,6 @@ void MainMenuScene::Update()
 			}
 		}
 	}
-	//switch (m_MouseClickHappenend)
-	//{
-	//case InWhatButtonMainMenu::Solo:
-	//	//start solo game
-	//	std::cout << "start solo";
-	//	break;
-	//case InWhatButtonMainMenu::Coop:
-	//	//start coop game
-	//	std::cout << "start coop";
-	//	break;
-	//case InWhatButtonMainMenu::Vs:
-	//	//start vs game
-	//	std::cout << "start vs";
-	//	break;
-	//case InWhatButtonMainMenu::None:
-	//	std::cout << "none";
-	//	break;
-	//default:
-	//	break;
-	//}
 }
 
 bool MainMenuScene::IsInButton(glm::vec2 pos, glm::vec2  posTexture, glm::vec2 sizeTexture)

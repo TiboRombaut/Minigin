@@ -17,21 +17,6 @@ void dae::GameObject::Update()
 	}
 }
 
-//void dae::GameObject::AddCommand(std::shared_ptr < Command> pCommand)
-//{
-//	//std::vector<Command*>::const_iterator isCommandAlreadyInVector =
-//	//	std::find_if(m_pCommands.cbegin(), m_pCommands.cend(), [pCommand](Command* pC)->bool
-//	//		{
-//	//			return pCommand == pC;
-//	//		});
-//	//if (isCommandAlreadyInVector == m_pCommands.cend())
-//	//{
-//	////	std::cout << typeid(*pCommand).name(), ErrorLevel::warning);
-//	//	//Logger::GetInstance().Log(" was already added!\n", ErrorLevel::warning);
-//	//}
-//	m_pCommands.push_back(pCommand);
-//}
-
 void dae::GameObject::RemoveComponent(std::shared_ptr<BaseComponent> component)
 {
 	for (size_t i = 0; i < m_Components.size(); ++i)
@@ -60,7 +45,6 @@ void dae::GameObject::Render() const
 void dae::GameObject::SetPosition(float x, float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
-	std::cout << "pos set: " << x << " , " << y << std::endl;
 }
 
 void dae::GameObject::addComponent(std::shared_ptr<BaseComponent> component)
